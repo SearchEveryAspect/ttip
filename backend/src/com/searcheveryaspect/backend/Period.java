@@ -1,6 +1,5 @@
 package com.searcheveryaspect.backend;
 
-import java.util.Date;
 
 public class Period 
 {
@@ -13,13 +12,11 @@ public class Period
 		this.to = to;
 	}
 	
-	@SuppressWarnings("deprecation")
 	public String getFrom()
 	{
 		return from.toString();
 	}
 	
-	@SuppressWarnings("deprecation")
 	public String getTo()
 	{
 		return to.toString();

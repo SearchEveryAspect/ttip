@@ -1,7 +1,6 @@
 package com.searcheveryaspect.backend;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 public class Main {
 
@@ -9,7 +8,6 @@ public class Main {
 	 * @param args
 	 * @throws Exception 
 	 */
-	@SuppressWarnings("deprecation")
 	public static void main(String[] args) throws Exception {
 		GovClient gv = new GovClient();
 		ArrayList<String> list  = new ArrayList<>();
