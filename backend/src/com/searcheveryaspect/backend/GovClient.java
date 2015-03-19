@@ -8,27 +8,40 @@ import com.google.gson.Gson;
 
 public class GovClient 
 {
-	public GovDocumentList fetchDocs(GovFetchRequest request) throws Exception
+	public ArrayList<GovDocumentList> fetchDocs(GovFetchRequest request) throws Exception
 	{
-		String json = URLConnectionReader.getText(request.toString());
-		
+		GovDocumentList fetched;
+		String json;
 		Gson gson = new Gson();
+		ArrayList<GovDocumentList> result;
 		
+		//Gets the initial request
+		json = URLConnectionReader.getText(request.toString());
+		gson = new Gson();
+		result = new ArrayList<GovDocumentList>();
+		fetched = gson.fromJson(json, GovSearchResult.class).dokumentlista;
 		
-		System.out.println(json);
+		result.add(fetched);
+		int i = 1;
+		//Checks if there are more pages found
+		while(fetched.existsNextPage())
+		{
+			System.out.println("Fetching page " + i + " out of " + fetched.sidor);
+			json = URLConnectionReader.getText(fetched.nextPage());
+			System.out.println("Parsing page " + i + " out of " + fetched.sidor);
+			fetched = gson.fromJson(json, GovSearchResult.class).dokumentlista;
+			//Adds extra pages
+			result.add(fetched);
+			i++;
+		}
 		
-		return gson.fromJson(json, GovSearchResult.class).dokumentlista;
+		return result;
 		
 	}
 	
-	public GovDocumentList fetchAllDocs() throws Exception
+	public ArrayList<GovDocumentList> fetchAllDocs() throws Exception
 	{
 		Calendar d = Calendar.getInstance();
-		GovFetchRequest request = new GovFetchRequest("", "", new Period(new GovDate(1900, 1, 1),new GovDate(d.get(Calendar.YEAR), d.get(Calendar.MONTH), d.get(Calendar.DAY_OF_MONTH))), "", "", "", "", "", new ArrayList<String>());
-		String json = URLConnectionReader.getText(request.toString());
-		
-		Gson gson = new Gson();
-		
-		return gson.fromJson(json, GovSearchResult.class).dokumentlista;
+		return fetchDocs(new GovFetchRequest("", "", new Period(new GovDate(1900, 1, 1),new GovDate(d.get(Calendar.YEAR), d.get(Calendar.MONTH), d.get(Calendar.DAY_OF_MONTH))), "", "", "", "", "", new ArrayList<String>()));
 	}
 }
