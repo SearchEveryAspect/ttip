@@ -16,8 +16,9 @@ public class Main {
 		list.add("C");
 		list.add("V");
 		
-		gv.fetchDocs(new GovFetchRequest("Skatt", "", new Period(new GovDate(2010, 1, 1), new GovDate(2015, 11, 1)), "", "", "", "", "", list));
-
+		GovDocumentList gdl = gv.fetchDocs(new GovFetchRequest("Skatt", "", new Period(new GovDate(2010, 1, 1), new GovDate(2015, 11, 1)), "", "", "", "", "", list));
+		
+		System.out.print(gdl);
 	}
 
 }
