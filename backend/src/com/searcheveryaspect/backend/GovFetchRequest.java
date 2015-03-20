@@ -67,9 +67,9 @@ public class GovFetchRequest
 		sb.append("&doktyp=mot&rm=");
 		sb.append(rm);
 		sb.append("&from=");
-		sb.append("2010-01-01");
+		sb.append(period.getFrom());
 		sb.append("&tom=");
-		sb.append("2015-09-09");
+		sb.append(period.getTo());
 		sb.append("&ts=");
 		sb.append(ts);
 		sb.append("&bet=");
