@@ -1,5 +1,7 @@
 package com.searcheveryaspect.backend;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -22,6 +24,16 @@ public class GovClient
 		fetched = gson.fromJson(json, GovSearchResult.class).dokumentlista;
 		
 		result.add(fetched);
+		
+		if(fetched.warning != null)
+		{
+			BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+			System.out.println("ERROR WARNING FOUND: " + fetched.warning);
+			System.out.print("Query might fail, continue? [Y/N] ");
+			if( Character.toLowerCase(((char)in.read())) != 'y' )
+				return result;
+		}
+		
 		int i = 1;
 		//Checks if there are more pages found
 		while(fetched.existsNextPage())
