@@ -1,7 +1,10 @@
 package com.searcheveryaspect.backend;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.Console;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -60,12 +63,40 @@ public class Main {
 		
 		ArrayList<GovDocumentList> gdl = gv.fetchDocs(new GovFetchRequest(search, "", new Period(new GovDate(startYearInt, 1, 1), new GovDate(endYearInt, 12, 31)), "", "", "", "", "", selectedParties));
 		
-		for(GovDocumentList g : gdl)
+		System.out.println("Write to file? [Y/N]");
+		if(Character.toLowerCase(((char)in.read())) != 'y' )
 		{
-			System.out.println(g);
+			for(GovDocumentList g : gdl)
+			{
+				System.out.println(g);
+			}
 		}
-		
-		System.out.print(gdl);
+		else
+		{
+			BufferedWriter w = null;
+			for(GovDocumentList g : gdl)
+			{
+				for(int i = 0; i < g.dokument.length; i++)
+				{
+					try
+					{
+						w = new BufferedWriter(new FileWriter(g.dokument[i].id +  ".txt"));
+						w.write(g.dokument[i].toString());
+					}
+					catch (IOException e){}
+					finally
+					{
+					    try
+					    {
+					        if ( w != null)
+					        w.close( );
+					    }
+					    
+					    catch ( IOException e){}
+					}
+				}
+			}
+		}
 	}
 
 }
