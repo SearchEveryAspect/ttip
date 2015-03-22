@@ -16,14 +16,18 @@ public class GovDocumentList
 	@SerializedName("@sida")
 	private int sida = 0;
 	@SerializedName("@sidor")
-	private int sidor = 0;
+	int sidor = 0;
+	@SerializedName("@nasta_sida")
+	private String nasta_sida = "";
 	@SerializedName("@traff_fran")
 	private int traff_fran = 0;
 	@SerializedName("@traffar")
 	private int traffar = 0;
-	private GovDocument[] dokument = new GovDocument[0];
+	@SerializedName("@warning")
+	String warning;
+	GovDocument[] dokument = new GovDocument[0];
 	
-	public GovDocumentList(String datum, int sida, int sidor, int traff_fran, int traffar, GovDocument[] dokument)
+	public GovDocumentList(String datum, int sida, int sidor, int traff_fran, int traffar, String warning, GovDocument[] dokument)
 	{
 		this.datum = datum;
 		this.sida = sida;
@@ -31,6 +35,17 @@ public class GovDocumentList
 		this.traff_fran = traff_fran;
 		this.traffar = traffar;
 		this.dokument = dokument;
+		this.warning = warning;
+	}
+	
+	public boolean existsNextPage()
+	{
+		return (nasta_sida != null);
+	}
+	
+	public String nextPage()
+	{
+		return nasta_sida;
 	}
 	
 	public String toString()
