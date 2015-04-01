@@ -27,13 +27,17 @@ html {
 }
 
 body {
+	font-family: Sans-Serif;
 	width: 100%;
 	height: 100%;
 	background-image: url("../img/crossword.png");
 }
 #upper h1 {
-	font-size: 35px;
-	font-family: "fairview_small";
+	font-family: "fairview_small"!important;
+	font-size: 35px!important;
+	height: 40px;
+	line-height: 40px;
+	font-size: 18px;
 	margin-left: 5px;
 	color: white;
 }
@@ -45,22 +49,24 @@ body {
 	opacity: 0.9;
 }
 
+#header h2 {
+	font-size: 16px;
+	color: white;
+	height: 35px;
+	line-height: 35x;
+	margin-left: 5px;
+}
+
 #header {
 	background-color: #2B4965;
 	opacity: 0.9;
 	height: 35px;
+	line-height: 35px;
 	margin-top: auto;
 	margin-left: auto;
 	margin-right: auto;
 }
-#header h2 {
-	font-family: "fairview_small";
-	font-size: 30px;
-	color: white;
-	margin-top: -2px;
-	margin-left: 5px;
-	line-height: 1;
-}
+
 
 
 #wrapper {
@@ -77,8 +83,7 @@ body {
 
 #wrapper p {
 	text-align: center;
-	font-family: "fairview_small";
-	font-size: 20px;
+	font-family: Sans-Serif;
 }
 
 #footer_wrap {
@@ -108,8 +113,6 @@ body {
 }
 
 .chartcont p.ex {
-	font-family: "Arial"!important;
-	font-size: 15px!important;
     margin-left: auto;
     margin-right: auto;
     margin-bottom: 40px;
@@ -146,24 +149,21 @@ body {
 }
 
 nav {
-	height: 40px;
-	margin-top: -23px;
-	margin-left: 50%;
+	height: 35px;
+	margin-top: -35px;
+	margin-left: 45%;
 }
 
 nav li {
-	height: 45px;
 	float:left;
 }
 
 nav p {
-	margin-top: -5px;
+	font-size: 14px;
+	font-weight: bold;
 	width: 100px;
 	height: 35px;
-	font-size: 20px;
     display: block;
-	font-family: "fairview_small";
-	text-transform: uppercase;
 	color: white;
 }
 
