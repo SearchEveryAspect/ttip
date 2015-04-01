@@ -30,6 +30,10 @@ local.properties
 .settings/
 .loadpath
 
+# maven jar directory
+backend/target/
+
+
 # External tool builders
 .externalToolBuilders/
 
