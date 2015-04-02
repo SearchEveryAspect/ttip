@@ -6,7 +6,7 @@
 jQuery(document).ready(function() {
 	var navOff = jQuery("#header").offset().top;
 	
-	jQuery("#header-wrapper").height(jQuery("nav").outerHeight("#header"));
+	jQuery("#header-wrapper").height(jQuery("#header").outerHeight());
 	jQuery(window).scroll(function() {
 
 		var scrollPos = jQuery(window).scrollTop();
