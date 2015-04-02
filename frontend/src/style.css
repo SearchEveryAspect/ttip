@@ -1,7 +1,6 @@
 /*
 @author: Alan Guler;
 @date: 2015-04-02;
-
 TODO: make font work for IE and Firefox, something 
 to do with @font-face?
 */
@@ -20,12 +19,12 @@ ol, ul, li {
 
 @font-face {
 	font-family: "fairview_small";
-	src: url("../fonts/Fairview_SmallCaps.otf") format("opentype");
+	src: url("Fairview_SmallCaps.otf") format("opentype");
 }
 
 @font-face {
-	font-family: "fairview_regular", Helvetica, Arial;
-	src: url("../fonts/Fairview_Regular.otf") format("opentype");
+	font-family: "fairview_regular";
+	src: url("Fairview_Regular.otf") format("opentype");
 }
 
 
@@ -192,5 +191,3 @@ nav li.Selected p {
 	color: black;
 	background: white;
 } 
-
-
