@@ -1,3 +1,11 @@
+/*
+@author: Alan Guler;
+@date: 2015-04-02;
+
+TODO: make font work for IE and Firefox, something 
+to do with @font-face?
+*/
+
 
 *, HTML, BODY, DIV, DL, DT, DD, UL, OL, LI, H1, H2, H3, H4, H5, H6, PRE, FORM, LABEL, FIELDSET, INPUT, P, BLOCKQUOTE, TH, TD
 {
@@ -16,7 +24,7 @@ ol, ul, li {
 }
 
 @font-face {
-	font-family: "fairview_regular";
+	font-family: "fairview_regular", Helvetica, Arial;
 	src: url("../fonts/Fairview_Regular.otf") format("opentype");
 }
 
@@ -35,7 +43,6 @@ body {
 #upper h1 {
 	font-family: "fairview_small"!important;
 	font-size: 35px!important;
-	height: 40px;
 	line-height: 40px;
 	font-size: 18px;
 	margin-left: 5px;
@@ -50,23 +57,27 @@ body {
 }
 
 #header h2 {
+	margin-left: 5px;
 	font-size: 16px;
 	color: white;
-	height: 35px;
-	line-height: 35x;
-	margin-left: 5px;
 }
 
 #header {
+	z-index: 500;
 	background-color: #2B4965;
 	opacity: 0.9;
 	height: 35px;
 	line-height: 35px;
-	margin-top: auto;
 	margin-left: auto;
 	margin-right: auto;
 }
 
+
+.sticky {
+	position:fixed;
+	width: 60%;
+	top:0;
+}
 
 
 #wrapper {
@@ -149,7 +160,7 @@ body {
 }
 
 nav {
-	height: 35px;
+	position: relative;
 	margin-top: -35px;
 	margin-left: 45%;
 }
