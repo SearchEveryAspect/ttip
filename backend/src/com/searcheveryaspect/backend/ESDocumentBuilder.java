@@ -17,7 +17,7 @@ public class ESDocumentBuilder {
 	// tar ett GovDocumentLite 
 	public ESDocument createESDocument(GovDocumentLite doc){
 				
-		//måste se till att date i doc id har rätt format	
+		//TODO check that date in the GovDocumentLite object has "yyyy-MM-dd" format 
 		String docId = doc.getId();
 		
 		String publishedTimestamp = doc.getDate(); //fast vill ju inte ha datumet i stäng format 
@@ -28,13 +28,15 @@ public class ESDocumentBuilder {
 		
 		String title = doc.getTitle();
 		
-		String[] category = new String[]{"Unknown"};
 		
-		//categhory-> hämtas ur NLP // Vill man hitta caqtegorier innaan man skapar JSON, skapas JSON doc i ES documentbuilder för att 
-		//sedan skickas in i databsen i ElasticSearchPut? vad används i så fall ESDocument till? Sätt till unknown så länge 
+		//TODO implement NLP to get category 
+		
+		String[] category = new String[]{"Unknown"};
 		
 		//party ->hur får jag ut partiet? tittar jag på vilka personer som skrivit motionen för att därefter gå in och titta på 
 		//vilket parti dessa personer är ifrån. 
+		
+		//TODO party != Unknown
 		
 		String party = "Unknown";
 		
