@@ -24,6 +24,8 @@ import java.util.concurrent.TimeUnit;
 public class Main {
 
   public static void main(String[] args) {
+    SearchAggregateResponse.builder();
+    
     RestExpress.setSerializationProvider(new AbstractSerializationProvider() {
       {
         add(new JacksonJsonProcessor(), new ErrorResponseWrapper(), true);

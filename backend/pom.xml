@@ -44,5 +44,11 @@
 			<artifactId>RestExpress</artifactId>
 			<version>0.11.0</version>
 		</dependency>
+		<dependency>
+			<groupId>com.google.auto.value</groupId>
+			<artifactId>auto-value</artifactId>
+			<version>1.0</version>
+			<scope>provided</scope>
+		</dependency>
 	</dependencies>
 </project>
