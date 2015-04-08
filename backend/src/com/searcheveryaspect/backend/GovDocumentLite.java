@@ -41,6 +41,9 @@ public class GovDocumentLite
 		return datum;
 	}
 
+	public String getUnderTitle() {
+		return undertitel;
+	}
 	
 	public String toString()
 	{
