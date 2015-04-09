@@ -31,14 +31,18 @@ public class ESDocumentBuilder {
 		
 		//TODO implement NLP to get category 
 		
-		String[] category = new String[]{"Unknown"};
+		String[] category = new String[]{"Unknown"}; //uttnyttja sedan urltext grejen 
 		
 		//party ->hur får jag ut partiet? tittar jag på vilka personer som skrivit motionen för att därefter gå in och titta på 
 		//vilket parti dessa personer är ifrån. 
+		//http://data.riksdagen.se/dokumentlista/?sok=&doktyp=mot&rm=&from=&tom=&ts=&bet=&tempbet=&nr=&org=&iid=&webbtv=&talare=&exakt=&planering=&sort=rel&sortorder=desc&rapport=&utformat=json&a=s#soktraff
+		//undertitel innehåller infon behöver i så fall parsa  fram det som står inom parantes(det sista "ordet")
 		
-		//TODO party != Unknown
 		
-		String party = "Unknown";
+		String underTitle = doc.getUnderTitle();
+		String[] splittedUnderTitle = underTitle.split(" ");
+		String partyInBrackets = splittedUnderTitle[splittedUnderTitle.length-1]; 
+		String party = partyInBrackets.substring(1, (partyInBrackets.length()-1));
 		
 		ESDocument eSDoc = new ESDocument(docId, publishedTimestamp, fetchedTimestamp, title, category, party);
 		
