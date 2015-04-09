@@ -33,12 +33,7 @@ public class ESDocumentBuilder {
 		
 		String[] category = new String[]{"Unknown"}; //uttnyttja sedan urltext grejen 
 		
-		//party ->hur får jag ut partiet? tittar jag på vilka personer som skrivit motionen för att därefter gå in och titta på 
-		//vilket parti dessa personer är ifrån. 
-		//http://data.riksdagen.se/dokumentlista/?sok=&doktyp=mot&rm=&from=&tom=&ts=&bet=&tempbet=&nr=&org=&iid=&webbtv=&talare=&exakt=&planering=&sort=rel&sortorder=desc&rapport=&utformat=json&a=s#soktraff
-		//undertitel innehåller infon behöver i så fall parsa  fram det som står inom parantes(det sista "ordet")
-		
-		
+		//party 		
 		String underTitle = doc.getUnderTitle();
 		String[] splittedUnderTitle = underTitle.split(" ");
 		String partyInBrackets = splittedUnderTitle[splittedUnderTitle.length-1]; 
