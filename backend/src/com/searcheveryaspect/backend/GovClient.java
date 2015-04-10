@@ -1,6 +1,7 @@
 package com.searcheveryaspect.backend;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -13,12 +14,18 @@ public class GovClient
 	public ArrayList<GovDocumentList> fetchDocs(GovFetchRequest request) throws Exception
 	{
 		GovDocumentList fetched;
-		String json;
+		String json = null;
 		Gson gson = new Gson();
 		ArrayList<GovDocumentList> result;
 		
 		//Gets the initial request
-		json = URLConnectionReader.getText(request.toString());
+		try {
+			json = URLConnectionReader.getText(request.toString());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
 		gson = new Gson();
 		result = new ArrayList<GovDocumentList>();
 		fetched = gson.fromJson(json, GovSearchResult.class).dokumentlista;
@@ -28,10 +35,7 @@ public class GovClient
 		if(fetched.warning != null)
 		{
 			BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-			System.out.println("ERROR WARNING FOUND: " + fetched.warning);
-			System.out.print("Query might fail, continue? [Y/N] ");
-			if( Character.toLowerCase(((char)in.read())) != 'y' )
-				return result;
+			System.out.println("WARNING FOUND: " + fetched.warning);
 		}
 		
 		int i = 1;
