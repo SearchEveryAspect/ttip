@@ -22,7 +22,7 @@ public class GovDocumentList
 	@SerializedName("@traff_fran")
 	private int traff_fran = 0;
 	@SerializedName("@traffar")
-	private int traffar = 0;
+	public int traffar = 0;
 	@SerializedName("@warning")
 	String warning;
 	GovDocument[] dokument = new GovDocument[0];

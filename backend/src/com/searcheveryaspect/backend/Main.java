@@ -26,7 +26,7 @@ public class Main {
 		
 		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 		
-		APITest.testManyResults();
+		
 		
 		System.out.print("Enter search string: ");
 		String search = in.readLine();
