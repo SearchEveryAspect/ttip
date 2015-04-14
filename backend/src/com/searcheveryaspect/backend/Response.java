@@ -4,7 +4,7 @@
 package com.searcheveryaspect.backend;
 
 /**
- * Gets the response from ES.
+ * Response object. Parsed information from search result.
  * @author Mitra
  *
  */
