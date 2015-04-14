@@ -24,7 +24,7 @@ public class Main {
         add(new JacksonJsonProcessor(), new ErrorResponseWrapper(), true);
       }
     });
-    RestExpress server = new RestExpress().setName("SEA").setPort(12345);
+    RestExpress server = new RestExpress().setName("SEA").setPort(8080);
 
     defineRoutes(server);
 
@@ -37,8 +37,7 @@ public class Main {
   }
 
   private static void defineRoutes(RestExpress server) {
-    server.uri("/mot/{category}/{interval}/from/{from_date}/to/{to_date}", new MotionsController())
-        .noSerialization();
+    server.uri("/mot/{category}/{interval}/from/{from_date}/to/{to_date}", new MotionsController());
   }
 
   private static void mapExceptions(RestExpress server) {
