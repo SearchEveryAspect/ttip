@@ -1,20 +1,21 @@
 /**
+*
  * 
  */
 package com.searcheveryaspect.backend;
 
 public class GovDocumentLite
 {
-	int traff;
-	String datum;
+	int traff; 
+	String datum; //datum som motionen pulicerades
 	String id;
-	String dokument_url_text;
-	String titel;
-	String undertitel;
+	String dokument_url_text; //länk till motionen i textformat 
+	String titel; 
+	String undertitel; //vilka som gjort motionen och vilket parti de är från inom parantes ex "av Kenneth Johansson (c)"
 	String organ;
 	String doktyp;
 	GovAppendix filbilaga;
-	
+		
 	public GovDocumentLite(int traff, String datum, String id, String dokument_url_text, String titel, String undertitel, String organ, String doktyp, GovAppendix filbilaga)
 	{
 		this.traff = traff;
@@ -26,6 +27,22 @@ public class GovDocumentLite
 		this.organ = organ;
 		this.doktyp = doktyp;
 		this.filbilaga = filbilaga;
+	}
+	
+	public String getId() {
+		return id; 
+	}
+	
+	public String getTitle() {
+		return titel;
+	}
+	
+	public String getDate() {
+		return datum;
+	}
+
+	public String getUnderTitle() {
+		return undertitel;
 	}
 	
 	public String toString()

@@ -63,7 +63,7 @@ public class GovFetchRequest
 		StringBuilder sb = new StringBuilder();
 		sb.append(RIKSDAG_URL);
 		sb.append("?sok=");
-		sb.append(searchString);
+		sb.append(searchString.replace(" ", "%20"));
 		sb.append("&doktyp=mot&rm=");
 		sb.append(rm);
 		sb.append("&from=");
