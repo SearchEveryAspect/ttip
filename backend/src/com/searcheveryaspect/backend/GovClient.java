@@ -18,7 +18,7 @@ public class GovClient
 		ArrayList<GovDocumentList> result;
 		
 		//Gets the initial request
-		json = URLConnectionReader.getText(request.toString());
+		json = URLConnectionReader.getText(request.toString());	
 		gson = new Gson();
 		result = new ArrayList<GovDocumentList>();
 		fetched = gson.fromJson(json, GovSearchResult.class).dokumentlista;
