@@ -22,7 +22,7 @@ public class GovDocumentList
 	@SerializedName("@traff_fran")
 	private int traff_fran = 0;
 	@SerializedName("@traffar")
-	private int traffar = 0;
+	public int traffar = 0;
 	@SerializedName("@warning")
 	String warning;
 	GovDocument[] dokument = new GovDocument[0];
@@ -52,16 +52,28 @@ public class GovDocumentList
 	{
 		StringBuilder sb = new StringBuilder();
 		sb.append("GovDocumentList [");
-		sb.append("Datum: " + datum + " Sida: " + sida + " Sidor: " + sidor + " Traff Från: " + traff_fran + " Träffar: " + traffar + " Antal dokument: " + dokument.length);
-		sb.append("\n Dokument:");
+		if(datum != null)
+			sb.append("Datum: " + datum); 
 		
-		for(int i = 0; i < dokument.length; i++)
+		sb.append(" Sida: " + sida);
+		sb.append(" Sidor: " + sidor); 
+		sb.append(" Traff Från: " + traff_fran);
+		sb.append(" Träffar: " + traffar);
+		if(dokument != null)
+			sb.append( " Antal dokument: " + dokument.length);
+		
+		
+		if(dokument != null)
 		{
-			sb.append(" Dokument nr ");
-			sb.append(i);
-			sb.append(": ");
-			sb.append(dokument[i].toString());
-			sb.append("\n");
+			sb.append("\n Dokument:");
+			for(int i = 0; i < dokument.length; i++)
+			{
+				sb.append(" Dokument nr ");
+				sb.append(i);
+				sb.append(": ");
+				sb.append(dokument[i].toString());
+				sb.append("\n");
+			}
 		}
 		
 		sb.append("]");

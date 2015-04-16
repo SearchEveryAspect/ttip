@@ -17,6 +17,7 @@ public class GovDocument
 	String undertitel;
 	String organ;
 	String doktyp;
+	String subtyp;
 	GovAppendix filbilaga;
 	
 	public GovDocument(int traff, String datum, String id, String dokument_url_text, String titel, String undertitel, String organ, String doktyp, GovAppendix filbilaga)
@@ -34,6 +35,6 @@ public class GovDocument
 	
 	public String toString()
 	{
-		return "Träff: " + traff + " Datum: " + datum + " Id: " + id + " Dokument_url_text: " + dokument_url_text + " Titel: " + titel + " Undertitel: " + undertitel +  " Organ: " + organ + " Doktyp: " + doktyp;
+		return "Träff: " + traff + " Datum: " + datum + " Id: " + id + " Dokument_url_text: " + dokument_url_text + " Titel: " + titel + " Undertitel: " + undertitel +  " Organ: " + organ +" Subtyp: " + subtyp + " Doktyp: " + doktyp;
 	}
 }
