@@ -2,10 +2,7 @@ package com.searcheveryaspect.backend.webserver;
 
 import com.searcheveryaspect.backend.webserver.controller.MotionsController;
 
-import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
-import org.restexpress.Request;
-import org.restexpress.Response;
+import com.beust.jcommander.JCommander;
 import org.restexpress.RestExpress;
 import org.restexpress.exception.ServiceException;
 import org.restexpress.response.ErrorResponseWrapper;
@@ -13,18 +10,20 @@ import org.restexpress.serialization.AbstractSerializationProvider;
 import org.restexpress.serialization.json.JacksonJsonProcessor;
 
 /**
- * 
+ * Start a ttip webserver. Flag -port sets port for traffic, default is 8080.
  */
 public class Main {
 
   public static void main(String[] args) {
+    CommandLineArgs cla = new CommandLineArgs();
+    new JCommander(cla, args);
 
     RestExpress.setSerializationProvider(new AbstractSerializationProvider() {
       {
         add(new JacksonJsonProcessor(), new ErrorResponseWrapper(), true);
       }
     });
-    RestExpress server = new RestExpress().setName("SEA").setPort(8080);
+    RestExpress server = new RestExpress().setName("SEA").setPort(cla.port.intValue());
 
     defineRoutes(server);
 
