@@ -29,6 +29,7 @@ public class GovClient
 			e.printStackTrace();
 			return null;
 		}
+
 		gson = new Gson();
 		result = new ArrayList<GovDocumentList>();
 		fetched = gson.fromJson(json, GovSearchResult.class).dokumentlista;
