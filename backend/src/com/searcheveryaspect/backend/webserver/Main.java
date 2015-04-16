@@ -13,7 +13,7 @@ import org.restexpress.serialization.AbstractSerializationProvider;
 import org.restexpress.serialization.json.JacksonJsonProcessor;
 
 /**
- * 
+ * Starts up the server offering up the ttip API.
  */
 public class Main {
 
@@ -36,6 +36,7 @@ public class Main {
     server.awaitShutdown();
   }
 
+  // The allowed routes the server responds to.
   private static void defineRoutes(RestExpress server) {
     server.uri("/mot/{category}/{interval}/from/{from_date}/to/{to_date}", new MotionsController());
   }
