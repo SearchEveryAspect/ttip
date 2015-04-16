@@ -1,0 +1,1 @@
+/*This script will make a request to backend API with given url*/
