@@ -4,6 +4,17 @@ import com.google.gson.Gson;
 
 public class ElasticSearchPut {
 	
+	//prio 1
+	https://groups.google.com/forum/#!topic/elasticsearch/BeF7esI0dS8
+		https://groups.google.com/forum/#!forum/elasticsearch
+	
+	//LÄS
+	http://www.ibm.com/developerworks/library/j-javadev2-24/
+	https://templth.wordpress.com/2015/01/23/implementing-integration-testing-for-elasticsearch-with-java/
+		https://www.airpair.com/elasticsearch/posts/elasticsearch-robust-search-functionality
+	
+	http://www.javased.com/
+	
 	
 	//ska här tillverka Json document och skicka in det i elastic search 
 	public void putDocument(ESDocument doc) {
@@ -12,10 +23,13 @@ public class ElasticSearchPut {
 			
 		Java api 
 		http://www.elastic.co/guide/en/elasticsearch/client/java-api/current/index.html
+			http://java.dzone.com/articles/elasticsearch-java-api
+				http://www.elastic.co/guide/en/elasticsearch/client/java-api/current/index_.html
 		
 		http://stackoverflow.com/questions/19845929/elasticsearch-java-api-index-document
 		
 		//fixa klient 
+			http://www.elastic.co/guide/en/elasticsearch/guide/master/_talking_to_elasticsearch.html
 		http://www.elastic.co/guide/en/elasticsearch/client/java-api/current/client.html#transport-client
 		
 ElasticSearchIndexConfig config = ElasticSearchIndexConfig.COM_WEBSITE;
@@ -32,7 +46,8 @@ ElasticSearchIndexConfig config = ElasticSearchIndexConfig.COM_WEBSITE;
         indexProductData.indexProduct(config, product);
 		
 		
-		
+		//
+        http://stackoverflow.com/questions/8154902/elasticsearch-insert-objects-into-index
 		 Tweet tweet = new Tweet();
 		   tweet.setId("1234");
 		   tweet.setMessage("message");
@@ -59,6 +74,18 @@ ElasticSearchIndexConfig config = ElasticSearchIndexConfig.COM_WEBSITE;
 		        .execute()
 		        .actionGet();
 		
+		
+		//exempelkod
+		https://github.com/searchbox-io/Jest/blob/master/jest/src/test/java/io/searchbox/core/BulkIntegrationTest.java
+			http://www.programcreek.com/java-api-examples/index.php?api=org.elasticsearch.action.bulk.BulkRequestBuilder
+				
+				
+	//1 way I can get the api to work is by not using it:
+				http://stackoverflow.com/questions/19845929/elasticsearch-java-api-index-document
+					
+	//innehåller länkar 
+					http://www.ibm.com/developerworks/library/j-javadev2-24/
+				
 	}
 
 }
