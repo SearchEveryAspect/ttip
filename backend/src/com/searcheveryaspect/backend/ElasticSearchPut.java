@@ -7,8 +7,11 @@ public class ElasticSearchPut {
 	//prio 1
 	https://groups.google.com/forum/#!topic/elasticsearch/BeF7esI0dS8
 		https://groups.google.com/forum/#!forum/elasticsearch
+			https://found.no/foundation/java-clients-for-elasticsearch/
+				http://exploringelasticsearch.com/overview.html
 	
 	//LÄS
+			http://www.kb.se/dokument/Bibliotek/projekt/Slutrapport%202013/OCR/OCR-spec%20(2).pdf
 	http://www.ibm.com/developerworks/library/j-javadev2-24/
 	https://templth.wordpress.com/2015/01/23/implementing-integration-testing-for-elasticsearch-with-java/
 		https://www.airpair.com/elasticsearch/posts/elasticsearch-robust-search-functionality
@@ -31,7 +34,11 @@ public class ElasticSearchPut {
 		//fixa klient 
 			http://www.elastic.co/guide/en/elasticsearch/guide/master/_talking_to_elasticsearch.html
 		http://www.elastic.co/guide/en/elasticsearch/client/java-api/current/client.html#transport-client
-		
+			https://www.found.no/foundation/java-clients-for-elasticsearch/
+			
+			//index
+			https://github.com/jaibeermalik/elasticsearch-tutorial/blob/master/src/main/java/org/jai/search/setup/IndexSchemaBuilder.java
+			
 ElasticSearchIndexConfig config = ElasticSearchIndexConfig.COM_WEBSITE;
         
         Long productId = 123456l;
