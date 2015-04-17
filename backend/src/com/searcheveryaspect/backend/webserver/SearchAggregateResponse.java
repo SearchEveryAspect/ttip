@@ -33,27 +33,27 @@ public class SearchAggregateResponse {
     return datasets;
   }
 
-  static class Builder {
+  public static class Builder {
     private String category;
     private ImmutableList<String> labels;
     private ImmutableList<PartyData> datasets;
 
-    Builder category(String s) {
+    public Builder category(String s) {
       category = s;
       return this;
     }
 
-    Builder labels(ImmutableList<String> l) {
+    public Builder labels(ImmutableList<String> l) {
       labels = l;
       return this;
     }
 
-    Builder datasets(ImmutableList<PartyData> l) {
+    public Builder datasets(ImmutableList<PartyData> l) {
       datasets = l;
       return this;
     }
 
-    SearchAggregateResponse build() {
+    public SearchAggregateResponse build() {
       return new SearchAggregateResponse(this);
     }
   }
@@ -87,7 +87,7 @@ public class SearchAggregateResponse {
     private final String party;
     private final ImmutableList<Integer> data;
 
-    PartyData(String party, ImmutableList<Integer> data) {
+    public PartyData(String party, ImmutableList<Integer> data) {
       this.party = party;
       this.data = data;
     }
