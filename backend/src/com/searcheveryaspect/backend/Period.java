@@ -21,6 +21,11 @@ public class Period
 	{
 		return to.toString();
 	}
+	
+	public GovDate returnMean()
+	{
+		return GovDate.fromInt((from.toInt() + to.toInt()) / 2);
+	}
 }
 
 

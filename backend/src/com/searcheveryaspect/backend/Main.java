@@ -18,11 +18,15 @@ public class Main {
 	 * @param args
 	 * @throws Exception 
 	 */
+	
+	
 	public static void main(String[] args) throws Exception {
 		
 		ArrayList<String> selectedParties = new ArrayList<String>();
 		
 		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+		
+		
 		
 		System.out.print("Enter search string: ");
 		String search = in.readLine();
