@@ -1,13 +1,50 @@
 package com.searcheveryaspect.backend;
 
+import org.elasticsearch.client.Client;
+import org.elasticsearch.node.Node;
+import org.elasticsearch.node.NodeBuilder;
+
 import com.google.gson.Gson;
 
-public class ElasticSearchPut {
+/**
+ * 
+ * @author Jacqueline Eriksson
+ * @version 2015-04-18
+ */
 
-	//prio 1 =kan vara guld!!! :D 
-	https://groups.google.com/forum/#!topic/elasticsearch/BeF7esI0dS8
+//http://www.efroot.org/2013/04/indexing-into-elasticsearch.html
+//ska man använda samma klient i hela applikationen el ska mitra skapa egen? 
+//It's definitely better if you can share the same client instance for your whole application.
+//So don't open a new node and a new client each time you need it. Share it (use a factory).
+
+public class ElasticSearchPut {
 	
+
 	
+	node = NodeBuilder.nodeBuilder().client(true).node();
+	Client client = node.client();
+	
+
+	//TODO: För alla dokument{
+	public void putDocument(ESDocument doc) {
+
+	    Gson gson = new Gson(); 
+	    String jsonString = gson.toJson(doc);    
+	    client.prepareIndex("motions", "motion", doc.getDocId())
+	                            .setSource(jsonString)
+	                            .execute()
+	                            .actionGet();
+	}
+	//}
+	
+	client.close();
+	node.close();
+	    
+	
+}
+/**
+ * 
+ *
 
 	Client client = NodeBuilder.nodeBuilder().
 								client(true).
@@ -117,3 +154,4 @@ https://github.com/searchbox-io/Jest/blob/master/jest/src/test/java/io/searchbox
 }
 
 }
+*/
