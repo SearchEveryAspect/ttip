@@ -5,6 +5,7 @@
     <script type="text/javascript" src="plugins/jquery-1.11.2.min.js"></script>
     <script type="text/javascript" src="../jqplot/plugins/jqplot.highlighter.min.js"></script>
       <script src="../scripts/main.js" type="text/javascript"></script>
+      <script src="../scripts/XMLRequest.js" type="text/javascript"></script>
 
       <script src="../scripts/navBar.js" type="text/javascript"></script>
     <script src="../scripts/graph.js" type="text/javascript"></script>
@@ -25,17 +26,19 @@
   </head>
 
   <body>
-    <div id="upper-wrapper">
-      <div id="upper">
-    <h1>Trending Topics in Parliament</h1>
-  </div>
-  <div id="header">
-     <h2 class="headline">Trending Topics in Parliament</h2>
 
+
+    </script>
+    <!--[if lt IE 7]>
+    <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
+  <![endif]-->
+    <div id="upper-wrapper">
+      <h1>Trending Topics in Parliament</h1>
+    
     <nav>
       <ul>
         <li class="Selected"><a class="Home" href="index.html"><p>Intressanta trender</p></a>
-          <ul>
+          <ul id="sublist">
              <li><a id="0" href="#">Skatt</a></li>
              <li><a id="1" href="#">Miljö</a></li>
              <li><a id="2" href="#">Invandring</a></li>
@@ -44,37 +47,30 @@
         <li><a class= "Search" href="search.html"><p>Sök</p></a></li> 
         <li><a class= "About" href="about.html"><p>Om oss</p></a></li> 
       </ul>
-    <nav>
+    </nav>
   </div>
-</div>
-  <div id="wrapper0">
-    <div id="chartwrapper0">
-      <div class="charttext0">
+<div id="wrapper">
+  <div class="charttext0">
         <h2>Information</h2>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
       </div>
       <div class="chartcont0">
         <h2></h2>
         <div id="chart0"></div>
         <div class="buttons"></div>
-      </div>
   </div>
-</div>
-    <div id="wrapper1">
-      <div id="chartwrapper1">
       <div class="charttext1">
         <h2>Information</h2>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
       </div>
     <div class="chartcont1">
     <h2></h2>
       <div id="chart1"></div>
       <div class="buttons"></div>
-    </div>
-  </div>
 </div>
-    <div id="wrapper2">
-      <div id="chartwrapper2">
       <div class="charttext2">
         <h2>Information</h2>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
       </div>
     <div class="chartcont2">
     <h2></h2>
@@ -82,11 +78,22 @@
       <div class="buttons"></div>
     </div>
   </div>
-  </div>
   </body>
     <div id ="footer_wrap">
+      <div id="mediaicons">
+        <div id="twitter">
+          <a class="icon" href="http://twitter.com"></a>
 
-    <p>© Copyright 2015 SEA - SEArch every Aspect <br> All rights reserved.</p>
+          <p>Följ oss @ttip</p>
+        </div>
+        <div id="facebook">
+          <a class="icon" href="http://facebook.com"></a>
+          <p>Bli ett fan</p>
+        </div>
+      </div>
+      <div id="copyright">
+          <p>© Copyright 2015 SEA - SEArch every Aspect <br> All rights reserved.</p>
+      </div>
       </div>
 
   <script type="text/javascript" src="../jqplot/jquery.jqplot.min.js"></script>
