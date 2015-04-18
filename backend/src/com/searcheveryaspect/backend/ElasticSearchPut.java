@@ -21,7 +21,7 @@ public class ElasticSearchPut {
 	
 
 	
-	node = NodeBuilder.nodeBuilder().client(true).node();
+	Node node = NodeBuilder.nodeBuilder().client(true).node();
 	Client client = node.client();
 	
 
@@ -37,8 +37,7 @@ public class ElasticSearchPut {
 	}
 	//}
 	
-	client.close();
-	node.close();
+	//TODO: close client and node client.close(); node.close();
 	    
 	
 }
@@ -87,8 +86,7 @@ http://www.kb.se/dokument/Bibliotek/projekt/Slutrapport%202013/OCR/OCR-spec%20(2
 						//fixa klient 
 						https://found.no/foundation/java-clients-for-elasticsearch/
 						https://github.com/hugovalk/elasticsearch-java-demo/tree/master/src/main/java/com/devdiscoveries/elasticsearch/demo/client
-						http://www.elastic.co/guide/en/elasticsearch/guide/master/_talking_to_elasticsearch.html
-							http://www.elastic.co/guide/en/elasticsearch/client/java-api/current/client.html#transport-client
+													http://www.elastic.co/guide/en/elasticsearch/client/java-api/current/client.html#transport-client
 								https://www.found.no/foundation/java-clients-for-elasticsearch/
 
 									//index
