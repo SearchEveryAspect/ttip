@@ -109,7 +109,7 @@ public class JAPITest {
 		{
 			for(int j = 0; j < t2.size(); j++)
 			{
-				assertTrue(!t1.get(i).equals(t2.get(j));
+				assertTrue(!t1.get(i).equals(t2.get(j)));
 			}
 		}	
 	}
