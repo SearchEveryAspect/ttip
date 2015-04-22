@@ -38,7 +38,9 @@ public class ElasticSearchPut {
 	//}
 	
 	//TODO: close client and node client.close(); node.close();
-	    
+	//http://stackoverflow.com/questions/23383544/elasticsearch-why-call-close-on-client-or-node
+	  //http://www.elastic.co/guide/en/elasticsearch/client/java-api/current/_deploying_in_jboss_eap6_module.html kan dettta 
+	//vara problemet att tex inte close funkar? känns skumt
 	
 }
 /**
