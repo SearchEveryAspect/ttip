@@ -1,62 +1,84 @@
 package com.searcheveryaspect.backend.webserver.controller;
 
+import com.beust.jcommander.Parameter;
+import com.searcheveryaspect.backend.ESQuerier;
+import com.searcheveryaspect.backend.ESRequest;
 import com.searcheveryaspect.backend.webserver.SearchAggregateResponse;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Callable;
-import java.util.concurrent.TimeUnit;
 
 import com.google.common.base.MoreObjects;
-import com.google.common.collect.ImmutableList;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.MoreExecutors;
+import org.joda.time.Interval;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.restexpress.Request;
 import org.restexpress.Response;
 
 /**
- * 
+ * Processes read requests for real motions within a period.
  */
 public class MotionsController extends ReadOnlyController {
+  private ESQuerier esq;
+
+
+
+  /**
+   * Returns a new MotionsController. The ESQuerier serves as a connection to the database
+   * and is needed to process read requests.
+   */
+  public MotionsController(ESQuerier esq) {
+    this.esq = esq;
+  }
 
 
   public SearchAggregateResponse read(Request request, Response response) {
     recordForDebug(request, response);
     try {
-      final String fromDate = (String) request.getHeader("from_date");
-      final String toDate = (String) request.getHeader("to_date");
-      final String category = (String) request.getHeader("category");
-      final String interval = (String) request.getHeader("interval");
-      if (fromDate == null || toDate == null || category == null || category == null) {
-        throw new IllegalArgumentException("You fail sir!");
-      }
-
-      DateTime fromDateInstant = DateTime.parse(fromDate, DateTimeFormat.forPattern("yyyy-mm-dd"));
-      DateTime toDateInstant = DateTime.parse(toDate, DateTimeFormat.forPattern("yyyy-mm-dd"));
+      final ESRequest esreq = parseRequest(request);
 
       // Restexpress doesn't really support asynchronous controllers so we can use
       // futures to detach the controller from the backend thread.
       ListenableFuture<SearchAggregateResponse> future =
           MoreExecutors.newDirectExecutorService().submit(new Callable<SearchAggregateResponse>() {
-            // TODO(Jenny): Use with actual search in database.
-
-
-
+            // Pass on the request to instance of ESQuerier.
             @Override
             public SearchAggregateResponse call() throws Exception {
-              TimeUnit.SECONDS.sleep(5);
-              if (interval.equals("month")) {
-                return dummyMonthResponse();
-              }
-              return dummyYearResponse();
+              return esq.fetchDocuments(esreq);
             }
           });
 
       return future.get();
     } catch (Exception e) {
+      response.setException(e);
       return null;
-      // return Throwables.getStackTraceAsString(e);
     }
+  }
+
+  private ESRequest parseRequest(Request request) throws IllegalArgumentException {
+    final String fromDate = (String) request.getHeader("from_date");
+    final String toDate = (String) request.getHeader("to_date");
+    final String category = (String) request.getHeader("category");
+    final String period = (String) request.getHeader("interval");
+    if (fromDate == null || toDate == null || category == null || category == null) {
+      throw new IllegalArgumentException("All request parameters aren't specified");
+    }
+
+    DateTime start = DateTime.parse(fromDate, DateTimeFormat.forPattern("yyyy-mm-dd"));
+    DateTime end = DateTime.parse(toDate, DateTimeFormat.forPattern("yyyy-mm-dd"));
+
+    if (start.compareTo(end) > 0) {
+      throw new IllegalArgumentException("Request parameter from is before parameter to");
+    }
+
+    Interval interval = new Interval(start, end);
+
+    List<String> cats = new ArrayList<String>();
+    cats.add(category);
+    return new ESRequest(interval, cats, period);
   }
 
   void recordForDebug(Request request, Response response) {
@@ -74,37 +96,5 @@ public class MotionsController extends ReadOnlyController {
         e.printStackTrace();
       }
     }
-  }
-
-  private static SearchAggregateResponse dummyMonthResponse() {
-    ImmutableList<String> labels =
-        new ImmutableList.Builder<String>().add("December 2014").add("Januari 2015")
-            .add("Februari 2015").build();
-    ImmutableList<SearchAggregateResponse.PartyData> dataset =
-        new ImmutableList.Builder<SearchAggregateResponse.PartyData>()
-            .add(
-                new SearchAggregateResponse.PartyData("S", new ImmutableList.Builder<Integer>()
-                    .add(3).add(4).add(5).build()))
-            .add(
-                new SearchAggregateResponse.PartyData("M", new ImmutableList.Builder<Integer>()
-                    .add(8).add(4).add(2).build())).build();
-    return SearchAggregateResponse.newSearchAggregateResponse().category("skatt").labels(labels)
-        .datasets(dataset).build();
-  }
-
-  private static SearchAggregateResponse dummyYearResponse() {
-    ImmutableList<String> labels =
-        new ImmutableList.Builder<String>().add("2010").add("2011").add("2012").add("2013")
-            .add("2014").build();
-    ImmutableList<SearchAggregateResponse.PartyData> dataset =
-        new ImmutableList.Builder<SearchAggregateResponse.PartyData>()
-            .add(
-                new SearchAggregateResponse.PartyData("V", new ImmutableList.Builder<Integer>()
-                    .add(34).add(10).add(24).add(25).add(19).build()))
-            .add(
-                new SearchAggregateResponse.PartyData("C", new ImmutableList.Builder<Integer>()
-                    .add(11).add(45).add(43).add(19).add(21).build())).build();
-    return SearchAggregateResponse.newSearchAggregateResponse().category("försvar").labels(labels)
-        .datasets(dataset).build();
   }
 }

@@ -23,6 +23,13 @@ public class ESDocument {
 	this.category = category;
 	this.party = party;		
 	}
+
+  /**
+   * @return
+   */
+  public String getDocId() {
+    return null;
+  }
 	
 	
 	

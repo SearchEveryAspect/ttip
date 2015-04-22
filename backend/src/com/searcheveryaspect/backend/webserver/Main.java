@@ -1,5 +1,6 @@
 package com.searcheveryaspect.backend.webserver;
 
+import com.searcheveryaspect.backend.ESQuerier;
 import com.searcheveryaspect.backend.webserver.controller.MotionsController;
 
 import com.beust.jcommander.JCommander;
@@ -36,7 +37,7 @@ public class Main {
   }
 
   private static void defineRoutes(RestExpress server) {
-    server.uri("/mot/{category}/{interval}/from/{from_date}/to/{to_date}", new MotionsController());
+    server.uri("/mot/{category}/{interval}/from/{from_date}/to/{to_date}", new MotionsController(new ESQuerier()));
   }
 
   private static void mapExceptions(RestExpress server) {
