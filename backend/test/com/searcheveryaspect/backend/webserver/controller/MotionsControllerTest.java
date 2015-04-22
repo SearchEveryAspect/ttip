@@ -1,6 +1,9 @@
 package com.searcheveryaspect.backend.webserver.controller;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.mockito.Mockito.when;
 
 import com.searcheveryaspect.backend.ESQuerier;
 import com.searcheveryaspect.backend.ESRequest;
@@ -10,11 +13,12 @@ import org.joda.time.DateTime;
 import org.joda.time.Interval;
 import org.joda.time.format.DateTimeFormat;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-
-import static org.mockito.Mockito.*;
+import org.mockito.Mockito;
+import org.mockito.junit.MockitoJUnit;
+import org.mockito.junit.MockitoRule;
 import org.restexpress.Request;
 import org.restexpress.Response;
 
@@ -30,21 +34,15 @@ public class MotionsControllerTest {
   final String period = "month";
   final String category = "skatt";
 
-  @Mock
-  ESQuerier esqMock;
-  @Mock
-  Response resMock;
-  @Mock
-  Request reqMock;
-  @Mock
-  SearchAggregateResponse sarMock;
+  @Mock ESQuerier esqMock;
+  @Mock Response resMock;
+  @Mock Request reqMock;
+  @Mock SearchAggregateResponse sarMock;
+
+  public @Rule MockitoRule rule = MockitoJUnit.rule();
 
   @Before
-  /**
-   * 
-   */
   public void create() {
-    MockitoAnnotations.initMocks(this);
     when(reqMock.getHeader("debug")).thenReturn(null);
     when(reqMock.getHeader("from_date")).thenReturn(from);
     when(reqMock.getHeader("to_date")).thenReturn(to);
@@ -68,6 +66,7 @@ public class MotionsControllerTest {
 
     assertEquals(sarMock, t.read(reqMock, resMock));
     verify(esqMock).fetchDocuments(esreq);
+    verifyNoMoreInteractions(esqMock);
   }
 
   @Test
