@@ -1,9 +1,6 @@
 package com.searcheveryaspect.backend;
 
-import org.joda.time.LocalDate;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
-
+import org.joda.time.DateTime;
 /**
  * 
  * Create an ESDocument	
@@ -14,24 +11,19 @@ import org.joda.time.format.DateTimeFormatter;
 public class ESDocumentBuilder {
 	
 	
-	// tar ett GovDocumentLite 
-	public ESDocument createESDocument(GovDocumentLite doc){
+public ESDocument createESDocument(GovDocumentLite doc){
 				
-		//TODO check that date in the GovDocumentLite object has "yyyy-MM-dd" format 
 		String docId = doc.getId();
 		
-		String publishedTimestamp = doc.getDate(); //fast vill ju inte ha datumet i stäng format 
-			
-		LocalDate localDate = new LocalDate();		 
-		DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd");
-		String fetchedTimestamp = formatter.print(localDate);
+		DateTime dt = new DateTime(doc.getDate());
+		long publishedTimestamp = dt.getMillis() /1000;
 		
-		String title = doc.getTitle();
+		long fetchedTimestamp = new DateTime().getMillis() / 1000;
 		
+		String title = doc.getTitle();		
 		
-		//TODO implement NLP to get category 
-		
-		String[] category = new String[]{"Unknown"}; //uttnyttja sedan urltext grejen 
+		//TODO implement NLP to get category 		
+		String[] category = new String[]{"Unknown"}; //uttnyttja sedan urltext 
 		
 		//party 		
 		String underTitle = doc.getUnderTitle();
