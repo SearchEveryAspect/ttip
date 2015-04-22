@@ -9,13 +9,14 @@ package com.searcheveryaspect.backend;
 
 public class ESDocument {
 	String docId;
-	String publishedTimestamp;
-	String fetchedTimestamp;
+	long publishedTimestamp; //in unix
+	long fetchedTimestamp; //in  unix
 	String title;
 	String[] category;
 	String party;
 	
-	public ESDocument(String docId, String publishedTimestamp, String fetchedTimestamp, String title, String[] category, String party) {
+	
+	public ESDocument(String docId, long publishedTimestamp, long fetchedTimestamp, String title, String[] category, String party) {
 	this.docId = docId;
 	this.publishedTimestamp = publishedTimestamp;
 	this.fetchedTimestamp = fetchedTimestamp;
@@ -24,7 +25,9 @@ public class ESDocument {
 	this.party = party;		
 	}
 	
-	
+	public String getDocId() {
+		return docId;
+	}
 	
 
 }
