@@ -3,6 +3,8 @@
  */
 package com.searcheveryaspect.backend;
 
+import com.searcheveryaspect.backend.webserver.SearchAggregateResponse;
+
 /**
  * Communicates with ES depending on what kind of information the ESRequest object
  * contains.
@@ -11,4 +13,7 @@ package com.searcheveryaspect.backend;
  */
 public class ESQuerier {
 
+    public SearchAggregateResponse fetchDocuments(ESRequest req){
+      return null;
+    }
 }
