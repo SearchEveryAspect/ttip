@@ -3,15 +3,7 @@
  */
 package com.searcheveryaspect.backend;
 
-import io.netty.util.Timeout;
-import io.netty.util.Timer;
-import io.netty.util.TimerTask;
-
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
-import java.util.*;
 
 /**
  * @author dajmmannen
