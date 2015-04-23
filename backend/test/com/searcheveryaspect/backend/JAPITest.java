@@ -23,15 +23,6 @@ public class JAPITest {
 	@Before
 	public void setUp() throws Exception {
 	}
-
-	@Test
-	public void test() {
-		testEmptyResult();
-		testOneResult();
-		testManyResults();
-		testParties();
-		testYears();
-	}
 	
 	/* Tests that the query system returns
 	 * no results where it should.
@@ -75,7 +66,7 @@ public class JAPITest {
 	// Tests that the system can handle only one result properly
 	//WILL RETURN AN ERROR CURRENTLY
 	@Test
-	public static void testOneResult()
+	public void testOneResult()
 	{
 		ArrayList<GovDocumentList> t = null;
 		try {
@@ -96,7 +87,7 @@ public class JAPITest {
 	
 	/* Tests that different years return different sizes of results */
 	@Test
-	public static void testYears()
+	public void testYears()
 	{
 		ArrayList<GovDocumentList> t1 = null;
 		ArrayList<GovDocumentList> t2 = null;
@@ -116,7 +107,7 @@ public class JAPITest {
 	
 	/* Checks that party searches are different from each other */
 	@Test
-	public static void testParties()
+	public void testParties()
 	{
 		ArrayList<GovDocumentList> t1 = null;
 		ArrayList<GovDocumentList> t2 = null;
@@ -140,7 +131,7 @@ public class JAPITest {
 	
 	/* Tests rather large queries and their speed */
 	@Test(timeout=600000)
-	public static void testManyResults()
+	public void testManyResults()
 	{
 		ArrayList<GovDocumentList> t = null;
 		try {
