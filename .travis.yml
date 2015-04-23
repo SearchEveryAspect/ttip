@@ -1,2 +1,2 @@
 language: java
-script: mvn -f backend/pom.xml
+script: mvn -f backend/pom.xml test
