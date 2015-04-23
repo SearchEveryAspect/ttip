@@ -15,6 +15,8 @@ import org.joda.time.format.DateTimeFormat;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnit;
@@ -34,15 +36,25 @@ public class MotionsControllerTest {
   final String period = "month";
   final String category = "skatt";
 
-  @Mock ESQuerier esqMock;
-  @Mock Response resMock;
-  @Mock Request reqMock;
-  @Mock SearchAggregateResponse sarMock;
+  @Mock
+  ESQuerier esqMock;
+  @Mock
+  Response resMock;
+  @Mock
+  Request reqMock;
+  @Mock
+  SearchAggregateResponse sarMock;
 
-  public @Rule MockitoRule rule = MockitoJUnit.rule();
+  // Mockito rule. Initialises mocks.
+  public @Rule
+  MockitoRule rule = MockitoJUnit.rule();
+  // Rule for verifying that exceptions are thrown.
+  public @Rule
+  ExpectedException thrown = ExpectedException.none();
 
   @Before
   public void create() {
+    // Initialise the request with valid headers.
     when(reqMock.getHeader("debug")).thenReturn(null);
     when(reqMock.getHeader("from_date")).thenReturn(from);
     when(reqMock.getHeader("to_date")).thenReturn(to);
@@ -111,6 +123,24 @@ public class MotionsControllerTest {
 
   @Test
   public void testFromAfterBeforeQuery() {
-    // TODO
+    // Create a request with the to date taking place before the from date.
+    when(reqMock.getHeader("from_date")).thenReturn(to);
+    when(reqMock.getHeader("to_date")).thenReturn(from);
+
+    // Controller to test behaviour on.
+    MotionsController t = new MotionsController(esqMock);
+
+    // Perform read attempt with invalid request, null should be returned.
+    assertEquals(null, t.read(reqMock, resMock));
+
+    ArgumentCaptor<IllegalArgumentException> captor =
+        ArgumentCaptor.forClass(IllegalArgumentException.class);
+    // Check that an IllegalArgumentException was set in the response.
+    verify(resMock).setException(captor.capture());
+    // Maybe add assertions about the exception if more are added.
+    // Exception e = captor.getValue();
+
+    // Should never be reached because of invalid parameters.
+    verifyNoMoreInteractions(esqMock);
   }
 }
