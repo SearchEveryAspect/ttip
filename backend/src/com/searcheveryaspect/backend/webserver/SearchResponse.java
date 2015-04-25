@@ -79,7 +79,7 @@ public class SearchResponse {
         .add("datasets", datasets).toString();
   }
 
-  public static Builder newSearchAggregateResponse() {
+  public static Builder newSearchResponse() {
     return new Builder();
   }
 
@@ -159,10 +159,12 @@ public class SearchResponse {
       public static class Document {
         private final String title;
         private final String link;
+        private final String date;
 
-        public Document(String title, String link) {
-          this.title = title;
-          this.link = link;
+        public Document(Builder b) {
+          this.title = b.title;
+          this.link = b.link;
+          this.date = b.date;
         }
 
         public String getName() {
@@ -173,23 +175,57 @@ public class SearchResponse {
           return link;
         }
 
+        public String getDate() {
+          return date;
+        }
+
         @Override
         public boolean equals(Object o) {
           if (o instanceof Document) {
             Document that = (Document) o;
-            return title.equals(that.title) && link.equals(that.link);
+            return title.equals(that.title) && link.equals(that.link) && date.equals(that.date);
           }
           return false;
         }
 
         @Override
         public int hashCode() {
-          return Objects.hash(title, link);
+          return Objects.hash(title, link, date);
         }
 
         @Override
         public String toString() {
-          return MoreObjects.toStringHelper(this).add("title", title).add("link", link).toString();
+          return MoreObjects.toStringHelper(this).add("title", title).add("link", link)
+              .add("date", date).toString();
+        }
+
+        public static class Builder {
+          private String title;
+          private String link;
+          private String date;
+
+          public Builder title(String s) {
+            this.title = s;
+            return this;
+          }
+
+          public Builder link(String s) {
+            this.link = s;
+            return this;
+          }
+
+          public Builder date(String s) {
+            this.date = s;
+            return this;
+          }
+
+          public Document build() {
+            return new Document(this);
+          }
+        }
+
+        public static Builder newDocument() {
+          return new Builder();
         }
       }
     }
