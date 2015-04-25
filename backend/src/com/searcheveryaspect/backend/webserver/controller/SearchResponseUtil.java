@@ -12,7 +12,11 @@ import com.searcheveryaspect.backend.webserver.SearchResponse.Party.Interval.Doc
  * Provides some utils for mocking up search responses.
  */
 public class SearchResponseUtil {
-  // Only used for testing purposes til access to Elasticsearch is fixed.
+  /**
+   * Only used for testing purposes.
+   * @param category for the search.
+   * @return
+   */
   public static SearchResponse dummyMonthResponse(String category) {
 
     Document doc1 =
