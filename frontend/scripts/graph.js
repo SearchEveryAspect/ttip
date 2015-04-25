@@ -2,13 +2,22 @@
 
 var charts = [];
 
+var COLORS = [];
+COLORS["vp"] = "rgba(196,20,30,1)";
+COLORS["s"] = "rgba(239,27,39,1)"
+COLORS["mp"] = "rgba(139, 200, 83, 1)"
+COLORS["c"] = "rgba(66, 184, 123, 1)"
+COLORS["fp"] = "rgba(93,201,247,1)"
+COLORS["kd"] = "rgba(54,117,171,1)"
+COLORS["m"] = "rgba(0, 191, 255,1)";
+COLORS["sd"] = "rgba(236,200,0,1)"
+
 function Graph(contname, chartname, category) {
   this.graph;
   this.cat = category;
   this.contname = contname;
   this.max = 0;
   this.name = chartname;
-  this.colors = {};
   this.plotlines = [];
   this.initGraph();
 }
@@ -37,28 +46,11 @@ Graph.prototype = {
   },
  
 
-  /*Create a hashed dictionary in which every party points to one color*/
-  generateColors: function() {
-    this.colors["vp"] = "rgba(196,20,30,1)";
-    this.colors["s"] = "rgba(239,27,39,1)"
-    this.colors["mp"] = "rgba(139, 200, 83, 1)"
-    this.colors["c"] = "rgba(66, 184, 123, 1)"
-    this.colors["fp"] = "rgba(93,201,247,1)"
-    this.colors["kd"] = "rgba(54,117,171,1)"
-    this.colors["m"] = "rgba(0, 191, 255,1)";
-    this.colors["sd"] = "rgba(236,200,0,1)"
-
-  },
-
-  getColor : function(party) {
-    return this.colors[party];
-  },
-
   getSeriesColors: function() {
     var arr = [];
     for (var i = 0; i < this.plotlines.length; i++) {
       var p = this.plotlines[i].party;
-      arr.push({color: this.getColor(p)});
+      arr.push({color: COLORS[p]});
     }
     return arr;
   },
@@ -111,7 +103,6 @@ Graph.prototype = {
   },
 
   initGraph: function() {
-      this.generateColors();
       this.getMax();
       $("."+this.contname + " h2").append(this.cat);
       //$("."+this.contname + " h2" ).append(this.getObj().category);
@@ -168,6 +159,7 @@ function destroy(chartid, party) {
     }
   }
 }
+
 
 
 function homeinit() {

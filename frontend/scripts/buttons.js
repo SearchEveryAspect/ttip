@@ -74,21 +74,10 @@ Button.prototype = {
 	update: function(c, xpix) {
 		var style = {"background": BUTTONS_URL + (this.x + xpix) + "px" + " " + this.y + "px"};
 		$(c).css(style);
-	},
-	addClick: function() {
-		this.click = true;
 	}
 }
 
 
-function isIndex(){
-    var pagePath= window.location.pathname;
-    if (pagePath.substring(pagePath.lastIndexOf("/") + 1) == "index.html") {
-    	return true;
-    }
-    return false;
-
-}
 
 /*This function should check if the button should be clicked on page load*/
 function isClicked(party) {
