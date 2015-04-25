@@ -14,18 +14,21 @@ import com.searcheveryaspect.backend.webserver.SearchResponse.Party.Interval.Doc
 public class SearchResponseUtil {
   /**
    * Only used for testing purposes.
+   * 
    * @param category for the search.
    * @return
    */
   public static SearchResponse dummyMonthResponse(String category) {
 
     Document doc1 =
-        new Document("med anledning av prop. 2014/15:71 Förenklingar i anläggningslagen",
-            "http://data.riksdagen.se/dokument/H2023059.html");
+        new Document.Builder()
+            .title("med anledning av prop. 2014/15:71 Förenklingar i anläggningslagen")
+            .link("http://data.riksdagen.se/dokument/H2023059.html").date("2015-02-03").build();
     Document doc2 =
-        new Document(
-            "med anledning av prop. 2014/15:85 Ökad individanpassning – en effektivare sfi och vuxenutbildning",
-            "http://data.riksdagen.se/dokument/H2023051.html");
+        new Document.Builder()
+            .title(
+                "med anledning av prop. 2014/15:85 Ökad individanpassning – en effektivare sfi och vuxenutbildning")
+            .link("http://data.riksdagen.se/dokument/H2023051.html").date("2015-03-13").build();
 
     ImmutableList<Interval> interval1 =
         new ImmutableList.Builder<Interval>()
@@ -60,10 +63,10 @@ public class SearchResponseUtil {
     ImmutableList<SearchResponse.Party> dataset =
         new ImmutableList.Builder<Party>().add(new Party("V", interval1))
             .add(new Party("S", interval2)).add(new Party("MP", interval3))
-            .add(new Party("SD", interval1)).add(new Party("NYD", interval4))
-            .add(new Party("C", interval3)).add(new Party("FP", interval1))
-            .add(new Party("KD", interval2)).add(new Party("M", interval3)).build();
-    return SearchResponse.newSearchAggregateResponse().category(category).labels(labels)
-        .datasets(dataset).build();
+            .add(new Party("SD", interval1)).add(new Party("C", interval3))
+            .add(new Party("FP", interval1)).add(new Party("KD", interval2))
+            .add(new Party("M", interval3)).build();
+    return SearchResponse.newSearchResponse().category(category).labels(labels).datasets(dataset)
+        .build();
   }
 }
