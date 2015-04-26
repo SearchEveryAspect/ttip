@@ -49,7 +49,7 @@ public class Main {
   private static void defineRoutes(RestExpress server, Client client) {
     server.uri("/mot/{category}/{interval}/from/{from_date}/to/{to_date}", new MotionsController(
         ESQuerier.newReader(client)));
-    server.uri("/mot/top/{quatity}", new TrendingController(TrendingQuerier.newReader(client)));
+    server.uri("/mot/top/{quantity}", new TrendingController(TrendingQuerier.newReader(client)));
     server.uri("/categories", new CategoryController());
   }
 
