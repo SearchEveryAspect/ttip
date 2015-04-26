@@ -1,11 +1,11 @@
 package com.searcheveryaspect.backend.webserver.controller;
 
 
-import com.google.common.base.MoreObjects;
-import com.google.common.util.concurrent.ListenableFuture;
-import com.google.common.util.concurrent.MoreExecutors;
+import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.searcheveryaspect.backend.ESQuerier;
+import com.google.common.base.MoreObjects;
+
+import com.searcheveryaspect.backend.DatabaseReader;
 import com.searcheveryaspect.backend.ESRequest;
 import com.searcheveryaspect.backend.webserver.SearchResponse;
 
@@ -17,21 +17,20 @@ import org.restexpress.Response;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Callable;
 
 /**
  * MotionsController handles search requests for existing motions for a specified period
  * and category. It only offers reads.
  */
 public class MotionsController extends ReadOnlyController {
-  private ESQuerier esq;
+  private final DatabaseReader<ESRequest, SearchResponse> reader;
 
   /**
-   * Returns a new MotionsController. The ESQuerier serves as a connection to the database
-   * and is needed to process read requests.
+   * Returns a new MotionsController. The DatabaseReader serves as a connection to the
+   * database and is needed to process read requests.
    */
-  public MotionsController(ESQuerier esq) {
-    this.esq = esq;
+  public MotionsController(DatabaseReader<ESRequest, SearchResponse> reader) {
+    this.reader = checkNotNull(reader);
   }
 
   /**
@@ -44,21 +43,7 @@ public class MotionsController extends ReadOnlyController {
   public SearchResponse read(Request request, Response response) {
     recordForDebug(request, response);
     try {
-      final ESRequest esreq = parseRequest(request);
-
-      // mvn doesn't really support asynchronous controllers so we can use
-      // futures to detach the controller from the backend thread.
-      ListenableFuture<SearchResponse> future =
-          MoreExecutors.newDirectExecutorService().submit(new Callable<SearchResponse>() {
-
-            // Pass on the request to instance of ESQuerier.
-            @Override
-            public SearchResponse call() throws Exception {
-              return esq.fetchDocuments(esreq);
-            }
-          });
-
-      return future.get();
+      return reader.read(parseRequest(request));
     } catch (Exception e) {
       response.setException(e);
       return null;

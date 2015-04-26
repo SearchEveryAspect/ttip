@@ -5,7 +5,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
-import com.searcheveryaspect.backend.ESQuerier;
+import com.searcheveryaspect.backend.DatabaseReader;
 import com.searcheveryaspect.backend.ESRequest;
 import com.searcheveryaspect.backend.webserver.SearchResponse;
 
@@ -36,7 +36,7 @@ public class MotionsControllerTest {
   final String category = "skatt";
 
   @Mock
-  ESQuerier esqMock;
+  DatabaseReader<ESRequest, SearchResponse> readerMock;
   @Mock
   Response resMock;
   @Mock
@@ -70,14 +70,14 @@ public class MotionsControllerTest {
         new ESRequest(new Interval(DateTime.parse(from, DateTimeFormat.forPattern("yyyy-mm-dd")),
             DateTime.parse(to, DateTimeFormat.forPattern("yyyy-mm-dd"))), cats, period);
 
-    when(esqMock.fetchDocuments(esreq)).thenReturn(sarMock);
+    when(readerMock.read(esreq)).thenReturn(sarMock);
 
     // Controller to test behaviour on.
-    MotionsController t = new MotionsController(esqMock);
+    MotionsController t = new MotionsController(readerMock);
 
     assertEquals(sarMock, t.read(reqMock, resMock));
-    verify(esqMock).fetchDocuments(esreq);
-    verifyNoMoreInteractions(esqMock);
+    verify(readerMock).read(esreq);
+    verifyNoMoreInteractions(readerMock);
   }
 
   @Test
@@ -127,7 +127,7 @@ public class MotionsControllerTest {
     when(reqMock.getHeader("to_date")).thenReturn(from);
 
     // Controller to test behaviour on.
-    MotionsController t = new MotionsController(esqMock);
+    MotionsController t = new MotionsController(readerMock);
 
     // Perform read attempt with invalid request, null should be returned.
     assertEquals(null, t.read(reqMock, resMock));
@@ -140,6 +140,6 @@ public class MotionsControllerTest {
     // Exception e = captor.getValue();
 
     // Should never be reached because of invalid parameters.
-    verifyNoMoreInteractions(esqMock);
+    verifyNoMoreInteractions(readerMock);
   }
 }

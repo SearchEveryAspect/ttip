@@ -85,9 +85,9 @@ public class SearchResponse {
 
   public static class Party {
     private final String party;
-    private final ImmutableList<Interval> data;
+    private final ImmutableList<Entry> data;
 
-    public Party(String party, ImmutableList<Interval> data) {
+    public Party(String party, ImmutableList<Entry> data) {
       this.party = party;
       this.data = data;
     }
@@ -96,7 +96,7 @@ public class SearchResponse {
       return party;
     }
 
-    public ImmutableList<Interval> getData() {
+    public ImmutableList<Entry> getData() {
       return data;
     }
 
@@ -119,11 +119,11 @@ public class SearchResponse {
       return MoreObjects.toStringHelper(this).add("party", party).add("data", data).toString();
     }
 
-    public static class Interval {
+    public static class Entry {
       private final int data;
       private final ImmutableList<Document> docs;
 
-      public Interval(int data, ImmutableList<Document> docs) {
+      public Entry(int data, ImmutableList<Document> docs) {
         this.data = data;
         this.docs = docs;
       }
@@ -138,8 +138,8 @@ public class SearchResponse {
 
       @Override
       public boolean equals(Object o) {
-        if (o instanceof Interval) {
-          Interval that = (Interval) o;
+        if (o instanceof Entry) {
+          Entry that = (Entry) o;
           return data == that.data && docs.equals(that.docs);
         }
         return false;

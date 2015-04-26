@@ -1,9 +1,15 @@
 package com.searcheveryaspect.backend.webserver;
 
-import com.searcheveryaspect.backend.ESQuerier;
-import com.searcheveryaspect.backend.webserver.controller.MotionsController;
-
 import com.beust.jcommander.JCommander;
+import com.searcheveryaspect.backend.ESQuerier;
+import com.searcheveryaspect.backend.TrendingQuerier;
+import com.searcheveryaspect.backend.webserver.controller.CategoryController;
+import com.searcheveryaspect.backend.webserver.controller.MotionsController;
+import com.searcheveryaspect.backend.webserver.controller.TrendingController;
+
+import org.elasticsearch.client.Client;
+import org.elasticsearch.node.Node;
+import org.elasticsearch.node.NodeBuilder;
 import org.restexpress.RestExpress;
 import org.restexpress.exception.ServiceException;
 import org.restexpress.response.ErrorResponseWrapper;
@@ -11,11 +17,7 @@ import org.restexpress.serialization.AbstractSerializationProvider;
 import org.restexpress.serialization.json.JacksonJsonProcessor;
 
 /**
-<<<<<<< HEAD
- * Starts up the server offering up the ttip API.
-=======
- * Start a ttip webserver. Flag -port sets port for traffic, default is 8080.
->>>>>>> master
+ * Start a ttip webserver with a elasticSearch node. Flag -port sets port for traffic, default is 8080.
  */
 public class Main {
 
@@ -30,7 +32,10 @@ public class Main {
     });
     RestExpress server = new RestExpress().setName("SEA").setPort(cla.port.intValue());
 
-    defineRoutes(server);
+    final Node node = NodeBuilder.nodeBuilder().client(true).node().start();
+    final Client client = node.client();
+
+    defineRoutes(server, client);
 
     server.setIoThreadCount(4);
     server.setExecutorThreadCount(4);
@@ -41,8 +46,11 @@ public class Main {
   }
 
   // The allowed routes the server responds to.
-  private static void defineRoutes(RestExpress server) {
-    server.uri("/mot/{category}/{interval}/from/{from_date}/to/{to_date}", new MotionsController(new ESQuerier()));
+  private static void defineRoutes(RestExpress server, Client client) {
+    server.uri("/mot/{category}/{interval}/from/{from_date}/to/{to_date}", new MotionsController(
+        ESQuerier.newReader(client)));
+    server.uri("/mot/top/{quatity}", new TrendingController(TrendingQuerier.newReader(client)));
+    server.uri("/categories", new CategoryController());
   }
 
   private static void mapExceptions(RestExpress server) {
