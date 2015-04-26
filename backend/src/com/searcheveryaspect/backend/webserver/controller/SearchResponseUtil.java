@@ -2,10 +2,10 @@ package com.searcheveryaspect.backend.webserver.controller;
 
 import com.google.common.collect.ImmutableList;
 
+import com.searcheveryaspect.backend.webserver.Document;
+import com.searcheveryaspect.backend.webserver.Entry;
+import com.searcheveryaspect.backend.webserver.Party;
 import com.searcheveryaspect.backend.webserver.SearchResponse;
-import com.searcheveryaspect.backend.webserver.SearchResponse.Party;
-import com.searcheveryaspect.backend.webserver.SearchResponse.Party.Entry;
-import com.searcheveryaspect.backend.webserver.SearchResponse.Party.Entry.Document;
 
 
 /**
@@ -60,7 +60,7 @@ public class SearchResponseUtil {
 
     ImmutableList<String> labels =
         new ImmutableList.Builder<String>().add("2015-02").add("2015-03").add("2015-04").build();
-    ImmutableList<SearchResponse.Party> dataset =
+    ImmutableList<Party> dataset =
         new ImmutableList.Builder<Party>().add(new Party("V", interval1))
             .add(new Party("S", interval2)).add(new Party("MP", interval3))
             .add(new Party("SD", interval1)).add(new Party("C", interval3))
