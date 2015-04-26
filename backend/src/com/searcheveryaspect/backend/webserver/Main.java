@@ -11,6 +11,7 @@ import org.elasticsearch.client.Client;
 import org.elasticsearch.node.Node;
 import org.elasticsearch.node.NodeBuilder;
 import org.restexpress.RestExpress;
+import com.strategicgains.restexpress.plugin.cors.CorsHeaderPlugin;
 import org.restexpress.exception.ServiceException;
 import org.restexpress.response.ErrorResponseWrapper;
 import org.restexpress.serialization.AbstractSerializationProvider;
@@ -31,6 +32,9 @@ public class Main {
       }
     });
     RestExpress server = new RestExpress().setName("SEA").setPort(cla.port.intValue());
+
+    server.registerPlugin(new CorsHeaderPlugin("*"));
+
 
     final Node node = NodeBuilder.nodeBuilder().client(true).node().start();
     final Client client = node.client();
