@@ -4,8 +4,8 @@ import com.google.common.collect.ImmutableList;
 
 import com.searcheveryaspect.backend.webserver.SearchResponse;
 import com.searcheveryaspect.backend.webserver.SearchResponse.Party;
-import com.searcheveryaspect.backend.webserver.SearchResponse.Party.Interval;
-import com.searcheveryaspect.backend.webserver.SearchResponse.Party.Interval.Document;
+import com.searcheveryaspect.backend.webserver.SearchResponse.Party.Entry;
+import com.searcheveryaspect.backend.webserver.SearchResponse.Party.Entry.Document;
 
 
 /**
@@ -30,33 +30,33 @@ public class SearchResponseUtil {
                 "med anledning av prop. 2014/15:85 Ökad individanpassning – en effektivare sfi och vuxenutbildning")
             .link("http://data.riksdagen.se/dokument/H2023051.html").date("2015-03-13").build();
 
-    ImmutableList<Interval> interval1 =
-        new ImmutableList.Builder<Interval>()
-            .add(new Interval(2, new ImmutableList.Builder<Document>().add(doc1).add(doc2).build()))
+    ImmutableList<Entry> interval1 =
+        new ImmutableList.Builder<Entry>()
+            .add(new Entry(2, new ImmutableList.Builder<Document>().add(doc1).add(doc2).build()))
             .add(
-                new Interval(4, new ImmutableList.Builder<Document>().add(doc1).add(doc1).add(doc1)
+                new Entry(4, new ImmutableList.Builder<Document>().add(doc1).add(doc1).add(doc1)
                     .add(doc2).build()))
-            .add(new Interval(1, new ImmutableList.Builder<Document>().add(doc2).build())).build();
-    ImmutableList<Interval> interval2 =
-        new ImmutableList.Builder<Interval>()
-            .add(new Interval(0, new ImmutableList.Builder<Document>().build()))
-            .add(new Interval(2, new ImmutableList.Builder<Document>().add(doc1).add(doc1).build()))
+            .add(new Entry(1, new ImmutableList.Builder<Document>().add(doc2).build())).build();
+    ImmutableList<Entry> interval2 =
+        new ImmutableList.Builder<Entry>()
+            .add(new Entry(0, new ImmutableList.Builder<Document>().build()))
+            .add(new Entry(2, new ImmutableList.Builder<Document>().add(doc1).add(doc1).build()))
             .add(
-                new Interval(3, new ImmutableList.Builder<Document>().add(doc2).add(doc1).add(doc2)
+                new Entry(3, new ImmutableList.Builder<Document>().add(doc2).add(doc1).add(doc2)
                     .build())).build();
-    ImmutableList<Interval> interval3 =
-        new ImmutableList.Builder<Interval>()
+    ImmutableList<Entry> interval3 =
+        new ImmutableList.Builder<Entry>()
             .add(
-                new Interval(5, new ImmutableList.Builder<Document>().add(doc1).add(doc2).add(doc1)
+                new Entry(5, new ImmutableList.Builder<Document>().add(doc1).add(doc2).add(doc1)
                     .add(doc2).add(doc2).build()))
-            .add(new Interval(2, new ImmutableList.Builder<Document>().add(doc2).add(doc2).build()))
-            .add(new Interval(2, new ImmutableList.Builder<Document>().add(doc2).add(doc1).build()))
+            .add(new Entry(2, new ImmutableList.Builder<Document>().add(doc2).add(doc2).build()))
+            .add(new Entry(2, new ImmutableList.Builder<Document>().add(doc2).add(doc1).build()))
             .build();
-    ImmutableList<Interval> interval4 =
-        new ImmutableList.Builder<Interval>()
-            .add(new Interval(0, new ImmutableList.Builder<Document>().build()))
-            .add(new Interval(0, new ImmutableList.Builder<Document>().build()))
-            .add(new Interval(0, new ImmutableList.Builder<Document>().build())).build();
+    ImmutableList<Entry> interval4 =
+        new ImmutableList.Builder<Entry>()
+            .add(new Entry(0, new ImmutableList.Builder<Document>().build()))
+            .add(new Entry(0, new ImmutableList.Builder<Document>().build()))
+            .add(new Entry(0, new ImmutableList.Builder<Document>().build())).build();
 
     ImmutableList<String> labels =
         new ImmutableList.Builder<String>().add("2015-02").add("2015-03").add("2015-04").build();

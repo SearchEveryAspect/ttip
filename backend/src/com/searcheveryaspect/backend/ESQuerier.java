@@ -3,17 +3,34 @@
  */
 package com.searcheveryaspect.backend;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.searcheveryaspect.backend.webserver.SearchResponse;
+
+import org.elasticsearch.client.Client;
 
 /**
  * Communicates with ES depending on what kind of information the ESRequest object
  * contains.
+ * 
  * @author Mitra
- *
+ * 
  */
-public class ESQuerier {
+public final class ESQuerier implements DatabaseReader<ESRequest, SearchResponse> {
+  private final Client client;
 
-    public SearchResponse fetchDocuments(ESRequest req){
-      return null;
-    }
+  private ESQuerier(Client client) {
+    this.client = checkNotNull(client);
+  };
+
+  /**
+   * Queries the database as specified by the ESRequest and returns a SearchResponse.
+   */
+  public SearchResponse read(ESRequest req) {
+    return null;
+  }
+
+  public static DatabaseReader<ESRequest, SearchResponse> newReader(Client client) {
+    return new ESQuerier(client);
+  }
 }
