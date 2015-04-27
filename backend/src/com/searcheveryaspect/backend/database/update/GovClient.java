@@ -12,7 +12,7 @@ public class GovClient {
 
   public static final int TRAFFAR_LIMIT = 5000;
 
-  public ArrayList<GovDocumentList> fetchDocs(GovFetchRequest request) throws Exception {
+  public static ArrayList<GovDocumentList> fetchDocs(GovFetchRequest request) throws Exception {
     GovDocumentList fetched;
     String json = null;
     Gson gson = new Gson();
@@ -75,7 +75,7 @@ public class GovClient {
 
   }
 
-  public ArrayList<GovDocumentList> fetchAllDocs() throws Exception {
+  public static ArrayList<GovDocumentList> fetchAllDocs() throws Exception {
     Calendar d = Calendar.getInstance();
     return fetchDocs(new GovFetchRequest("", "", new Period(new GovDate(1900, 1, 1), new GovDate(
         d.get(Calendar.YEAR), d.get(Calendar.MONTH), d.get(Calendar.DAY_OF_MONTH))), "", "", "",
