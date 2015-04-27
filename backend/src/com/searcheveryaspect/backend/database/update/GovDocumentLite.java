@@ -1,53 +1,90 @@
-/**
-*
- *  //http://data.riksdagen.se/dokumentlista/?sok=&doktyp=mot&rm=&from=&tom=&ts=&bet=&tempbet=&nr=&org=&iid=&webbtv=&talare=&exakt=&planering=&sort=rel&sortorder=desc&rapport=&utformat=json&a=s#soktraff
- */
 package com.searcheveryaspect.backend.database.update;
 
+/**
+ * A simple representation of a document. Contains links to external information.
+ * 
+ */
+public class GovDocumentLite {
+  private final int traff;
+  // Date the motion was published.
+  private final String datum;
+  // Unique id for the document.
+  private final String id;
+  // Link to a text version of the motion.
+  private final String dokument_url_text;
+  // Document title.
+  private final String titel;
+  // Document subtitle, contains authors and their party in the format "av Jane Doe (c)".
+  private final String undertitel;
+  private final String organ;
+  // Type of document, e.g. mot (motion) or prop (proposition).
+  private final String doktyp;
+  private final GovAppendix filbilaga;
 
-public class GovDocumentLite
-{
-	int traff; 
-	String datum; //datum som motionen pulicerades
-	String id;
-	String dokument_url_text; //l�nk till motionen i textformat 
-	String titel; 
-	String undertitel; //vilka som gjort motionen och vilket parti de �r fr�n inom parantes ex "av Kenneth Johansson (c)"
-	String organ;
-	String doktyp;
-	GovAppendix filbilaga;
-		
-	public GovDocumentLite(int traff, String datum, String id, String dokument_url_text, String titel, String undertitel, String organ, String doktyp, GovAppendix filbilaga)
-	{
-		this.traff = traff;
-		this.datum = datum;
-		this.id = id;
-		this.dokument_url_text = dokument_url_text;
-		this.titel = titel;
-	    this.undertitel = undertitel;
-		this.organ = organ;
-		this.doktyp = doktyp;
-		this.filbilaga = filbilaga;
-	}
-	
-	public String getId() {
-		return id; 
-	}
-	
-	public String getTitle() {
-		return titel;
-	}
-	
-	public String getDate() {
-		return datum;
-	}
+  public GovDocumentLite(int traff, String datum, String id, String dokument_url_text,
+      String titel, String undertitel, String organ, String doktyp, GovAppendix filbilaga) {
+    this.traff = traff;
+    this.datum = datum;
+    this.id = id;
+    this.dokument_url_text = dokument_url_text;
+    this.titel = titel;
+    this.undertitel = undertitel;
+    this.organ = organ;
+    this.doktyp = doktyp;
+    this.filbilaga = filbilaga;
+  }
 
-	public String getUnderTitle() {
-		return undertitel;
-	}
-	
-	public String toString()
-	{
-		return "Träff: " + traff + " Datum: " + datum + " Id: " + id + " Dokument_url_text: " + dokument_url_text + " Titel: " + titel + " Undertitel: " + undertitel +  " Organ: " + organ + " Doktyp: " + doktyp;
-	}
+  public GovDocumentLite(GovDocument doc) {
+    this.traff = doc.traff;
+    this.datum = doc.datum;
+    this.id = doc.id;
+    this.dokument_url_text = doc.dokument_url_text;
+    this.titel = doc.titel;
+    this.undertitel = doc.undertitel;
+    this.organ = doc.organ;
+    this.doktyp = doc.doktyp;
+    this.filbilaga = doc.filbilaga;
+  }
+
+  public int getTraff() {
+    return traff;
+  }
+
+  public String getDatum() {
+    return datum;
+  }
+
+  public String getId() {
+    return id;
+  }
+
+  public String getDokument_url_text() {
+    return dokument_url_text;
+  }
+
+  public String getTitel() {
+    return titel;
+  }
+
+  public String getUndertitel() {
+    return undertitel;
+  }
+
+  public String getOrgan() {
+    return organ;
+  }
+
+  public String getDoktyp() {
+    return doktyp;
+  }
+
+  public GovAppendix getFilbilaga() {
+    return filbilaga;
+  }
+
+  public String toString() {
+    return "Träff: " + traff + " Datum: " + datum + " Id: " + id + " Dokument_url_text: "
+        + dokument_url_text + " Titel: " + titel + " Undertitel: " + undertitel + " Organ: "
+        + organ + " Doktyp: " + doktyp;
+  }
 }
