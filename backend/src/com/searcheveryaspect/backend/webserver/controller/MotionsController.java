@@ -5,8 +5,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.base.MoreObjects;
 
-import com.searcheveryaspect.backend.DatabaseReader;
-import com.searcheveryaspect.backend.ESRequest;
+import com.searcheveryaspect.backend.database.read.DatabaseReader;
+import com.searcheveryaspect.backend.database.read.ESRequest;
 import com.searcheveryaspect.backend.webserver.SearchResponse;
 
 import org.joda.time.DateTime;

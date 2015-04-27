@@ -1,9 +1,10 @@
 /**
  * 
  */
-package com.searcheveryaspect.backend;
+package com.searcheveryaspect.backend.database.update;
 
 import com.google.gson.annotations.SerializedName;
+
 
 /**
  * @author lundblom

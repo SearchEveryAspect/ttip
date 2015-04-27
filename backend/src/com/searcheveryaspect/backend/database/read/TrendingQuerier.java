@@ -1,4 +1,4 @@
-package com.searcheveryaspect.backend;
+package com.searcheveryaspect.backend.database.read;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 

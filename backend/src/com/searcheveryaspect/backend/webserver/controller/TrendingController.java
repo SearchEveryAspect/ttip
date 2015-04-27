@@ -2,9 +2,9 @@ package com.searcheveryaspect.backend.webserver.controller;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.searcheveryaspect.backend.Category;
-import com.searcheveryaspect.backend.DatabaseReader;
-import com.searcheveryaspect.backend.TrendingRequest;
+import com.searcheveryaspect.backend.database.read.DatabaseReader;
+import com.searcheveryaspect.backend.database.read.TrendingRequest;
+import com.searcheveryaspect.backend.shared.Category;
 import com.searcheveryaspect.backend.webserver.SearchResponse;
 
 import org.restexpress.Request;

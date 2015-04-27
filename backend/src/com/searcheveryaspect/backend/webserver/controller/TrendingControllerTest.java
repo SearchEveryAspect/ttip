@@ -5,8 +5,8 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
-import com.searcheveryaspect.backend.DatabaseReader;
-import com.searcheveryaspect.backend.TrendingRequest;
+import com.searcheveryaspect.backend.database.read.DatabaseReader;
+import com.searcheveryaspect.backend.database.read.TrendingRequest;
 import com.searcheveryaspect.backend.webserver.SearchResponse;
 
 import org.junit.Rule;

@@ -1,4 +1,4 @@
-package com.searcheveryaspect.backend;
+package com.searcheveryaspect.backend.database.read;
 
 /**
  * Request for the top n trending categories.

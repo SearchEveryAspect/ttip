@@ -5,6 +5,8 @@ package com.searcheveryaspect.backend;
 
 import static org.junit.Assert.assertTrue;
 
+import com.searcheveryaspect.backend.database.update.GovDocumentList;
+
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;

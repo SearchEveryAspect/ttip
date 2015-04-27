@@ -1,8 +1,8 @@
 package com.searcheveryaspect.backend.webserver;
 
 import com.beust.jcommander.JCommander;
-import com.searcheveryaspect.backend.ESQuerier;
-import com.searcheveryaspect.backend.TrendingQuerier;
+import com.searcheveryaspect.backend.database.read.ESQuerier;
+import com.searcheveryaspect.backend.database.read.TrendingQuerier;
 import com.searcheveryaspect.backend.webserver.controller.CategoryController;
 import com.searcheveryaspect.backend.webserver.controller.MotionsController;
 import com.searcheveryaspect.backend.webserver.controller.TrendingController;

@@ -1,4 +1,4 @@
-package com.searcheveryaspect.backend;
+package com.searcheveryaspect.backend.database.update;
 
 /**
  * 
