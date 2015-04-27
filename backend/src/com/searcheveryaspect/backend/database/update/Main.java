@@ -1,107 +1,57 @@
 package com.searcheveryaspect.backend.database.update;
 
+import com.beust.jcommander.JCommander;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.Console;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
+import org.elasticsearch.client.Client;
+import org.elasticsearch.node.Node;
+import org.elasticsearch.node.NodeBuilder;
 
+import java.util.List;
+
+/**
+ * Runs an update request for the database with motions documents between the dates
+ * supplied in flag -from and -to. Currently this specifies only year.
+ */
 public class Main {
-	
-	static final ArrayList<String> parties = new ArrayList<String>(Arrays.asList(new String[]{"S","M","FP","KD", "V", "SD", "C", "MP", "NYD", "-"}));
-	 
-	/**
-	 * @param args
-	 * @throws Exception 
-	 */
-	
-	
-	public static void main(String[] args) throws Exception {
-		
-		ArrayList<String> selectedParties = new ArrayList<String>();
-		
-		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-		
-		
-		
-		System.out.print("Enter search string: ");
-		String search = in.readLine();
-		System.out.print("\nEnter start year: ");
-		String startYear = in.readLine();
-		System.out.print("\nEnter end year: ");
-		String endYear = in.readLine();
-		
-		while(true)
-		{
-			System.out.print("Enter a party from list: ");
-			for(String s : parties)
-			{
-				System.out.print(s + " ");
-			}
-			System.out.println("\n Enter exit to finish: ");
-			String party = in.readLine();
-			if(party.equals("exit"))
-				break;
-			if(parties.contains(party))
-				selectedParties.add(party);
-			else
-				System.out.println("Party is not in list.");
-		}
-		
-		GovClient gv = new GovClient();
-		int startYearInt = 2010;
-		int endYearInt = 2015;
-		try
-		{
-			startYearInt = Integer.parseInt(startYear);
-			endYearInt = Integer.parseInt(endYear);
-		}
-		catch(NumberFormatException e)
-		{
-			System.out.println("Can't parse number input; using default values: " + startYearInt + " to " + endYearInt);
-		}
-		
-		ArrayList<GovDocumentList> gdl = gv.fetchDocs(new GovFetchRequest(search, "", new Period(new GovDate(startYearInt, 1, 1), new GovDate(endYearInt, 12, 31)), "", "", "", "", "", selectedParties));
-		
-		System.out.println("Write to file? [Y/N]");
-		if(Character.toLowerCase(((char)in.read())) != 'y' )
-		{
-			for(GovDocumentList g : gdl)
-			{
-				System.out.println(g);
-			}
-		}
-		else
-		{
-			BufferedWriter w = null;
-			for(GovDocumentList g : gdl)
-			{
-				for(int i = 0; i < g.dokument.length; i++)
-				{
-					try
-					{
-						w = new BufferedWriter(new FileWriter(g.dokument[i].id +  ".txt"));
-						w.write(g.dokument[i].toString());
-					}
-					catch (IOException e){}
-					finally
-					{
-					    try
-					    {
-					        if ( w != null)
-					        w.close( );
-					    }
-					    
-					    catch ( IOException e){}
-					}
-				}
-			}
-		}
-	}
 
+  public static void main(String[] args) {
+    CommandLineArgs cla = new CommandLineArgs();
+    new JCommander(cla, args);
+    String from = cla.from;
+    String to = cla.to;
+
+    Node node = NodeBuilder.nodeBuilder().client(true).node().start();
+    Client client = node.client();
+    ElasticSearchPut db = new ElasticSearchPut(client);
+
+    // TODO: Use jodatime and set complete date in flag.
+    GovFetchRequest request =
+        GovFetchRequest
+            .newGovFetchRequest()
+            .period(
+                new Period(new GovDate(Integer.parseInt(from), 1, 1), new GovDate(Integer
+                    .parseInt(to), 5, 1))).build();
+    List<GovDocumentList> docs = null;
+
+    try {
+      docs = GovClient.fetchDocs(request);
+    } catch (Exception e) {
+      e.printStackTrace();
+      client.close();
+      node.close();
+      System.exit(0);
+    }
+
+    for (GovDocumentList govDocumentList : docs) {
+      GovDocument[] govDocuments = govDocumentList.dokument;
+      for (GovDocument govDocument : govDocuments) {
+        ESDocument doc = ESDocumentBuilder.createESDocument(new GovDocumentLite(govDocument));
+        // System.out.println(doc);
+        db.putDocument(doc);
+      }
+    }
+
+    client.close();
+    node.close();
+  }
 }

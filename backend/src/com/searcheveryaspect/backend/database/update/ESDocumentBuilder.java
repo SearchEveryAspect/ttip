@@ -14,7 +14,7 @@ import org.joda.time.DateTime;
 public class ESDocumentBuilder {
 
 
-  public ESDocument createESDocument(GovDocumentLite doc) {
+  public static ESDocument createESDocument(GovDocumentLite doc) {
 
     String docId = doc.getId();
 

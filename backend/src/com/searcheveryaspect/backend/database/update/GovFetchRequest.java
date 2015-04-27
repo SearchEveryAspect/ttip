@@ -3,6 +3,7 @@ package com.searcheveryaspect.backend.database.update;
 
 import com.google.common.collect.ImmutableList;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -35,7 +36,7 @@ public class GovFetchRequest {
 
   public GovFetchRequest(String searchString, String rm, Period period, String ts, String bet,
       String tempbet, String nr, String organ, int commissionerId, List<String> parties) {
-    this.searchString = searchString;
+    this.searchString = searchString.replace(" ", "%20");
     this.rm = rm;
     this.period = period;
     this.ts = ts;
@@ -49,7 +50,7 @@ public class GovFetchRequest {
 
   public GovFetchRequest(String searchString, String rm, Period period, String ts, String bet,
       String tempbet, String nr, String organ, List<String> parties) {
-    this.searchString = searchString;
+    this.searchString = searchString.replace(" ", "%20");
     this.rm = rm;
     this.period = period;
     this.ts = ts;
@@ -122,7 +123,7 @@ public class GovFetchRequest {
     StringBuilder sb = new StringBuilder();
     sb.append(RIKSDAG_URL);
     sb.append("?sok=");
-    sb.append(searchString.replace(" ", "%20"));
+    sb.append(searchString);
     sb.append("&doktyp=mot&rm=");
     sb.append(rm);
     sb.append("&from=");
@@ -149,26 +150,26 @@ public class GovFetchRequest {
     return sb.toString();
   }
 
-  private static class Builder {
-    private String searchString;
+  public static class Builder {
+    private String searchString = "";
     // Riksmöte
-    private String rm;
+    private String rm = "";
 
     private Period period;
     // Systemdatum
-    private String ts;
+    private String ts = "";
     // Beteckning
-    private String bet;
+    private String bet = "";
     // Tempbet
-    private String tempbet;
+    private String tempbet = "";
     // Nummer
-    private String nr;
+    private String nr = "";
     // Utskott/Organ
-    private String organ;
+    private String organ = "";
     // Ledamot
-    private int commissionerId; // -1 if not used
+    private int commissionerId = -1; // -1 if not used
     // List of different parties
-    private List<String> parties;
+    private List<String> parties = new ArrayList<String>();
 
     public Builder searchString(String s) {
       searchString = s;
