@@ -1,4 +1,4 @@
-package com.searcheveryaspect.backend;
+package com.searcheveryaspect.backend.database.update;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 import com.google.gson.Gson;
+
 
 
 public class GovClient 

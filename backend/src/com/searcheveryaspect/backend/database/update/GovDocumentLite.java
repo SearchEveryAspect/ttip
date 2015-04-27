@@ -2,16 +2,17 @@
 *
  *  //http://data.riksdagen.se/dokumentlista/?sok=&doktyp=mot&rm=&from=&tom=&ts=&bet=&tempbet=&nr=&org=&iid=&webbtv=&talare=&exakt=&planering=&sort=rel&sortorder=desc&rapport=&utformat=json&a=s#soktraff
  */
-package com.searcheveryaspect.backend;
+package com.searcheveryaspect.backend.database.update;
+
 
 public class GovDocumentLite
 {
 	int traff; 
 	String datum; //datum som motionen pulicerades
 	String id;
-	String dokument_url_text; //länk till motionen i textformat 
+	String dokument_url_text; //lï¿½nk till motionen i textformat 
 	String titel; 
-	String undertitel; //vilka som gjort motionen och vilket parti de är från inom parantes ex "av Kenneth Johansson (c)"
+	String undertitel; //vilka som gjort motionen och vilket parti de ï¿½r frï¿½n inom parantes ex "av Kenneth Johansson (c)"
 	String organ;
 	String doktyp;
 	GovAppendix filbilaga;

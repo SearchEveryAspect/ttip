@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.searcheveryaspect.backend;
+package com.searcheveryaspect.backend.database.read;
 
 import com.google.common.base.MoreObjects;
 import org.joda.time.Interval;

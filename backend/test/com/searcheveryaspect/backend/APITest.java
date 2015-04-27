@@ -3,6 +3,12 @@
  */
 package com.searcheveryaspect.backend;
 
+import com.searcheveryaspect.backend.database.update.GovClient;
+import com.searcheveryaspect.backend.database.update.GovDate;
+import com.searcheveryaspect.backend.database.update.GovDocumentList;
+import com.searcheveryaspect.backend.database.update.GovFetchRequest;
+import com.searcheveryaspect.backend.database.update.Period;
+
 import java.util.ArrayList;
 
 /**

@@ -1,10 +1,11 @@
-package com.searcheveryaspect.backend;
+package com.searcheveryaspect.backend.database.update;
 
 import org.elasticsearch.client.Client;
 import org.elasticsearch.node.Node;
 import org.elasticsearch.node.NodeBuilder;
 
 import com.google.gson.Gson;
+
 
 /**
  * 

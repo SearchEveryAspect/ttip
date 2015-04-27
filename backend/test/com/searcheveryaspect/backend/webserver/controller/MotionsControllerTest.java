@@ -5,8 +5,8 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
-import com.searcheveryaspect.backend.DatabaseReader;
-import com.searcheveryaspect.backend.ESRequest;
+import com.searcheveryaspect.backend.database.read.DatabaseReader;
+import com.searcheveryaspect.backend.database.read.ESRequest;
 import com.searcheveryaspect.backend.webserver.SearchResponse;
 
 import org.joda.time.DateTime;

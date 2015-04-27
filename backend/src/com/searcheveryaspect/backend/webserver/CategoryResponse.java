@@ -4,7 +4,7 @@ import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableList.Builder;
 
-import com.searcheveryaspect.backend.Category;
+import com.searcheveryaspect.backend.shared.Category;
 
 import java.util.Objects;
 
