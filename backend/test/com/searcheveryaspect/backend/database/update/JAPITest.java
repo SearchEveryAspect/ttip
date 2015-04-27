@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.searcheveryaspect.backend;
+package com.searcheveryaspect.backend.database.update;
 
 import static org.junit.Assert.assertTrue;
 

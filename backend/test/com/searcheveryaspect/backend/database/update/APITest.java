@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.searcheveryaspect.backend;
+package com.searcheveryaspect.backend.database.update;
 
 import com.searcheveryaspect.backend.database.update.GovClient;
 import com.searcheveryaspect.backend.database.update.GovDate;
