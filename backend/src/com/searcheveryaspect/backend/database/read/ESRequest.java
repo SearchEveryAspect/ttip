@@ -22,17 +22,17 @@ public class ESRequest {
   private final List<String> party;
   private final Interval interval;
   private final String period;
-  private final List<String> category;
+  private final String category;
 
 
-  public ESRequest(Interval interval, List<String> category, List<String> party, String period) {
+  public ESRequest(Interval interval, String category, List<String> party, String period) {
     this.interval = interval;
     this.category = category;
     this.party = party;
     this.period = period;
   }
 
-  public ESRequest(Interval interval, List<String> category, String period) {
+  public ESRequest(Interval interval, String category, String period) {
     this.interval = interval;
     this.category = category;
     this.party = new ArrayList<String>();
@@ -47,7 +47,7 @@ public class ESRequest {
     return interval;
   }
 
-  public List<String> getCategory() {
+  public String getCategory() {
     return category;
   }
 

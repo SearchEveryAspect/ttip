@@ -19,6 +19,7 @@ public class GovDocument
 	String organ;
 	String doktyp;
 	String subtyp;
+	String text;
 	GovAppendix filbilaga;
 	
 	public GovDocument(int traff, String datum, String id, String dokument_url_text, String titel, String undertitel, String organ, String doktyp, GovAppendix filbilaga)
@@ -32,6 +33,13 @@ public class GovDocument
 		this.organ = organ;
 		this.doktyp = doktyp;
 		this.filbilaga = filbilaga;
+		
+		try {
+			text = URLConnectionReader.getText(this.dokument_url_text);
+		} catch (Exception e) {
+			text = "";
+		}
+		
 	}
 	
 	public String toString()
