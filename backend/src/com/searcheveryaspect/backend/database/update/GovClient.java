@@ -61,9 +61,7 @@ public class GovClient {
       int i = 1;
       // Checks if there are more pages found
       while (fetched.existsNextPage()) {
-        System.out.println("Fetching page " + i + " out of " + fetched.sidor);
         json = URLConnectionReader.getText(fetched.nextPage());
-        System.out.println("Parsing page " + i + " out of " + fetched.sidor);
         fetched = gson.fromJson(json, GovSearchResult.class).dokumentlista;
         // Adds extra pages
         result.add(fetched);
