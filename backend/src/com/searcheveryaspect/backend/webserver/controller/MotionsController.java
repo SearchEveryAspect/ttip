@@ -67,9 +67,7 @@ public class MotionsController extends ReadOnlyController {
     }
 
     Interval interval = new Interval(start, end);
-    List<String> cats = new ArrayList<String>();
-    cats.add(category);
-    return new ESRequest(interval, cats, period);
+    return new ESRequest(interval, category, period);
   }
 
   /**
