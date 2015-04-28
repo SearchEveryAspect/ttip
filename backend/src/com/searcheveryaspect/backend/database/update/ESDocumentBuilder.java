@@ -33,9 +33,10 @@ public class ESDocumentBuilder {
     String[] splittedUnderTitle = underTitle.split(" ");
     String partyInBrackets = splittedUnderTitle[splittedUnderTitle.length - 1];
     String party = partyInBrackets.substring(1, (partyInBrackets.length() - 1));
+    String text = doc.getText();
 
     ESDocument eSDoc =
-        new ESDocument(docId, publishedTimestamp, fetchedTimestamp, title, category, party);
+        new ESDocument(docId, publishedTimestamp, fetchedTimestamp, title, category, party, text);
 
     return eSDoc;
 
