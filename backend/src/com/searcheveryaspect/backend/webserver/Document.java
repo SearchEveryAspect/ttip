@@ -2,6 +2,10 @@ package com.searcheveryaspect.backend.webserver;
 
 import com.google.common.base.MoreObjects;
 
+import com.searcheveryaspect.backend.database.update.ESDocument;
+
+import org.joda.time.DateTime;
+
 import java.util.Objects;
 
 /**
@@ -11,11 +15,18 @@ public class Document {
   private final String title;
   private final String link;
   private final String date;
+  private final static String URL = "http://data.riksdagen.se/dokument/";
 
   public Document(Document.Builder b) {
     this.title = b.title;
     this.link = b.link;
     this.date = b.date;
+  }
+
+  public Document(ESDocument doc) {
+    title = doc.getTitle();
+    link = URL + doc.getDocId();
+    date = (new DateTime(doc.getPublishedTimestamp())).toString("yyyy-mm-dd");
   }
 
   public String getName() {
@@ -46,8 +57,8 @@ public class Document {
 
   @Override
   public String toString() {
-    return MoreObjects.toStringHelper(this).add("title", title).add("link", link)
-        .add("date", date).toString();
+    return MoreObjects.toStringHelper(this).add("title", title).add("link", link).add("date", date)
+        .toString();
   }
 
   public static class Builder {

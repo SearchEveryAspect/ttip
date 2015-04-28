@@ -36,6 +36,30 @@ public class ESDocument {
     return docId;
   }
 
+  public long getPublishedTimestamp() {
+    return publishedTimestamp;
+  }
+
+
+  public long getFetchedTimestamp() {
+    return fetchedTimestamp;
+  }
+
+
+  public String getTitle() {
+    return title;
+  }
+
+
+  public String[] getCategory() {
+    return category;
+  }
+
+
+  public String getParty() {
+    return party;
+  }
+
 
   @Override
   public boolean equals(Object o) {

@@ -35,6 +35,19 @@ public class PartyData {
     return isIntersting;
   }
 
+  /**
+   * The number of documents this data is based on.
+   * 
+   * @return sum of all hits
+   */
+  public int getSumHits() {
+    int sum = 0;
+    for (Entry e : data) {
+      sum += e.getData();
+    }
+    return sum;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (o instanceof PartyData) {

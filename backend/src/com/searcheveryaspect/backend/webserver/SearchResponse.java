@@ -33,6 +33,20 @@ public class SearchResponse {
     return datasets;
   }
 
+  /**
+   * The number of documents included in this SearchResponse.
+   * 
+   * @return sum of all hits
+   */
+  public int getSumHits() {
+    int sum = 0;
+    for (PartyData d : datasets) {
+      sum += d.getSumHits();
+    }
+    return sum;
+  }
+
+
   public static class Builder {
     private String category;
     private ImmutableList<String> labels;
