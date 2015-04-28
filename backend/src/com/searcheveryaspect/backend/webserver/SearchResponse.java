@@ -13,7 +13,7 @@ import java.util.Objects;
 public class SearchResponse {
   private final String category;
   private final ImmutableList<String> labels;
-  private final ImmutableList<Party> datasets;
+  private final ImmutableList<PartyData> datasets;
 
   SearchResponse(Builder builder) {
     this.category = builder.category;
@@ -29,14 +29,14 @@ public class SearchResponse {
     return labels;
   }
 
-  public ImmutableList<Party> getDatasets() {
+  public ImmutableList<PartyData> getDatasets() {
     return datasets;
   }
 
   public static class Builder {
     private String category;
     private ImmutableList<String> labels;
-    private ImmutableList<Party> datasets;
+    private ImmutableList<PartyData> datasets;
 
     public Builder category(String s) {
       category = s;
@@ -48,7 +48,7 @@ public class SearchResponse {
       return this;
     }
 
-    public Builder datasets(ImmutableList<Party> l) {
+    public Builder datasets(ImmutableList<PartyData> l) {
       datasets = l;
       return this;
     }

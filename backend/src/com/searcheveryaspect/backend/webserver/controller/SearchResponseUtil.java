@@ -4,7 +4,7 @@ import com.google.common.collect.ImmutableList;
 
 import com.searcheveryaspect.backend.webserver.Document;
 import com.searcheveryaspect.backend.webserver.Entry;
-import com.searcheveryaspect.backend.webserver.Party;
+import com.searcheveryaspect.backend.webserver.PartyData;
 import com.searcheveryaspect.backend.webserver.SearchResponse;
 
 
@@ -60,12 +60,12 @@ public class SearchResponseUtil {
 
     ImmutableList<String> labels =
         new ImmutableList.Builder<String>().add("2015-02").add("2015-03").add("2015-04").build();
-    ImmutableList<Party> dataset =
-        new ImmutableList.Builder<Party>().add(new Party("V", interval1))
-            .add(new Party("S", interval2)).add(new Party("MP", interval3))
-            .add(new Party("SD", interval1)).add(new Party("C", interval3))
-            .add(new Party("FP", interval1)).add(new Party("KD", interval2))
-            .add(new Party("M", interval3)).build();
+    ImmutableList<PartyData> dataset =
+        new ImmutableList.Builder<PartyData>().add(new PartyData("V", interval1))
+            .add(new PartyData("S", interval2)).add(new PartyData("MP", interval3))
+            .add(new PartyData("SD", interval1)).add(new PartyData("C", interval3))
+            .add(new PartyData("FP", interval1)).add(new PartyData("KD", interval2))
+            .add(new PartyData("M", interval3)).build();
     return SearchResponse.newSearchResponse().category(category).labels(labels).datasets(dataset)
         .build();
   }

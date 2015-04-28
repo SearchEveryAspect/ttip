@@ -8,16 +8,16 @@ import java.util.Objects;
 /**
  * 
  */
-public class Party {
+public class PartyData {
   private final String party;
   private final ImmutableList<Entry> data;
   private final Boolean isIntersting;
 
-  public Party(String party, ImmutableList<Entry> data) {
+  public PartyData(String party, ImmutableList<Entry> data) {
     this(party, data, null);
   }
 
-  public Party(String party, ImmutableList<Entry> data, Boolean isInteresting) {
+  public PartyData(String party, ImmutableList<Entry> data, Boolean isInteresting) {
     this.party = party;
     this.data = data;
     this.isIntersting = isInteresting;
@@ -37,8 +37,8 @@ public class Party {
 
   @Override
   public boolean equals(Object o) {
-    if (o instanceof Party) {
-      Party that = (Party) o;
+    if (o instanceof PartyData) {
+      PartyData that = (PartyData) o;
       return party.equals(that.party) && data.equals(that.data);
     }
     return false;
