@@ -17,14 +17,20 @@ public class Main {
 
   public static void main(String[] args) 
   {
-    ESDocument es = new ESDocument("32343", 3232323, 3, "Swag och andra betingelser", null, "S", "Riksdagen tillkännager för "
-    		+ "regeringen som sin mening vad som anförs i motionen om att regeringen bör återkomma till riksdagen med "
-    		+ "förslag på hur torvanvändningen ska fasas ut ur elcertifikatssystemet, med inriktningen att nya torvtäkter inte "
-    		+ "ska öppnas.");
+    ESDocument es = new ESDocument("32343", 3232323, 3, "Swag och andra betingelser", null, "S", "Vänsterpartiet välkomnar"
+    		+ " i stort regeringens proposition och de förslag som läggs fram. Vi delar regeringens uppfattning att det krävs"
+    		+ " en ambitionshöjning för den förnybara elproduktionen. Klimatfrågan är vår tids ödesfråga och det är viktigt att Sverige "
+    		+ "ligger i framkant vad gäller förnybar elproduktion. Regeringens förslag att Sverige, inom ramen för elcertifikatssystemet, ska finansiera 3"
+    		+ "0 terawattimmar ny förnybar elproduktion till 2020 jämfört med 2002, är därför ett viktigt steg på vägen.");
     
     try {
     	NLP.init();
-		NLP.categorize(es);
+		String[] c = NLP.categorize(es);
+		
+		for(String s : c)
+		{
+			System.out.println("category: " +  s.toString());
+		}
 	} catch (Exception e) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();

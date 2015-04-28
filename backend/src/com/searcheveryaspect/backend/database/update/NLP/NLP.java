@@ -21,6 +21,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
+import java.util.Collection;
 
 import se.su.ling.stagger.Dictionary;
 import se.su.ling.stagger.Embedding;
@@ -166,8 +167,66 @@ public final class NLP {
 	
 	public static String[] categorize(ESDocument doc) throws Exception
 	{
-		System.out.println(tag(doc));
-		return new String[] {};
+		ArrayList<String> categoryList = new ArrayList<>();
+		String tagString = tag(doc);
+		
+		System.out.println(tagString);
+		
+		String[] tagArray = tagString.split("\\s+");
+		
+		
+		ArrayList<NLPPair> pairList = new ArrayList<NLPPair>();
+		
+		for(int i = 0; i < tagArray.length; i++)
+		{
+			pairList.add(new NLPPair(tagArray[i], tagger.getTaggedData().getPosTagSet().getTagID(tagArray[++i])));
+		}
+		
+		NLPPair highestPair = new NLPPair("", -1);
+		for(NLPPair p : pairList)
+		{
+			System.out.println(p.toString());
+			if(p.id > highestPair.id)
+				highestPair = p;
+		}
+		
+		categoryList.add(highestPair.word.toLowerCase());
+		
+		String[] array = new String[categoryList.size()];
+		categoryList.toArray(array);
+		
+		return array;
 	}
+	
+	
 
+}
+
+class NLPPair
+{
+	final String word;
+	final int id;
+	
+	public NLPPair(String word, int id) 
+	{
+		this.word = word;
+		this.id = id;
+	}
+	
+	public String getWord()
+	{
+		return word;
+	}
+	
+	public int getId()
+	{
+		return id;
+	}
+	
+	@Override
+	public String toString()
+	{
+		return "Word : " + word + " Id: " + id;
+	}
+	
 }
