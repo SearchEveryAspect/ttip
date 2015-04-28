@@ -12,6 +12,8 @@ public class GovDocumentLite {
   private final String id;
   // Link to a text version of the motion.
   private final String dokument_url_text;
+  // Motion text
+  private final String text;
   // Document title.
   private final String titel;
   // Document subtitle, contains authors and their party in the format "av Jane Doe (c)".
@@ -21,12 +23,13 @@ public class GovDocumentLite {
   private final String doktyp;
   private final GovAppendix filbilaga;
 
-  public GovDocumentLite(int traff, String datum, String id, String dokument_url_text,
+  public GovDocumentLite(int traff, String datum, String id, String dokument_url_text, String text,
       String titel, String undertitel, String organ, String doktyp, GovAppendix filbilaga) {
     this.traff = traff;
     this.datum = datum;
     this.id = id;
     this.dokument_url_text = dokument_url_text;
+    this.text = text;
     this.titel = titel;
     this.undertitel = undertitel;
     this.organ = organ;
@@ -39,6 +42,7 @@ public class GovDocumentLite {
     this.datum = doc.datum;
     this.id = doc.id;
     this.dokument_url_text = doc.dokument_url_text;
+    this.text = doc.text;
     this.titel = doc.titel;
     this.undertitel = doc.undertitel;
     this.organ = doc.organ;
@@ -60,6 +64,11 @@ public class GovDocumentLite {
 
   public String getDokument_url_text() {
     return dokument_url_text;
+  }
+  
+  public String getText()
+  {
+	  return text;
   }
 
   public String getTitel() {
