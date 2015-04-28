@@ -64,11 +64,9 @@ public class MotionsControllerTest {
   @Test
   public void testValidQuery() {
     // ESRequest for parameter matching.
-    List<String> cats = new ArrayList<>();
-    cats.add(category);
     ESRequest esreq =
         new ESRequest(new Interval(DateTime.parse(from, DateTimeFormat.forPattern("yyyy-mm-dd")),
-            DateTime.parse(to, DateTimeFormat.forPattern("yyyy-mm-dd"))), cats, period);
+            DateTime.parse(to, DateTimeFormat.forPattern("yyyy-mm-dd"))), category, period);
 
     when(readerMock.read(esreq)).thenReturn(sarMock);
 
