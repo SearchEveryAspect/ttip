@@ -2,15 +2,18 @@ package com.searcheveryaspect.backend.database.update;
 
 import com.google.gson.Gson;
 
+import org.joda.time.DateTime;
+import org.joda.time.Interval;
+import org.joda.time.format.DateTimeFormat;
+
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Calendar;
-
 
 
 public class GovClient {
 
   public static final int TRAFFAR_LIMIT = 5000;
+  private static final String START_DATE = "1970-01-01";
 
   public static ArrayList<GovDocumentList> fetchDocs(GovFetchRequest request) throws Exception {
     GovDocumentList fetched;
@@ -34,26 +37,23 @@ public class GovClient {
 
     result.add(fetched);
 
+    // Oppna data API occasionally fails for searches that yields to many hits. If the
+    // limit is reached the request is split into two new ones.
     if (fetched.warning != null && fetched.traffar > TRAFFAR_LIMIT) {
       System.out.println(fetched.warning);
 
-      // Create two new requests with the same period divided into two
-      GovDate mean = request.getPeriod().returnMean();
-      System.out.println("From: " + request.getPeriod().getFrom());
-      System.out.println("To: " + request.getPeriod().getTo());
-      System.out.println("Mean : " + mean);
-      Period period1 = new Period(request.getPeriod().from, mean);
-      GovFetchRequest req1 =
-          new GovFetchRequest(request.getSearchString(), request.getRm(), period1, request.getTs(),
-              request.getBet(), request.getTempbet(), request.getNr(), request.getOrgan(),
-              request.getCommissionerId(), request.getParties());
+      // Create an interval with the same start as the original request but with an end
+      // that's halfway through the interval.
+      Interval i1 =
+          request.getInterval().withDurationBeforeEnd(
+              request.getInterval().toDuration().dividedBy(2));
+      // Create an interval with the same end as the original request but with a start
+      // that's halfway through the interval.
+      Interval i2 = request.getInterval().withStart(i1.getEnd());
 
-      Period period2 =
-          new Period(new GovDate(mean.year, mean.month, mean.day + 1), request.getPeriod().to);
-      GovFetchRequest req2 =
-          new GovFetchRequest(request.getSearchString(), request.getRm(), period2, request.getTs(),
-              request.getBet(), request.getTempbet(), request.getNr(), request.getOrgan(),
-              request.getCommissionerId(), request.getParties());
+
+      GovFetchRequest req1 = request.toBuilder().interval(i1).build();
+      GovFetchRequest req2 = request.toBuilder().interval(i2).build();
 
       result.addAll(fetchDocs(req1));
       result.addAll(fetchDocs(req2));
@@ -73,10 +73,13 @@ public class GovClient {
 
   }
 
+  /**
+   * Fetches all docs since the start date up till this now.
+   * @return
+   * @throws Exception
+   */
   public static ArrayList<GovDocumentList> fetchAllDocs() throws Exception {
-    Calendar d = Calendar.getInstance();
-    return fetchDocs(new GovFetchRequest("", "", new Period(new GovDate(1900, 1, 1), new GovDate(
-        d.get(Calendar.YEAR), d.get(Calendar.MONTH), d.get(Calendar.DAY_OF_MONTH))), "", "", "",
-        "", "", new ArrayList<String>()));
+    Interval interval = new Interval(DateTime.parse(START_DATE, DateTimeFormat.forPattern("yyyy-mm-dd")), DateTime.now());
+    return fetchDocs(GovFetchRequest.newGovFetchRequest().interval(interval).build());
   }
 }

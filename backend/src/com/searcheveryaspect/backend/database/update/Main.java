@@ -5,6 +5,9 @@ import com.beust.jcommander.JCommander;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.node.Node;
 import org.elasticsearch.node.NodeBuilder;
+import org.joda.time.DateTime;
+import org.joda.time.Interval;
+import org.joda.time.format.DateTimeFormat;
 
 import java.util.List;
 
@@ -17,20 +20,18 @@ public class Main {
   public static void main(String[] args) {
     CommandLineArgs cla = new CommandLineArgs();
     new JCommander(cla, args);
-    String from = cla.from;
-    String to = cla.to;
 
+    // Published interval for motions to be updated.
+    DateTime start = DateTime.parse(cla.from, DateTimeFormat.forPattern("yyyy-mm-dd"));
+    DateTime end = DateTime.parse(cla.to, DateTimeFormat.forPattern("yyyy-mm-dd"));
+    Interval interval = new Interval(start, end);
+
+    // Create a new Elasticsearch node and client and hand to the db connection.
     Node node = NodeBuilder.nodeBuilder().client(true).node().start();
     Client client = node.client();
     ElasticSearchPut db = new ElasticSearchPut(client);
 
-    // TODO: Use jodatime and set complete date in flag.
-    GovFetchRequest request =
-        GovFetchRequest
-            .newGovFetchRequest()
-            .period(
-                new Period(new GovDate(Integer.parseInt(from), 1, 1), new GovDate(Integer
-                    .parseInt(to), 5, 1))).build();
+    GovFetchRequest request = GovFetchRequest.newGovFetchRequest().interval(interval).build();
     List<GovDocumentList> docs = null;
 
     try {
@@ -46,7 +47,6 @@ public class Main {
       GovDocument[] govDocuments = govDocumentList.dokument;
       for (GovDocument govDocument : govDocuments) {
         ESDocument doc = ESDocumentBuilder.createESDocument(new GovDocumentLite(govDocument));
-        // System.out.println(doc);
         db.putDocument(doc);
       }
     }
