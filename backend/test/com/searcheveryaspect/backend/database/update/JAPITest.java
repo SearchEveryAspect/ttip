@@ -146,7 +146,7 @@ public class JAPITest {
 
 		
 		try {
-			t = APITest.QueryAPI("", 2002, 2005, new ArrayList<String>());
+			t = APITest.QueryAPI("", 2002, 2004, new ArrayList<String>());
 		} catch (Exception e) {	}
 		assertTrue(t != null);
 	}
