@@ -3,28 +3,39 @@
  */
 package com.searcheveryaspect.backend.database.update;
 
-import com.searcheveryaspect.backend.database.update.GovClient;
-import com.searcheveryaspect.backend.database.update.GovDate;
-import com.searcheveryaspect.backend.database.update.GovDocumentList;
-import com.searcheveryaspect.backend.database.update.GovFetchRequest;
-import com.searcheveryaspect.backend.database.update.Period;
+import org.joda.time.DateTime;
+import org.joda.time.Interval;
+import org.joda.time.format.DateTimeFormat;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author dajmmannen
- *
+ * 
  */
-public final class APITest 
-{
+public final class APITest {
 
-	public static ArrayList<GovDocumentList> QueryAPI(String search, int startYear, int endYear, ArrayList<String> parties) throws Exception
-	{
-		GovClient gv = new GovClient();
-		
-		GovFetchRequest request = new GovFetchRequest(search, "", new Period(new GovDate(startYear, 1, 1), new GovDate(endYear, 12, 31)), "", "", "", "", "", parties);
-		return gv.fetchDocs(request);
-	}
-	
-	
+  /**
+   * 
+   * @param search, string to be used for search.
+   * @param startDate, start date of the search in format "yyyy-mm-dd".
+   * @param endDate, end date of the search in format "yyyy-mm-dd".
+   * @param parties, parties to be included in the search.
+   * @return
+   * @throws Exception
+   */
+  public static ArrayList<GovDocumentList> QueryAPI(String search, String startDate,
+      String endDate, List<String> parties) throws Exception {
+    DateTime start = DateTime.parse(startDate, DateTimeFormat.forPattern("yyyy-mm-dd"));
+    DateTime end = DateTime.parse(endDate, DateTimeFormat.forPattern("yyyy-mm-dd"));
+    Interval interval = new Interval(start, end);
+
+    GovFetchRequest request =
+        GovFetchRequest.newGovFetchRequest().searchString(search).interval(interval)
+            .parties(parties).build();
+    return GovClient.fetchDocs(request);
+  }
+
+
 }

@@ -3,8 +3,12 @@ package com.searcheveryaspect.backend.database.update;
 
 import com.google.common.collect.ImmutableList;
 
+import org.joda.time.Interval;
+import org.joda.time.format.DateTimeFormat;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Represents a fetch request to Oppna Data API.
@@ -17,8 +21,8 @@ public class GovFetchRequest {
   private final String searchString;
   // Riksmöte
   private final String rm;
-
-  private final Period period;
+  // Interval of time for the request.
+  private final Interval interval;
   // Systemdatum
   private final String ts;
   // Beteckning
@@ -34,11 +38,14 @@ public class GovFetchRequest {
   // List of different parties
   private final ImmutableList<String> parties;
 
-  public GovFetchRequest(String searchString, String rm, Period period, String ts, String bet,
+  /**
+   * Creates a GovFetchRequest with the specified parameters.
+   */
+  public GovFetchRequest(String searchString, String rm, Interval interval, String ts, String bet,
       String tempbet, String nr, String organ, int commissionerId, List<String> parties) {
     this.searchString = searchString.replace(" ", "%20");
     this.rm = rm;
-    this.period = period;
+    this.interval = interval;
     this.ts = ts;
     this.bet = bet;
     this.tempbet = tempbet;
@@ -48,24 +55,19 @@ public class GovFetchRequest {
     this.parties = ImmutableList.copyOf(parties);
   }
 
-  public GovFetchRequest(String searchString, String rm, Period period, String ts, String bet,
+  /**
+   * Creates a GovFetchRequest with the specified parameters. CommissionerId is set to -1
+   * and not used.
+   */
+  public GovFetchRequest(String searchString, String rm, Interval interval, String ts, String bet,
       String tempbet, String nr, String organ, List<String> parties) {
-    this.searchString = searchString.replace(" ", "%20");
-    this.rm = rm;
-    this.period = period;
-    this.ts = ts;
-    this.bet = bet;
-    this.tempbet = tempbet;
-    this.nr = nr;
-    this.organ = organ;
-    this.commissionerId = -1;
-    this.parties = ImmutableList.copyOf(parties);
+    this(searchString, rm, interval, ts, bet, tempbet, nr, organ, -1, parties);
   }
 
   private GovFetchRequest(Builder b) {
     this.searchString = b.searchString;
     this.rm = b.rm;
-    this.period = b.period;
+    this.interval = b.interval;
     this.ts = b.ts;
     this.bet = b.bet;
     this.tempbet = b.tempbet;
@@ -87,8 +89,8 @@ public class GovFetchRequest {
     return rm;
   }
 
-  public Period getPeriod() {
-    return period;
+  public Interval getInterval() {
+    return interval;
   }
 
   public String getTs() {
@@ -119,6 +121,7 @@ public class GovFetchRequest {
     return parties;
   }
 
+  @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append(RIKSDAG_URL);
@@ -127,9 +130,9 @@ public class GovFetchRequest {
     sb.append("&doktyp=mot&rm=");
     sb.append(rm);
     sb.append("&from=");
-    sb.append(period.getFrom());
+    sb.append(interval.getStart().toString(DateTimeFormat.forPattern("yyyy-mm-dd")));
     sb.append("&tom=");
-    sb.append(period.getTo());
+    sb.append(interval.getEnd().toString(DateTimeFormat.forPattern("yyyy-mm-dd")));
     sb.append("&ts=");
     sb.append(ts);
     sb.append("&bet=");
@@ -150,25 +153,36 @@ public class GovFetchRequest {
     return sb.toString();
   }
 
-  public static class Builder {
-    private String searchString = "";
-    // Riksmöte
-    private String rm = "";
+  @Override
+  public boolean equals(Object o) {
+    if (o instanceof GovFetchRequest) {
+      GovFetchRequest that = (GovFetchRequest) o;
+      return searchString.equals(that.searchString) && rm.equals(that.rm)
+          && interval.equals(that.interval) && ts.equals(that.ts) && bet.equals(that.bet)
+          && tempbet.equals(that.tempbet) && nr.equals(that.nr) && organ.equals(that.organ)
+          && commissionerId == that.commissionerId && parties.equals(that.parties);
+    }
+    return false;
+  }
 
-    private Period period;
-    // Systemdatum
+  @Override
+  public int hashCode() {
+    return Objects.hash(searchString, rm, interval, ts, bet, tempbet, nr, organ, commissionerId,
+        parties);
+  }
+
+  public static class Builder {
+    // Because of using string builder to build the request string field not used are
+    // Initialised to empty string or set to -1.
+    private String searchString = "";
+    private String rm = "";
+    private Interval interval;
     private String ts = "";
-    // Beteckning
     private String bet = "";
-    // Tempbet
     private String tempbet = "";
-    // Nummer
     private String nr = "";
-    // Utskott/Organ
     private String organ = "";
-    // Ledamot
-    private int commissionerId = -1; // -1 if not used
-    // List of different parties
+    private int commissionerId = -1;
     private List<String> parties = new ArrayList<String>();
 
     public Builder searchString(String s) {
@@ -181,8 +195,8 @@ public class GovFetchRequest {
       return this;
     }
 
-    public Builder period(Period p) {
-      period = p;
+    public Builder interval(Interval i) {
+      interval = i;
       return this;
     }
 
@@ -211,7 +225,7 @@ public class GovFetchRequest {
       return this;
     }
 
-    public Builder tempBeteckning(int i) {
+    public Builder commissionerId(int i) {
       commissionerId = i;
       return this;
     }
@@ -228,5 +242,25 @@ public class GovFetchRequest {
 
   public static Builder newGovFetchRequest() {
     return new Builder();
+  }
+
+  /**
+   * Gets this GovFetchRequest as a mutable builder with all the fields preset.
+   * 
+   * @return a builder with the fields preset.
+   */
+  public Builder toBuilder() {
+    Builder builder = new Builder();
+    builder.bet = bet;
+    builder.commissionerId = commissionerId;
+    builder.interval = interval;
+    builder.nr = nr;
+    builder.organ = organ;
+    builder.parties = parties;
+    builder.rm = rm;
+    builder.searchString = searchString;
+    builder.tempbet = tempbet;
+    builder.ts = ts;
+    return builder;
   }
 }

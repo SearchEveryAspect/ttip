@@ -35,7 +35,7 @@ public class JAPITest {
 	{
 		ArrayList<GovDocumentList> t = null;
 		try {
-			t = APITest.QueryAPI("thisshouldreturnnothing", 1900, 2015, new ArrayList<String>());
+			t = APITest.QueryAPI("thisshouldreturnnothing", "1900-01-01", "2015-12-31", new ArrayList<String>());
 		} catch (Exception e) { }
 		
 		assertTrue(t != null);
@@ -46,7 +46,7 @@ public class JAPITest {
 		
 
 		try{
-			t = APITest.QueryAPI("", 1000, 1800, new ArrayList<String>());
+			t = APITest.QueryAPI("", "1000-01-01", "1800-12-31", new ArrayList<String>());
 		} catch (Exception e) {
 		}
 		assertTrue(t != null);
@@ -56,7 +56,7 @@ public class JAPITest {
 		assertTrue(dataS.equals("Sida: 1 Sidor: 0 Traff Från: 1 Träffar: 0]"));
 		
 		try{
-			t = APITest.QueryAPI("", 2100, 2200, new ArrayList<String>());
+			t = APITest.QueryAPI("", "2100-01-01", "2200-12-31", new ArrayList<String>());
 		} catch (Exception e) {	}
 		assertTrue(t != null);
 		s = t.toString();
@@ -75,13 +75,13 @@ public class JAPITest {
 	{
 		ArrayList<GovDocumentList> t = null;
 		try {
-			t = APITest.QueryAPI("Svanskupering på hundar", 1990, 1990, new ArrayList<String>());
+			t = APITest.QueryAPI("Svanskupering på hundar", "1990-01-01", "1990-12-31", new ArrayList<String>());
 		} catch (Exception e) {	}
 		assertTrue(t != null);
 		assertTrue(t.toString().equals( "GovDocumentList [Datum: 2015-04-10 12:37:27 Sida: 1 Sidor: 0 Traff Från: 1 Träffar: 0]"));
 		
 		try {
-			t = APITest.QueryAPI("kaffe te matte", 1975, 1975, new ArrayList<String>());
+			t = APITest.QueryAPI("kaffe te matte", "1975-01-01", "1975-12-31", new ArrayList<String>());
 		} catch (Exception e) {	}
 		assertTrue(t != null);
 		
@@ -97,8 +97,8 @@ public class JAPITest {
 		ArrayList<GovDocumentList> t1 = null;
 		ArrayList<GovDocumentList> t2 = null;
 		try {
-			t1 = APITest.QueryAPI("skatt", 2010, 2010, new ArrayList<String>());
-			t2 = APITest.QueryAPI("skatt", 2011, 2011, new ArrayList<String>());
+			t1 = APITest.QueryAPI("skatt", "2010-01-01", "2010-12-31", new ArrayList<String>());
+			t2 = APITest.QueryAPI("skatt", "2011-01-01", "2011-12-31", new ArrayList<String>());
 		} catch (Exception e) {	}
 		
 		for(int i = 0; i < t1.size(); i++)
@@ -117,8 +117,8 @@ public class JAPITest {
 		ArrayList<GovDocumentList> t1 = null;
 		ArrayList<GovDocumentList> t2 = null;
 		try {
-			t1 = APITest.QueryAPI("", 2000, 2000, new ArrayList<String>());
-			t2 = APITest.QueryAPI("", 2000, 2000, new ArrayList<String>(Arrays.asList(new String[]{"S"})));
+			t1 = APITest.QueryAPI("", "2010-01-01", "2010-12-31", new ArrayList<String>());
+			t2 = APITest.QueryAPI("", "2000-01-01", "2000-12-31", new ArrayList<String>(Arrays.asList(new String[]{"S"})));
 		} catch (Exception e) {	}
 		
 		assertTrue( t1 != null);
@@ -126,8 +126,8 @@ public class JAPITest {
 		assertTrue(t1.size() != t2.size());
 		
 		try {
-			t1 = APITest.QueryAPI("", 2000, 2000, new ArrayList<String>(Arrays.asList(new String[]{"S"})));
-			t2 = APITest.QueryAPI("", 2000, 2000, new ArrayList<String>(Arrays.asList(new String[]{"KD"})));
+			t1 = APITest.QueryAPI("", "2000-01-01", "2000-12-31", new ArrayList<String>(Arrays.asList(new String[]{"S"})));
+			t2 = APITest.QueryAPI("", "2000-01-01", "2000-12-31", new ArrayList<String>(Arrays.asList(new String[]{"KD"})));
 		} catch (Exception e) {	}
 		assertTrue(t1 != null);
 		assertTrue(t2 != null);
@@ -140,13 +140,13 @@ public class JAPITest {
 	{
 		ArrayList<GovDocumentList> t = null;
 		try {
-			t = APITest.QueryAPI("", 2000, 2002, new ArrayList<String>());
+			t = APITest.QueryAPI("", "2000-01-01", "2002-12-31", new ArrayList<String>());
 		} catch (Exception e) {	}
 		assertTrue(t != null);
 
 		
 		try {
-			t = APITest.QueryAPI("", 2002, 2004, new ArrayList<String>());
+			t = APITest.QueryAPI("", "2002-01-01", "2004-12-31", new ArrayList<String>());
 		} catch (Exception e) {	}
 		assertTrue(t != null);
 	}
