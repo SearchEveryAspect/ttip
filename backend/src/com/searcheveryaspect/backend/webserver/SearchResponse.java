@@ -96,4 +96,12 @@ public class SearchResponse {
   public static Builder newSearchResponse() {
     return new Builder();
   }
+
+  public Builder toBuilder() {
+    Builder builder = new Builder();
+    builder.category = category;
+    builder.datasets = datasets;
+    builder.labels = labels;
+    return builder;
+  }
 }

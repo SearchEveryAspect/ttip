@@ -7,7 +7,7 @@ import static org.mockito.Mockito.when;
 
 import com.searcheveryaspect.backend.database.read.DatabaseReader;
 import com.searcheveryaspect.backend.database.read.TrendingRequest;
-import com.searcheveryaspect.backend.webserver.SearchResponse;
+import com.searcheveryaspect.backend.webserver.TrendingSearchResponse;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -25,7 +25,7 @@ import org.restexpress.Response;
 public class TrendingControllerTest {
 
   @Mock
-  DatabaseReader<TrendingRequest, SearchResponse> readerMock;
+  DatabaseReader<TrendingRequest, TrendingSearchResponse> readerMock;
   @Mock
   Response resMock;
   @Mock

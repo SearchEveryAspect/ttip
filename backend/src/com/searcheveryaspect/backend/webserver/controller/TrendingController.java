@@ -5,8 +5,9 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.searcheveryaspect.backend.database.read.DatabaseReader;
 import com.searcheveryaspect.backend.database.read.TrendingRequest;
 import com.searcheveryaspect.backend.shared.Category;
-import com.searcheveryaspect.backend.webserver.SearchResponse;
+import com.searcheveryaspect.backend.webserver.TrendingSearchResponse;
 
+import org.joda.time.DateTime;
 import org.restexpress.Request;
 import org.restexpress.Response;
 
@@ -15,9 +16,9 @@ import org.restexpress.Response;
  * It only offers reads.
  */
 public class TrendingController extends ReadOnlyController {
-  private final DatabaseReader<TrendingRequest, SearchResponse> reader;
+  private final DatabaseReader<TrendingRequest, TrendingSearchResponse> reader;
 
-  public TrendingController(DatabaseReader<TrendingRequest, SearchResponse> reader) {
+  public TrendingController(DatabaseReader<TrendingRequest, TrendingSearchResponse> reader) {
     this.reader = checkNotNull(reader);
   }
 
@@ -28,10 +29,11 @@ public class TrendingController extends ReadOnlyController {
    * @param response
    * @return
    */
-  public SearchResponse read(Request request, Response response) {
+  public TrendingSearchResponse read(Request request, Response response) {
     try {
       return reader.read(parseRequest(request));
     } catch (Exception e) {
+      e.printStackTrace();
       response.setException(e);
       return null;
     }
@@ -47,6 +49,6 @@ public class TrendingController extends ReadOnlyController {
       throw new IllegalArgumentException("Can only create a request with between 1 and "
           + Category.values().length + " categories");
     }
-    return new TrendingRequest(top);
+    return new TrendingRequest(DateTime.now(), top);
   }
 }

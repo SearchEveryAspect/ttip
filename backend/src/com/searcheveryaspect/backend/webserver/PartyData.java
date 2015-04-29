@@ -8,7 +8,7 @@ import java.util.Objects;
 /**
  * 
  */
-public class PartyData {
+public class PartyData implements Comparable<PartyData> {
   private final String party;
   private final ImmutableList<Entry> data;
   private final Boolean isIntersting;
@@ -21,6 +21,12 @@ public class PartyData {
     this.party = party;
     this.data = data;
     this.isIntersting = isInteresting;
+  }
+
+  private PartyData(Builder builder) {
+    party = builder.party;
+    data = builder.data;
+    isIntersting = builder.isIntersting;
   }
 
   public String getParty() {
@@ -65,5 +71,55 @@ public class PartyData {
   @Override
   public String toString() {
     return MoreObjects.toStringHelper(this).add("party", party).add("data", data).toString();
+  }
+
+  /**
+   * A PartyData object is only compared on the number of hits withing it.
+   */
+  @Override
+  public int compareTo(PartyData o) {
+    if (getSumHits() > o.getSumHits()) {
+      return -1;
+    } else if (getSumHits() > o.getSumHits()) {
+      return 1;
+    }
+    return 0;
+  }
+
+  public static class Builder {
+    private String party;
+    private ImmutableList<Entry> data;
+    private Boolean isIntersting;
+
+    public Builder party(String party) {
+      this.party = party;
+      return this;
+    }
+
+    public Builder data(ImmutableList<Entry> data) {
+      this.data = data;
+      return this;
+    }
+
+    public Builder isInteresting(Boolean isInteresting) {
+      this.isIntersting = isInteresting;
+      return this;
+    }
+
+    public PartyData build() {
+      return new PartyData(this);
+    }
+  }
+
+  public static Builder newPartyData() {
+    return new Builder();
+  }
+
+  public Builder toBuilder() {
+    Builder builder = new Builder();
+    builder.party = party;
+    builder.data = data;
+    builder.isIntersting = isIntersting;
+    return builder;
   }
 }
