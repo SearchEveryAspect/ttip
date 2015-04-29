@@ -35,6 +35,7 @@ public final class TrendingQuerier implements
   private static final int INTERESTING_PARTIES = 3;
   // Number of months that should be included in the response.
   private static final int MONTHS = 3;
+  private static int DAY = 1;
   private static int HOUR = 0;
   private static int MINUTE = 0;
 
@@ -59,34 +60,57 @@ public final class TrendingQuerier implements
     List<Interval> responseIntervals;
     ImmutableList<String> labels;
 
-    // end is the start of the current month.
-    DateTime end =
-        new DateTime(input.getTs().getYear(), input.getTs().getMonthOfYear(), input.getTs()
-            .getDayOfMonth(), HOUR, MINUTE);
-    lastMonth = new Interval(end.minusMonths(1), end);
+    // Set up the intervals.
+    responseIntervals = responseIntervals(input.getTs(), MONTHS);
+    lastMonth = responseIntervals.get(responseIntervals.size() - 1);
+    DateTime end = responseIntervals.get(responseIntervals.size() - 1).getEnd();
     lastYear = new Interval(end.minusYears(1), end);
 
-    // Create the response intervals.
-    responseIntervals = new ArrayList<>();
+    // Create response labels
+    List<String> temp = new ArrayList<>();
+    DateTimeFormatter formater = DateTimeFormat.forPattern("yyyy-MM-dd");
+    for (Interval interval : responseIntervals) {
+      System.out.println(interval);
+      temp.add(formater.print(interval.getStart()));
+      System.out.println(temp.get(temp.size() - 1));
+    }
+    labels = ImmutableList.copyOf(temp);
+
+    System.out.println();
+    // TODO: remove
+    System.out.println("Intervals " + responseIntervals);
+    System.out.println("Labels " + labels);
+
+    Set<Category> trendingCategories = getTopCategories(lastYear, lastMonth, input.getTop());
+    return getTrendingSearchResponse(trendingCategories, responseIntervals, labels);
+  }
+
+  /**
+   * Creates a set of intervals to use for the response and search. Each interval is one
+   * whole month. The number of months is decided by quantity. The last interval will be
+   * the month before the mont specified in parameter today.
+   * 
+   * @param today the start of today's month is the end of the last interval
+   * @param quantity number of months in the list
+   * @return
+   */
+  private List<Interval> responseIntervals(DateTime today, int quantity) {
+    // end is the start of the current month.
+    DateTime end = new DateTime(today.getYear(), today.getMonthOfYear(), DAY, HOUR, MINUTE);
+    List<Interval> responseIntervals = new ArrayList<>();
+    // Create the lastMonth
+    Interval lastMonth = new Interval(end.minusMonths(1), end);
     // Add the last month of the interval.
     responseIntervals.add(lastMonth);
     // Adds new intervals for the previous months, last month is already added.
-    for (int i = 1; i < MONTHS; i++) {
+    for (int i = 1; i < quantity; i++) {
       responseIntervals.add(new Interval(responseIntervals.get(i - 1).getStart().minusMonths(1),
           responseIntervals.get(i - 1).getStart()));
       // i == ri.Size()
     }
     Collections.reverse(responseIntervals);
 
-    // Create response labels
-    List<String> temp = new ArrayList<>();
-    DateTimeFormatter formater = DateTimeFormat.forPattern("yyyy-mm-dd");
-    for (Interval interval : responseIntervals) {
-      temp.add(formater.print(interval.getStart()));
-    }
-    labels = ImmutableList.copyOf(temp);
-    Set<Category> trendingCategories = getTopCategories(lastYear, lastMonth, input.getTop());
-    return getTrendingSearchResponse(trendingCategories, responseIntervals, labels);
+    return responseIntervals;
   }
 
   private TrendingSearchResponse getTrendingSearchResponse(Set<Category> categories,
