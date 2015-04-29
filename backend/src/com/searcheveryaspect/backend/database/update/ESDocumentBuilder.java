@@ -1,7 +1,11 @@
 package com.searcheveryaspect.backend.database.update;
 
 
+import com.searcheveryaspect.backend.shared.Category;
+
 import org.joda.time.DateTime;
+
+import java.util.Random;
 
 /**
  * 
@@ -26,13 +30,22 @@ public class ESDocumentBuilder {
     String title = doc.getTitel();
 
     // TODO implement NLP to get category
-    String[] category = new String[] {"Unknown"}; // uttnyttja sedan urltext
+    Random rand = new Random();
+    String[] category =
+        new String[] {Category.values()[rand.nextInt(Category.values().length)].toString()}; // uttnyttja
+                                                                                             // sedan
+                                                                                             // urltext
 
     // party
+    String party;
     String underTitle = doc.getUndertitel();
-    String[] splittedUnderTitle = underTitle.split(" ");
-    String partyInBrackets = splittedUnderTitle[splittedUnderTitle.length - 1];
-    String party = partyInBrackets.substring(1, (partyInBrackets.length() - 1));
+    if (underTitle != null) {
+      String[] splittedUnderTitle = underTitle.split(" ");
+      String partyInBrackets = splittedUnderTitle[splittedUnderTitle.length - 1];
+      party = partyInBrackets.substring(1, (partyInBrackets.length() - 1));
+    } else {
+      party = "UNKNOWN";
+    }
 
     ESDocument eSDoc =
         new ESDocument(docId, publishedTimestamp, fetchedTimestamp, title, category, party);

@@ -25,6 +25,8 @@ import java.util.List;
  * 
  */
 class QuerierUtil {
+  private static int SEC_TO_MILLIS = 1000;
+
   /**
    * Returns a SearchResponse for the specified category, interval and labels containing
    * all parties.
@@ -80,8 +82,9 @@ class QuerierUtil {
             .setQuery(QueryBuilders.matchQuery("party", party.toString()))
             .setQuery(QueryBuilders.matchQuery("category", category.toString()))
             .setPostFilter(
-                FilterBuilders.rangeFilter("publishedTimestamp").from(interval.getStartMillis())
-                    .to(interval.getEndMillis())).execute().actionGet();
+                FilterBuilders.rangeFilter("publishedTimestamp")
+                    .from(interval.getStartMillis() / SEC_TO_MILLIS)
+                    .to(interval.getEndMillis() / SEC_TO_MILLIS)).execute().actionGet();
 
     // Get the hits as a response
     Iterator<SearchHit> iterator = response.getHits().iterator();
