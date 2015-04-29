@@ -83,8 +83,8 @@ class QuerierUtil {
             .setQuery(QueryBuilders.matchQuery("category", category.toString()))
             .setPostFilter(
                 FilterBuilders.rangeFilter("publishedTimestamp")
-                .from(interval.getStartMillis() / MILLIS_TO_SEC)
-                .to(interval.getEndMillis() / MILLIS_TO_SEC)).execute().actionGet();).execute().actionGet();
+                    .from(interval.getStartMillis() / MILLIS_TO_SEC)
+                    .to(interval.getEndMillis() / MILLIS_TO_SEC)).execute().actionGet();
 
     // Get the hits as a response
     Iterator<SearchHit> iterator = response.getHits().iterator();
