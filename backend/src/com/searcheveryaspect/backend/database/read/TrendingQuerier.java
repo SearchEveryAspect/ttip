@@ -70,16 +70,9 @@ public final class TrendingQuerier implements
     List<String> temp = new ArrayList<>();
     DateTimeFormatter formater = DateTimeFormat.forPattern("yyyy-MM-dd");
     for (Interval interval : responseIntervals) {
-      System.out.println(interval);
       temp.add(formater.print(interval.getStart()));
-      System.out.println(temp.get(temp.size() - 1));
     }
     labels = ImmutableList.copyOf(temp);
-
-    System.out.println();
-    // TODO: remove
-    System.out.println("Intervals " + responseIntervals);
-    System.out.println("Labels " + labels);
 
     Set<Category> trendingCategories = getTopCategories(lastYear, lastMonth, input.getTop());
     return getTrendingSearchResponse(trendingCategories, responseIntervals, labels);
@@ -88,7 +81,7 @@ public final class TrendingQuerier implements
   /**
    * Creates a set of intervals to use for the response and search. Each interval is one
    * whole month. The number of months is decided by quantity. The last interval will be
-   * the month before the mont specified in parameter today.
+   * the month before the month specified in parameter today.
    * 
    * @param today the start of today's month is the end of the last interval
    * @param quantity number of months in the list
