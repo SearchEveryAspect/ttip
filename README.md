@@ -1,4 +1,4 @@
 # ttip
 [![Build Status](https://travis-ci.org/SearchEveryAspect/ttip.svg?branch=master)](https://travis-ci.org/SearchEveryAspect/ttip)
 
-Trending Topics In Parliment
+Trending Topics in Parliament
