@@ -4,14 +4,18 @@
 
     <script type="text/javascript" src="plugins/jquery-1.11.2.min.js"></script>
     <script type="text/javascript" src="../jqplot/plugins/jqplot.highlighter.min.js"></script>
-      <script src="../scripts/main.js" type="text/javascript"></script>
-      <script src="../scripts/XMLRequest.js" type="text/javascript"></script>
+   <script class="include" type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+      <script src="../scripts/jquery-mousewheel.js" type="text/javascript"></script>
+      <script src="../scripts/antiscroll.js" type="text/javascript"></script>
+      <script src="../scripts/searchRequest.js" type="text/javascript"></script>
+      <script src="../scripts/parseJSON.js" type="text/javascript"></script>
 
       <script src="../scripts/navBar.js" type="text/javascript"></script>
     <script src="../scripts/graph.js" type="text/javascript"></script>
     <script src="../scripts/buttons.js" type="text/javascript"></script>
     <script src="../scripts/sticky.js" type="text/javascript"></script>
-    <script language="javascript">jQuery.noConflict()</script>
+      <script src="../scripts/main.js" type="text/javascript"></script>
+
     <link href='http://fonts.googleapis.com/css?family=Patua+One' rel='stylesheet' type='text/css'>
      <link href='http://fonts.googleapis.com/css?family=Playfair+Display:400,400italic|Oswald:300'rel='stylesheet' type='text/css'>
 
@@ -21,19 +25,17 @@
     <title>Trender i riksdagen</title>
 
     <link rel= "stylesheet" type="text/css" href="style.css">
+    <!--<link rel = "stylesheet" type ="text/css" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">-->
+    <link rel= "stylesheet" type="text/css" href="antiscroll.css">
     <link class="include" rel="stylesheet" type="text/css" href="../jqplot/jquery.jqplot.min.css" />  
-    <script class="include" type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
   </head>
-
   <body>
 
-
-    </script>
     <!--[if lt IE 7]>
     <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
   <![endif]-->
     <div id="upper-wrapper">
-      <h1>Trending Topics in Parliament</h1>
+      <h1>Trender i Sveriges Riksdag</h1>
     
     <nav>
       <ul>
@@ -41,7 +43,7 @@
           <ul id="sublist">
              <li><a id="0" href="#">Skatt</a></li>
              <li><a id="1" href="#">Miljö</a></li>
-             <li><a id="2" href="#">Invandring</a></li>
+             <li><a id="2" href="#">Försvar</a></li>
           </ul> 
         </li>
         <li><a class= "Search" href="search.html"><p>Sök</p></a></li> 
@@ -52,7 +54,8 @@
 <div id="wrapper">
   <div class="charttext0">
         <h2>Information</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+
+
       </div>
       <div class="chartcont0">
         <h2></h2>
@@ -61,7 +64,8 @@
   </div>
       <div class="charttext1">
         <h2>Information</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+
+
       </div>
     <div class="chartcont1">
     <h2></h2>
@@ -70,7 +74,6 @@
 </div>
       <div class="charttext2">
         <h2>Information</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
       </div>
     <div class="chartcont2">
     <h2></h2>
@@ -98,8 +101,6 @@
 
   <script type="text/javascript" src="../jqplot/jquery.jqplot.min.js"></script>
 
-
-    <script type="text/javascript" src="plugins/ jqplot.CanvasAxisLabelRenderer.js"></script>
     <script type="text/javascript" scr=".../scripts/main.js"></script>
     <script type="text/javascript" src="../jqplot/plugins/jqplot.highlighter.min.js"></script>
     <script type="text/javascript" src="../jqplot/plugins/jqplot.cursor.min.js"></script>
