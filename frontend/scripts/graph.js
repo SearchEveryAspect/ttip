@@ -3,14 +3,14 @@
 var charts = [];
 
 var COLORS = [];
-COLORS["vp"] = "rgba(196,20,30,1)";
-COLORS["s"] = "rgba(239,27,39,1)"
-COLORS["mp"] = "rgba(139, 200, 83, 1)"
-COLORS["c"] = "rgba(66, 184, 123, 1)"
-COLORS["fp"] = "rgba(93,201,247,1)"
-COLORS["kd"] = "rgba(54,117,171,1)"
-COLORS["m"] = "rgba(0, 191, 255,1)";
-COLORS["sd"] = "rgba(236,200,0,1)"
+COLORS["V"] = "rgba(196,20,30,1)";
+COLORS["S"] = "rgba(239,27,39,0.6)"
+COLORS["MP"] = "rgba(139, 180, 40, 1)"
+COLORS["C"] = "rgba(66, 184, 123, 1)"
+COLORS["FP"] = "rgba(100,201,247,1)"
+COLORS["KD"] = "rgba(54,117,200,1)"
+COLORS["M"] = "rgba(0, 191, 255,1)";
+COLORS["SD"] = "rgba(236,200,0,1)"
 
 function Graph(contname, chartname, category) {
   this.graph;
@@ -19,33 +19,23 @@ function Graph(contname, chartname, category) {
   this.max = 0;
   this.name = chartname;
   this.plotlines = [];
-  this.initGraph();
+  this.jsob = null;
+  getURL();
+  //default call
+  makeCorsReq(this, getURL());
+
+  //search calls makecorsreq with url which calls initObj which in turn calls
+  //getparties which checks with parties were clicked in the last plotlines and
+  //returns these parties as an array. Initobj then addplotlines for all these
+  //parties before finally calling updateGraph.
 }
 
 Graph.prototype = {
-  getObj: function() {
-    // index.html should call parseJSON to get jsobj.
-    // search.html should have a mutator method to get jsobj from eventhandler in search.js. 
-    // For now use this object.
-    var jsob = {
-      category: "Skatt",
 
-      labels: ["2014-11-01", "2014-12-01", "2015-01-01","2015-02-01","2015-03-01"],
-      dataset: [
-        {party: "vp", data: [14,17,1,11,8]},
-        {party: "s", data: [3,4,15,9,10]},
-        {party: "mp", data: [16,11,7,16,19]},
-        {party: "c", data: [20,3,16,5,15]},
-        {party: "fp", data: [13,9,4,6,4]},
-        {party: "kd", data: [13,1,12,16,10]},
-        {party: "m", data: [5,1,9,12,4]},
-        {party: "sd", data: [4,8,12,7,4]},
-      ]
-    };
-    return jsob;
+  initObj: function(resp) {
+    this.jsob = JSON.parse(JSON.stringify(resp));
+    this.initGraph();
   },
- 
-
   getSeriesColors: function() {
     var arr = [];
     for (var i = 0; i < this.plotlines.length; i++) {
@@ -54,28 +44,43 @@ Graph.prototype = {
     }
     return arr;
   },
+  //only for search.html
+  updateSubject: function(to, from, category) {
+    console.log("Category is: " + category);
+    makeCorsReq(this, getURLSearch(to, from, category));
+  },
 
   getMax: function() {
     var max = 0;
-    var obj = this.getObj();
-    for (var i = 0; i < obj.dataset.length;i++) {
-      var next = Math.max.apply(null, obj.dataset[i].data);
-      if (next > max) {
-        max = next;
+    for (var i = 0; i < this.jsob.datasets.length; i++) {
+      for (var j = 0; j < this.jsob.datasets[i].data.length; j++) {
+        var next = this.jsob.datasets[i].data[j].data;
+        if (next > max) {
+          max = next;
+        }
       }
     } 
     return max;
   },
 
-  addPlotLine: function(party) {
-    for (var i = 0; i < this.getObj().dataset.length; i++) {
-      var p = this.getObj().dataset[i].party;
-      var d = this.getObj().dataset[i].data;
-      if (p == party) {
-        this.plotlines.push({party: p, data: d});
-        break;
+  getPartyObj: function(party) {
+    for (var i=0; i < this.jsob.datasets.length; i++) {
+      if (party === this.jsob.datasets[i].party) {
+        return this.jsob.datasets[i];
       }
     }
+    console.error("Party: " + party + " does not exist in database.");
+    return null;
+  },
+
+  addPlotLine: function(party) {
+    var dat = [];
+    var obj = this.getPartyObj(party);
+    for (var i = 0; i < obj.data.length; i++) {
+      dat[i] = obj.data[i].data;
+    }
+    this.plotlines.push({party: party, data: dat});
+
     this.updateGraph();
   },
 
@@ -93,23 +98,33 @@ Graph.prototype = {
   getData: function() {
     var data = [];
     for (var i = 0; i < this.plotlines.length; i++) {
+        var l = this.jsob.labels[i];
+        console.log(l);
         data.push(this.plotlines[i].data);
     }
     if (data.length == 0) {
-        data.push([null]);
-      
+        data.push([null]);    
     }
     return data;   
   },
 
   initGraph: function() {
-      this.getMax();
-      $("."+this.contname + " h2").append(this.cat);
+      this.max = this.getMax();
+      //Better if H2 is added as a child to this.contname with cat as attribute
+      
+      //Ugly code only for version 1
+      if (this.cat === null) {
+        $("."+this.contname + " h2").text(this.jsob.category);
+      }else {
+        $("."+this.contname + " h2").text(this.cat);
+
+      }
       //$("."+this.contname + " h2" ).append(this.getObj().category);
       this.updateGraph();
   },
 
   updateGraph: function() {
+
     var theme = {
       grid: {
         background: "white"
@@ -124,7 +139,7 @@ Graph.prototype = {
           label: "",
           tickInterval: 5,
           min: 0,
-          max: this.getMax(),
+          max: this.max,
         }
       },
       highlighter: {
@@ -140,14 +155,13 @@ Graph.prototype = {
     }
     this.graph = $.jqplot (this.name, this.getData(), theme);
   }
+
 }
 
 function add(chartid, party) {
-  var j = 0;
   for (var i = 0; i < charts.length; i++) {
     if (charts[i].name == chartid) {
       charts[i].addPlotLine(party);
-      var j = j + 1;
     }
   }
 }
@@ -162,18 +176,19 @@ function destroy(chartid, party) {
 
 
 
-function homeinit() {
+function graphHomeInit() {
+
+  //do searchreq before making graph objects and send each object as a parameter
+  //for index.html
+  //for search.html make a trending request with 1 as amount and send it as default
+  //object
+
+  charts.push(new Graph("chartcont0", "chart0", "Skatt"));  
+  charts.push(new Graph("chartcont1", "chart1", "Miljö"));     
+  charts.push(new Graph("chartcont2", "chart2", "Försvar"));  
 
 }
 
-function searchInit() {
-  /**
-  for (var i = 0; i < getChartLen(); i++) {
-    charts.push(new Graph("chartcont" + i, "chart" + i));
-  } 
-  */
-  charts.push(new Graph("chartcont0", "chart0", "Skatt"));  
-  charts.push(new Graph("chartcont1", "chart1", "Miljö"));     
-  charts.push(new Graph("chartcont2", "chart2", "Invandring"));     
-
+function graphSearchInit() {
+    charts.push(new Graph("chartcont0", "chart0", null));  
 }
