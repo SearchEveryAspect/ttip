@@ -161,6 +161,38 @@ nav li.Selected p {
 	margin-right: auto;
 }
 
+
+#project, #application {
+	padding-top: 50px;
+	height: 200px;
+	margin-left: auto;
+	margin-right: auto;
+	width: 60%;
+}
+#project h2, #application h2 {
+	padding-left: 10px;
+	line-height: 40px;
+	font-family: "caviar_normal";
+	font-weight: bold;
+	font-size: 28px;
+	margin-bottom: 30px;
+	color: white;
+}
+
+#project h2 {
+	background: rgba(2,100,100,0.6);
+}
+#application h2 {
+	background: rgba(128,0,0,0.6);
+
+}
+
+#project p, #application p {
+	font-size: 18px;
+	
+	position:relative;
+}
+
 .chartsearch, .chartcont, .charttext, .chartcont0, .charttext0, .chartcont1, .charttext1, .chartcont2, .charttext2 {
 	padding-top: 54px;
 	background: rgba(255,255,255,1);
