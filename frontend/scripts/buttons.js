@@ -2,18 +2,20 @@
 
 
 var BUTTONS_URL = "url(../img/partiikoner.png)";
+var BUTTON_WIDTH = 40;
+var BUTTON_HEIGHT = 40;
+var PARTIES = [".V",".S", ".MP", ".C", ".FP",".KD",".M", ".SD"];
+
 
 function Buttons(chartid) {
 	this.name = ".chartcont" + chartid + " .buttons";
-	this.parties = [".vp",".s", ".mp", ".c", ".fp",".kd",".m", ".sd"];
 	this.htmllines = "";
-	for (var i = 0; i < this.parties.length; i++) {
-		this.htmllines = this.htmllines + "<li class=" + this.parties[i].substring(1) + "></li>";
+	for (var i = 0; i < PARTIES.length; i++) {
+		this.htmllines = this.htmllines + "<li class=" + PARTIES[i].substring(1) + "></li>";
 	}
 }
 
-/*Add children to class buttons and add css properties to 
-/*every child. */
+/*Add children to class buttons and add css properties to every child. */
 
 Buttons.prototype.init = function() {
 	//add html classes
@@ -22,11 +24,11 @@ Buttons.prototype.init = function() {
 	//add css properties
 	var x = 0;
 	var y = 0;
-	for (var i = 0; i < this.parties.length; i++) {
+	for (var i = 0; i < PARTIES.length; i++) {
 		var style = {"background": BUTTONS_URL + x + "px" + " " + y + "px"};
-		$(this.name + " " + this.parties[i]).css(style);
+		$(this.name + " " + PARTIES[i]).css(style);
 		//go down 40 pixles in spritesheet
-		y = y - 40;
+		y = y - BUTTON_HEIGHT;
 	}
 }
 
@@ -36,7 +38,7 @@ function Button(id, chartid, bname, name, click) {
 	this.chartname = "chart" + chartid;
 	this.click = click;
 	this.x = 0;
-	this.y = -id*40;
+	this.y = -id*BUTTON_HEIGHT;
 }
 
 Button.prototype = {
@@ -56,15 +58,14 @@ Button.prototype = {
 				if (b.click != true) b.update(this, 0);
 			},
 			mouseenter: function() {
-				if (b.click != true) b.update(this, 40);
+				if (b.click != true) b.update(this, BUTTON_WIDTH);
 			},
 			click: function() {
-				b.update(this, 80);
-				
 				if (b.click == true) {
 					b.update(this, 0);
 					destroy(b.chartname, b.party);
 				}else {
+					b.update(this, BUTTON_WIDTH*2);
 					add(b.chartname, b.party);
 				}
 				b.click ^= true;
@@ -90,8 +91,8 @@ function buttonsInit() {
 	for (var i = 0; i < chartlen; i++) {
 		bs.push(new Buttons(i));
 		bs[i].init();
-		for (var j = 0; j < bs[i].parties.length; j++) {
-			var b = new Button(j, i, bs[i].name, bs[i].parties[j], false);
+		for (var j = 0; j < PARTIES.length; j++) {
+			var b = new Button(j, i, bs[i].name, PARTIES[j], false);
 			b.init();
 		}
 	}
