@@ -74,6 +74,7 @@ public final class TrendingQuerier implements
     }
     labels = ImmutableList.copyOf(temp);
 
+
     Set<Category> trendingCategories = getTopCategories(lastYear, lastMonth, input.getTop());
     return getTrendingSearchResponse(trendingCategories, responseIntervals, labels);
   }

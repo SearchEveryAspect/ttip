@@ -26,7 +26,7 @@ public class Document {
   public Document(ESDocument doc) {
     title = doc.getTitle();
     link = URL + doc.getDocId();
-    date = (new DateTime(doc.getPublishedTimestamp())).toString("yyyy-mm-dd");
+    date = (new DateTime(doc.getPublishedTimestamp())).toString("yyyy-MM-dd");
   }
 
   public String getName() {

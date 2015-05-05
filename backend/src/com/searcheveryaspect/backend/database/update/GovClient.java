@@ -79,7 +79,7 @@ public class GovClient {
    * @throws Exception
    */
   public static ArrayList<GovDocumentList> fetchAllDocs() throws Exception {
-    Interval interval = new Interval(DateTime.parse(START_DATE, DateTimeFormat.forPattern("yyyy-mm-dd")), DateTime.now());
+    Interval interval = new Interval(DateTime.parse(START_DATE, DateTimeFormat.forPattern("yyyy-MM-dd")), DateTime.now());
     return fetchDocs(GovFetchRequest.newGovFetchRequest().interval(interval).build());
   }
 }

@@ -67,19 +67,15 @@ public class MotionsControllerTest {
   public void testValidQuery() {
     // ESRequest for parameter matching.
     ESRequest esreq =
-        new ESRequest(new Interval(DateTime.parse(from, DateTimeFormat.forPattern("yyyy-mm-dd")),
-            DateTime.parse(to, DateTimeFormat.forPattern("yyyy-mm-dd"))), categoryEnum, period);
+        new ESRequest(new Interval(DateTime.parse(from, DateTimeFormat.forPattern("yyyy-MM-dd")),
+            DateTime.parse(to, DateTimeFormat.forPattern("yyyy-MM-dd"))), categoryEnum, period);
 
 
-    ArgumentCaptor<ESRequest> captor = ArgumentCaptor.forClass(ESRequest.class);
-    when(readerMock.read(captor.capture())).thenReturn(sarMock);
+    when(readerMock.read(esreq)).thenReturn(sarMock);
 
     // Controller to test behaviour on.
     MotionsController t = new MotionsController(readerMock);
-    
 
-    System.out.println(captor.getValue());
-    
     assertEquals(sarMock, t.read(reqMock, resMock));
     verify(readerMock).read(esreq);
     verifyNoMoreInteractions(readerMock);

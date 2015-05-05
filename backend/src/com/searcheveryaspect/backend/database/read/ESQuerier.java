@@ -6,21 +6,19 @@ package com.searcheveryaspect.backend.database.read;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.searcheveryaspect.backend.database.read.QuerierUtil.categorySearch;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import com.google.common.collect.ImmutableList;
 
-import org.elasticsearch.action.search.SearchRequest;
+import com.searcheveryaspect.backend.webserver.SearchResponse;
+
 import org.elasticsearch.client.Client;
-import org.elasticsearch.index.query.FilterBuilders;
-import org.elasticsearch.index.query.QueryBuilders;
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
-import com.google.common.collect.ImmutableList;
-import com.searcheveryaspect.backend.webserver.SearchResponse;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Communicates with ES depending on what kind of information the ESRequest object
@@ -72,7 +70,7 @@ public final class ESQuerier implements DatabaseReader<ESRequest, SearchResponse
 	      temp.add(formater.print(interval.getStart()));
 	    }
 	    ImmutableList<String> labels = ImmutableList.copyOf(temp);
-
+	    
 		//Search for JSONs that match req.category and req.Interval
 		SearchResponse response = categorySearch(client, req.getCategory(), intervals, labels);		
 		return response;

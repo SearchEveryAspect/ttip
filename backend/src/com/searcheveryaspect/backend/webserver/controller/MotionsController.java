@@ -59,17 +59,19 @@ public class MotionsController extends ReadOnlyController {
       throw new IllegalArgumentException("All request parameters aren't specified");
     }
 
-    DateTime start = DateTime.parse(fromDate, DateTimeFormat.forPattern("yyyy-mm-dd"));
-    DateTime end = DateTime.parse(toDate, DateTimeFormat.forPattern("yyyy-mm-dd"));
+    // TODO: fix date bug.
+    
+    DateTime start = DateTime.parse(fromDate, DateTimeFormat.forPattern("yyyy-MM-dd"));
+    DateTime end = DateTime.parse(toDate, DateTimeFormat.forPattern("yyyy-MM-dd"));
 
     if (start.compareTo(end) > 0) {
       throw new IllegalArgumentException("Request parameter from is before parameter to");
     }
-
-    Category categoryEnum = Category.valueOf(category);
-    // TODO: Handle cases where category doesn't exist.s
     Interval interval = new Interval(start, end);
-    return new ESRequest(interval, categoryEnum, period);
+
+    Category categoryEnum = Category.valueOf(category.toUpperCase());
+    ESRequest esrequest =new ESRequest(interval, categoryEnum, period);
+    return esrequest;
   }
 
   /**
