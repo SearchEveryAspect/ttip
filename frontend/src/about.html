@@ -1,19 +1,14 @@
-<!-- @author: Alan Güler
-     @date: 2015-04-01  -->
-
 <!DOCTYPE html>
 <html>
-
-<!--TODO: lägg till knapp för engelska och svenska så att rubriken förändras-->
   <head>
 
     <script type="text/javascript" src="plugins/jquery-1.11.2.min.js"></script>
     <script type="text/javascript" src="../jqplot/plugins/jqplot.highlighter.min.js"></script>
-    <script src="../scripts/script.js" type="text/javascript"></script>
-    <script src="../scripts/sticky.js" type="text/javascript"></script>
-    <script src="../scripts/fontdetect.js" type="text/javascript"></script>
-    <script language="javascript">jQuery.noConflict()</script>
+   <script class="include" type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+
     <link href='http://fonts.googleapis.com/css?family=Patua+One' rel='stylesheet' type='text/css'>
+     <link href='http://fonts.googleapis.com/css?family=Playfair+Display:400,400italic|Oswald:300'rel='stylesheet' type='text/css'>
 
     <script type="text/javascript" src="plugins/jqplot.categoryAxisRenderer.min.js"></script>
 
@@ -21,71 +16,62 @@
     <title>Trender i riksdagen</title>
 
     <link rel= "stylesheet" type="text/css" href="style.css">
+    <!--<link rel = "stylesheet" type ="text/css" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">-->
+    <link rel= "stylesheet" type="text/css" href="antiscroll.css">
     <link class="include" rel="stylesheet" type="text/css" href="../jqplot/jquery.jqplot.min.css" />  
-    <script class="include" type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
   </head>
-
   <body>
+
+    <!--[if lt IE 7]>
+    <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
+  <![endif]-->
     <div id="upper-wrapper">
-      <div id="upper">
-    <h1>Trending Topics in Parliament</h1>
-  </div>
-  <div id="header">
-    <h2>Om oss</h2>
+      <h1>Trender i Sveriges Riksdag</h1>
+    
     <nav>
       <ul>
-        <li><a class="Home" href="index.html"><p>Hem</p></a></li>
+        <li><a class="Home" href="index.html"><p>Intressanta trender</p></a>
+        </li>
         <li><a class= "Search" href="search.html"><p>Sök</p></a></li> 
-        <li class ="Selected"><a class= "About" href="about.html"><p>Om oss</p></a></li> 
+        <li class="Selected"><a class= "About" href="about.html"><p>Om oss</p></a></li> 
       </ul>
-    <nav>
+    </nav>
   </div>
+<div id="wrapper">
+  <div id="project">
+    <h2>Om projektet</h2>
+  	<p>Vi är 10 studenter som studerar på datateknikprogrammet på KTH:s civilingenjörsutbildning. Denna hemsida beställdes av företaget <a href="http://findwise.com/se">FindWise</a> för att visa på hur man med sökfunktioner kan sammanställa information i andra former än text.</p>
+   
+
+  </div>
+  <div id="application">
+    <h2>Om applikationen</h2>
+    <p>Syftet med denna hemsida är att genom linjediagram visa på trender inom politiska ämnen i svenska Riksdagen. 
+ </br></br>
+ <p>Kontakt: <a href="mailto:ttip@gmail.com?Subject=Feedback" target="_top">ttip@gmail.com</a></p>
+  </div>
+
 </div>
-    <div id="wrapper">
-
-      <div class="chartcont">
-        <div id="chart1"></div>
-        <div id="button">
-          <img src="../img/vansterpartiet.png" alt="Vansterpartiet" id="vp">
-          <script>
-            $(function () {
-              $("#vp").click(function () {
-                add();
-              });
-            });
-        </script>
-        </div>
-
-        <script class="code" type="text/javascript">
-          $(document).ready(function(){
-            init();
-          });
-        </script>
-    <p class="ex">Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.</p>
-    </div>
-    <div class="chartcont">
-      <div id="chart2">
-        <script class="code" type="text/javascript">
-          $(document).ready(function(){
-            init();
-          });
-        </script>
-      </div>
-        <p class="ex">Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.</p>
-    </div>
-
-
-  </div>
   </body>
     <div id ="footer_wrap">
+      <div id="mediaicons">
+        <div id="twitter">
+          <a class="icon" href="http://twitter.com"></a>
 
-    <p>© Copyright 2015 SEA - SEArch every Aspect <br> All rights reserved.</p>
+          <p>Följ oss @ttip</p>
+        </div>
+        <div id="facebook">
+          <a class="icon" href="http://facebook.com"></a>
+          <p>Bli ett fan</p>
+        </div>
+      </div>
+      <div id="copyright">
+          <p>© Copyright 2015 SEA - SEArch every Aspect <br> All rights reserved.</p>
+      </div>
       </div>
 
   <script type="text/javascript" src="../jqplot/jquery.jqplot.min.js"></script>
 
-
-    <script type="text/javascript" src="plugins/ jqplot.CanvasAxisLabelRenderer.js"></script>
     <script type="text/javascript" scr=".../scripts/main.js"></script>
     <script type="text/javascript" src="../jqplot/plugins/jqplot.highlighter.min.js"></script>
     <script type="text/javascript" src="../jqplot/plugins/jqplot.cursor.min.js"></script>

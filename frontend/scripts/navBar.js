@@ -2,22 +2,24 @@
 
 /*Document scroll on nav-dropdown click*/
 
-$(document).ready(function() {
+function navInit() {
+	var ani = 800;
+
 	$("#0").click(function() {
 	    $('html, body').animate({
-	        scrollTop: $(".chartcont0").offset().top+13
-	    }, 800);
+	        scrollTop: $(".chartcont0").offset().top
+	    }, ani);
 	});
 
 	$("#1").click(function() {
 	    $('html, body').animate({
-	        scrollTop: $(".chartcont1").offset().top+13
-	    }, 800);
+	        scrollTop: $(".chartcont1").offset().top
+	    }, ani);
 	});
 
 	$("#2").click(function() {
 	    $('html, body').animate({
-	        scrollTop: $(".chartcont2").offset().top+13
-	    }, 800);
+	        scrollTop: $(".chartcont2").offset().top
+	    }, ani);
 	});
-});
+}
