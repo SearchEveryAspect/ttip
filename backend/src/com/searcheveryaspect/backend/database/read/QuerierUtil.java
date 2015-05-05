@@ -25,7 +25,7 @@ import java.util.List;
  * 
  */
 class QuerierUtil {
-  private static int SEC_TO_MILLIS = 1000;
+  private static final int MILLIS_TO_SEC = 1000;
 
   /**
    * Returns a SearchResponse for the specified category, interval and labels containing
@@ -83,8 +83,8 @@ class QuerierUtil {
             .setQuery(QueryBuilders.matchQuery("category", category.toString()))
             .setPostFilter(
                 FilterBuilders.rangeFilter("publishedTimestamp")
-                    .from(interval.getStartMillis() / SEC_TO_MILLIS)
-                    .to(interval.getEndMillis() / SEC_TO_MILLIS)).execute().actionGet();
+                    .from(interval.getStartMillis() / MILLIS_TO_SEC)
+                    .to(interval.getEndMillis() / MILLIS_TO_SEC)).execute().actionGet();
 
     // Get the hits as a response
     Iterator<SearchHit> iterator = response.getHits().iterator();
@@ -97,5 +97,4 @@ class QuerierUtil {
 
     return new Entry(list.size(), ImmutableList.copyOf(list));
   }
-
 }
