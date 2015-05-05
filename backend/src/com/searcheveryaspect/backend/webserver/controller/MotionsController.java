@@ -4,9 +4,9 @@ package com.searcheveryaspect.backend.webserver.controller;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.base.MoreObjects;
-
 import com.searcheveryaspect.backend.database.read.DatabaseReader;
 import com.searcheveryaspect.backend.database.read.ESRequest;
+import com.searcheveryaspect.backend.shared.Category;
 import com.searcheveryaspect.backend.webserver.SearchResponse;
 
 import org.joda.time.DateTime;
@@ -66,8 +66,10 @@ public class MotionsController extends ReadOnlyController {
       throw new IllegalArgumentException("Request parameter from is before parameter to");
     }
 
+    Category categoryEnum = Category.valueOf(category);
+    // TODO: Handle cases where category doesn't exist.s
     Interval interval = new Interval(start, end);
-    return new ESRequest(interval, category, period);
+    return new ESRequest(interval, categoryEnum, period);
   }
 
   /**

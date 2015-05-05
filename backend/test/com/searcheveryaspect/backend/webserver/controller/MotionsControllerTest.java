@@ -7,6 +7,7 @@ import static org.mockito.Mockito.when;
 
 import com.searcheveryaspect.backend.database.read.DatabaseReader;
 import com.searcheveryaspect.backend.database.read.ESRequest;
+import com.searcheveryaspect.backend.shared.Category;
 import com.searcheveryaspect.backend.webserver.SearchResponse;
 
 import org.joda.time.DateTime;
@@ -34,6 +35,7 @@ public class MotionsControllerTest {
   final String from = "2015-01-01";
   final String period = "month";
   final String category = "skatt";
+  final Category categoryEnum = Category.SKATT;
 
   @Mock
   DatabaseReader<ESRequest, SearchResponse> readerMock;
@@ -66,13 +68,18 @@ public class MotionsControllerTest {
     // ESRequest for parameter matching.
     ESRequest esreq =
         new ESRequest(new Interval(DateTime.parse(from, DateTimeFormat.forPattern("yyyy-mm-dd")),
-            DateTime.parse(to, DateTimeFormat.forPattern("yyyy-mm-dd"))), category, period);
+            DateTime.parse(to, DateTimeFormat.forPattern("yyyy-mm-dd"))), categoryEnum, period);
 
-    when(readerMock.read(esreq)).thenReturn(sarMock);
+
+    ArgumentCaptor<ESRequest> captor = ArgumentCaptor.forClass(ESRequest.class);
+    when(readerMock.read(captor.capture())).thenReturn(sarMock);
 
     // Controller to test behaviour on.
     MotionsController t = new MotionsController(readerMock);
+    
 
+    System.out.println(captor.getValue());
+    
     assertEquals(sarMock, t.read(reqMock, resMock));
     verify(readerMock).read(esreq);
     verifyNoMoreInteractions(readerMock);
