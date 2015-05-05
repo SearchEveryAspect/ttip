@@ -26,6 +26,7 @@ import java.util.List;
  */
 class QuerierUtil {
   private static final int MILLIS_TO_SEC = 1000;
+  private static final int HITS_SIZE = 5000;
 
   /**
    * Returns a SearchResponse for the specified category, interval and labels containing
@@ -84,7 +85,8 @@ class QuerierUtil {
             .setPostFilter(
                 FilterBuilders.rangeFilter("publishedTimestamp")
                     .from(interval.getStartMillis() / MILLIS_TO_SEC)
-                    .to(interval.getEndMillis() / MILLIS_TO_SEC)).execute().actionGet();
+                    .to(interval.getEndMillis() / MILLIS_TO_SEC)).setSize(HITS_SIZE)
+                    .execute().actionGet();
 
     // Get the hits as a response
     Iterator<SearchHit> iterator = response.getHits().iterator();
