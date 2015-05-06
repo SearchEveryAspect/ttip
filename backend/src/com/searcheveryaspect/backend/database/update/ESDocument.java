@@ -18,11 +18,11 @@ public class ESDocument {
   long fetchedTimestamp; // in unix
   String title;
   String[] category;
-  String party;
+  String[] party;
 
 
   public ESDocument(String docId, long publishedTimestamp, long fetchedTimestamp, String title,
-      String[] category, String party) {
+      String[] category, String[] party) {
     this.docId = docId;
     this.publishedTimestamp = publishedTimestamp;
     this.fetchedTimestamp = fetchedTimestamp;
@@ -56,7 +56,7 @@ public class ESDocument {
   }
 
 
-  public String getParty() {
+  public String[] getParty() {
     return party;
   }
 
