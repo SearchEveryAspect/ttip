@@ -46,8 +46,13 @@ public class Main {
     for (GovDocumentList govDocumentList : docs) {
       GovDocument[] govDocuments = govDocumentList.dokument;
       for (GovDocument govDocument : govDocuments) {
-        ESDocument doc = ESDocumentBuilder.createESDocument(new GovDocumentLite(govDocument));
-        db.putDocument(doc);
+        try {
+          ESDocument doc = ESDocumentBuilder.createESDocument(new GovDocumentLite(govDocument));
+          db.putDocument(doc);
+        } catch (IllegalArgumentException e) {
+          // TODO: log.
+          System.out.println(e.getMessage());
+        }
       }
     }
 
