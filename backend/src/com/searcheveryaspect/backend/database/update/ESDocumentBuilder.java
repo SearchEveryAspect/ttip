@@ -14,6 +14,19 @@ import org.joda.time.DateTime;
 public class ESDocumentBuilder {
 
 
+	public static String[] createParty(String underTitle) {
+	
+		String[] splittedUnderTitle = underTitle.split(" \\(");
+
+		if(splittedUnderTitle.length != 2) {
+			throw new IllegalArgumentException("Motions undertitle contains more than one paranthese.");
+		}
+		
+		String partiesUnformatted = splittedUnderTitle[1].substring(0, (splittedUnderTitle[1].length()-1));
+		String[] parties = partiesUnformatted.split(", ");
+		return parties;
+	}
+	
   public static ESDocument createESDocument(GovDocumentLite doc) {
 
     String docId = doc.getId();
@@ -24,17 +37,20 @@ public class ESDocumentBuilder {
     long fetchedTimestamp = new DateTime().getMillis() / 1000;
 
     String title = doc.getTitel();
-
-    // TODO implement NLP to get category
+    
+     // TODO implement NLP to get category
     String[] category = new String[] {"Unknown"}; // uttnyttja sedan urltext
 
+    String[] party;
     // party
-    String underTitle = doc.getUndertitel();
-    String[] splittedUnderTitle = underTitle.split(" ");
-    String partyInBrackets = splittedUnderTitle[splittedUnderTitle.length - 1];
-    String party = partyInBrackets.substring(1, (partyInBrackets.length() - 1));
+    if(doc.getUndertitel() == null){
+    	throw new NullPointerException("undertitle is null, can't specify party");
+    } else {
+    	party = createParty(doc.getUndertitel());
+    }
+  
 
-    ESDocument eSDoc =
+   ESDocument eSDoc =
         new ESDocument(docId, publishedTimestamp, fetchedTimestamp, title, category, party);
 
     return eSDoc;
