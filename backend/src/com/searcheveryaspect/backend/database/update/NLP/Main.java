@@ -17,11 +17,7 @@ public class Main {
 
   public static void main(String[] args) 
   {
-    ESDocument es = new ESDocument("32343", 3232323, 3, "Swag och andra betingelser", null, "S", "Vänsterpartiet välkomnar"
-    		+ " i stort regeringens proposition och de förslag som läggs fram. Vi delar regeringens uppfattning att det krävs"
-    		+ " en ambitionshöjning för den förnybara elproduktionen. Klimatfrågan är vår tids ödesfråga och det är viktigt att Sverige "
-    		+ "ligger i framkant vad gäller förnybar elproduktion. Regeringens förslag att Sverige, inom ramen för elcertifikatssystemet, ska finansiera 3"
-    		+ "0 terawattimmar ny förnybar elproduktion till 2020 jämfört med 2002, är därför ett viktigt steg på vägen.");
+    ESDocument es = new ESDocument("32343", 3232323, 3, "Swag och andra betingelser", null, "S", "Vi föreslår därför en ändring av riksdagsordningen med fokus på att utvidga möjligheterna för att enskilda riksdagsledamöter ska kunna lämna in motioner under hela riksmötet, och att riksdagen bifaller denna motion samt därmed ger riksdagsstyrelsen innehållet och motiven för förslaget i denna tillkänna.");
     
     try {
     	NLP.init();
