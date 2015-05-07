@@ -15,7 +15,7 @@ import java.util.List;
  * Runs an update request for the database with motions documents between the dates
  * supplied in flag -from and -to. Currently this specifies only year.
  */
-public class Main {
+public class UpdateDatabaseMain {
 
   public static void main(String[] args) {
     CommandLineArgs cla = new CommandLineArgs();

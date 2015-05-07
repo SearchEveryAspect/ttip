@@ -4,6 +4,7 @@ package com.searcheveryaspect.backend.webserver.controller;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.base.MoreObjects;
+
 import com.searcheveryaspect.backend.database.read.DatabaseReader;
 import com.searcheveryaspect.backend.database.read.ESRequest;
 import com.searcheveryaspect.backend.shared.Category;
@@ -14,9 +15,6 @@ import org.joda.time.Interval;
 import org.joda.time.format.DateTimeFormat;
 import org.restexpress.Request;
 import org.restexpress.Response;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * MotionsController handles search requests for existing motions for a specified period
@@ -54,13 +52,11 @@ public class MotionsController extends ReadOnlyController {
     final String fromDate = (String) request.getHeader("from_date");
     final String toDate = (String) request.getHeader("to_date");
     final String category = (String) request.getHeader("category");
-    final String period = (String) request.getHeader("interval");
+    String period = (String) request.getHeader("interval").toLowerCase();
     if (fromDate == null || toDate == null || category == null || category == null) {
       throw new IllegalArgumentException("All request parameters aren't specified");
     }
 
-    // TODO: fix date bug.
-    
     DateTime start = DateTime.parse(fromDate, DateTimeFormat.forPattern("yyyy-MM-dd"));
     DateTime end = DateTime.parse(toDate, DateTimeFormat.forPattern("yyyy-MM-dd"));
 
@@ -69,8 +65,22 @@ public class MotionsController extends ReadOnlyController {
     }
     Interval interval = new Interval(start, end);
 
+    if (!period.equals("month") && !period.equals("year") && !period.equals("automatic")) {
+      throw new IllegalArgumentException(
+          "Illegal request parameter period, only month, year and automatic is allowed.");
+    }
+    // If the period is 2 years or longer then yearly periods is used, otehrwise monthly
+    // periods.
+    if (period.equals("automatic")) {
+      if (interval.toPeriod().getYears() >= 2) {
+        period = "year";
+      } else {
+        period = "month";
+      }
+    }
+
     Category categoryEnum = Category.valueOf(category.toUpperCase());
-    ESRequest esrequest =new ESRequest(interval, categoryEnum, period);
+    ESRequest esrequest = new ESRequest(interval, categoryEnum, period);
     return esrequest;
   }
 

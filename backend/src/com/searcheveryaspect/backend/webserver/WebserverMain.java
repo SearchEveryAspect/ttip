@@ -20,7 +20,7 @@ import org.restexpress.serialization.json.JacksonJsonProcessor;
 /**
  * Start a ttip webserver with a elasticSearch node. Flag -port sets port for traffic, default is 8080.
  */
-public class Main {
+public class WebserverMain {
 
   public static void main(String[] args) {
     CommandLineArgs cla = new CommandLineArgs();
