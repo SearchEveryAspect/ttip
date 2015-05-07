@@ -22,8 +22,8 @@ public class Main {
     new JCommander(cla, args);
 
     // Published interval for motions to be updated.
-    DateTime start = DateTime.parse(cla.from, DateTimeFormat.forPattern("yyyy-mm-dd"));
-    DateTime end = DateTime.parse(cla.to, DateTimeFormat.forPattern("yyyy-mm-dd"));
+    DateTime start = DateTime.parse(cla.from, DateTimeFormat.forPattern("yyyy-MM-dd"));
+    DateTime end = DateTime.parse(cla.to, DateTimeFormat.forPattern("yyyy-MM-dd"));
     Interval interval = new Interval(start, end);
 
     // Create a new Elasticsearch node and client and hand to the db connection.
@@ -46,8 +46,13 @@ public class Main {
     for (GovDocumentList govDocumentList : docs) {
       GovDocument[] govDocuments = govDocumentList.dokument;
       for (GovDocument govDocument : govDocuments) {
-        ESDocument doc = ESDocumentBuilder.createESDocument(new GovDocumentLite(govDocument));
-        db.putDocument(doc);
+        try {
+          ESDocument doc = ESDocumentBuilder.createESDocument(new GovDocumentLite(govDocument));
+          db.putDocument(doc);
+        } catch (IllegalArgumentException e) {
+          // TODO: log.
+          System.out.println(e.getMessage());
+        }
       }
     }
 

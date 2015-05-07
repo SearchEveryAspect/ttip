@@ -7,6 +7,7 @@ import static org.mockito.Mockito.when;
 
 import com.searcheveryaspect.backend.database.read.DatabaseReader;
 import com.searcheveryaspect.backend.database.read.ESRequest;
+import com.searcheveryaspect.backend.shared.Category;
 import com.searcheveryaspect.backend.webserver.SearchResponse;
 
 import org.joda.time.DateTime;
@@ -34,6 +35,7 @@ public class MotionsControllerTest {
   final String from = "2015-01-01";
   final String period = "month";
   final String category = "skatt";
+  final Category categoryEnum = Category.SKATT;
 
   @Mock
   DatabaseReader<ESRequest, SearchResponse> readerMock;
@@ -65,8 +67,9 @@ public class MotionsControllerTest {
   public void testValidQuery() {
     // ESRequest for parameter matching.
     ESRequest esreq =
-        new ESRequest(new Interval(DateTime.parse(from, DateTimeFormat.forPattern("yyyy-mm-dd")),
-            DateTime.parse(to, DateTimeFormat.forPattern("yyyy-mm-dd"))), category, period);
+        new ESRequest(new Interval(DateTime.parse(from, DateTimeFormat.forPattern("yyyy-MM-dd")),
+            DateTime.parse(to, DateTimeFormat.forPattern("yyyy-MM-dd"))), categoryEnum, period);
+
 
     when(readerMock.read(esreq)).thenReturn(sarMock);
 

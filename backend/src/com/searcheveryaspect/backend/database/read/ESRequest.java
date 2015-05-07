@@ -3,12 +3,12 @@
  */
 package com.searcheveryaspect.backend.database.read;
 
-import com.google.common.base.MoreObjects;
+import java.util.Objects;
+
 import org.joda.time.Interval;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import com.google.common.base.MoreObjects;
+import com.searcheveryaspect.backend.shared.Category;
 
 /**
  * Contains information about what the ESQuerier will search for. Get search info from
@@ -19,35 +19,31 @@ import java.util.Objects;
  * 
  */
 public class ESRequest {
-  private final List<String> party;
   private final Interval interval;
   private final String period;
-  private final String category;
+  private final Category category;
 
 
-  public ESRequest(Interval interval, String category, List<String> party, String period) {
+  public ESRequest(Interval interval, Category category, String period) {
     this.interval = interval;
     this.category = category;
-    this.party = party;
     this.period = period;
   }
 
-  public ESRequest(Interval interval, String category, String period) {
-    this.interval = interval;
+  /**
+  public ESRequest(List<Interval> intervals, Category category, String period) {
+    this.intervals = intervals;
     this.category = category;
-    this.party = new ArrayList<String>();
+    this.party = new ImmutableList.Builder();
     this.period = period;
   }
-
-  public List<String> getParty() {
-    return party;
-  }
+  */
 
   public Interval getInterval() {
     return interval;
   }
 
-  public String getCategory() {
+  public Category getCategory() {
     return category;
   }
 
@@ -59,7 +55,7 @@ public class ESRequest {
   public boolean equals(Object o) {
     if (o instanceof ESRequest) {
       ESRequest that = (ESRequest) o;
-      return party.equals(that.party) && interval.equals(that.interval)
+      return interval.equals(that.interval)
           && period.equals(that.period) && category.equals(that.category);
     }
     return false;
@@ -67,12 +63,12 @@ public class ESRequest {
 
   @Override
   public int hashCode() {
-    return Objects.hash(party, interval, period, category);
+    return Objects.hash(interval, period, category);
   }
 
   @Override
   public String toString() {
-    return MoreObjects.toStringHelper(this).add("party", party).add("interval", interval)
+    return MoreObjects.toStringHelper(this).add("interval", interval)
         .add("period", period).add("category", category).toString();
   }
 }

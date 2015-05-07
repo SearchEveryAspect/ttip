@@ -4,9 +4,9 @@ package com.searcheveryaspect.backend.webserver.controller;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.base.MoreObjects;
-
 import com.searcheveryaspect.backend.database.read.DatabaseReader;
 import com.searcheveryaspect.backend.database.read.ESRequest;
+import com.searcheveryaspect.backend.shared.Category;
 import com.searcheveryaspect.backend.webserver.SearchResponse;
 
 import org.joda.time.DateTime;
@@ -59,15 +59,19 @@ public class MotionsController extends ReadOnlyController {
       throw new IllegalArgumentException("All request parameters aren't specified");
     }
 
-    DateTime start = DateTime.parse(fromDate, DateTimeFormat.forPattern("yyyy-mm-dd"));
-    DateTime end = DateTime.parse(toDate, DateTimeFormat.forPattern("yyyy-mm-dd"));
+    // TODO: fix date bug.
+    
+    DateTime start = DateTime.parse(fromDate, DateTimeFormat.forPattern("yyyy-MM-dd"));
+    DateTime end = DateTime.parse(toDate, DateTimeFormat.forPattern("yyyy-MM-dd"));
 
     if (start.compareTo(end) > 0) {
       throw new IllegalArgumentException("Request parameter from is before parameter to");
     }
-
     Interval interval = new Interval(start, end);
-    return new ESRequest(interval, category, period);
+
+    Category categoryEnum = Category.valueOf(category.toUpperCase());
+    ESRequest esrequest =new ESRequest(interval, categoryEnum, period);
+    return esrequest;
   }
 
   /**

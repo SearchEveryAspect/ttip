@@ -18,6 +18,20 @@ import java.util.Random;
 public class ESDocumentBuilder {
 
 
+  public static String[] createParty(String underTitle) {
+
+    String[] splittedUnderTitle = underTitle.split(" \\(");
+
+    if (splittedUnderTitle.length != 2) {
+      throw new IllegalArgumentException("Motions undertitle contains more than one paranthese.");
+    }
+
+    String partiesUnformatted =
+        splittedUnderTitle[1].substring(0, (splittedUnderTitle[1].length() - 1));
+    String[] parties = partiesUnformatted.split(", ");
+    return parties;
+  }
+
   public static ESDocument createESDocument(GovDocumentLite doc) {
 
     String docId = doc.getId();
@@ -36,15 +50,13 @@ public class ESDocumentBuilder {
                                                                                              // sedan
                                                                                              // urltext
 
+    String[] party;
     // party
-    String party;
-    String underTitle = doc.getUndertitel();
-    if (underTitle != null) {
-      String[] splittedUnderTitle = underTitle.split(" ");
-      String partyInBrackets = splittedUnderTitle[splittedUnderTitle.length - 1];
-      party = partyInBrackets.substring(1, (partyInBrackets.length() - 1));
+    if (doc.getUndertitel() == null) {
+      throw new NullPointerException("Motion " + doc.getId()
+          + ": undertitle is null, can't specify party");
     } else {
-      party = "UNKNOWN";
+      party = createParty(doc.getUndertitel());
     }
 
     ESDocument eSDoc =

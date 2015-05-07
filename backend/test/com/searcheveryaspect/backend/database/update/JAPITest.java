@@ -140,14 +140,18 @@ public class JAPITest {
 	{
 		ArrayList<GovDocumentList> t = null;
 		try {
-			t = APITest.QueryAPI("", "2000-01-01", "2002-12-31", new ArrayList<String>());
-		} catch (Exception e) {	}
+			t = APITest.QueryAPI("", "2009-01-01", "2011-12-31", new ArrayList<String>());
+		} catch (Exception e) {	
+		  e.printStackTrace();
+		}
 		assertTrue(t != null);
 
 		
 		try {
 			t = APITest.QueryAPI("", "2002-01-01", "2004-12-31", new ArrayList<String>());
-		} catch (Exception e) {	}
+		} catch (Exception e) {
+          e.printStackTrace();
+        }
 		assertTrue(t != null);
 	}
 
