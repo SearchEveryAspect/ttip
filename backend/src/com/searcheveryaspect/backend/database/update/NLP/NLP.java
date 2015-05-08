@@ -27,6 +27,7 @@ import se.su.ling.stagger.Dictionary;
 import se.su.ling.stagger.Embedding;
 import se.su.ling.stagger.Evaluation;
 import se.su.ling.stagger.StaggerMain;
+import se.su.ling.stagger.TagNameException;
 import se.su.ling.stagger.TaggedToken;
 import se.su.ling.stagger.Tagger;
 import se.su.ling.stagger.Token;
@@ -34,7 +35,7 @@ import se.su.ling.stagger.Tokenizer;
 
 import com.searcheveryaspect.backend.database.update.*;
 
-public final class NLP {
+public final class NLP implements Categoriser {
 	
 	final static String modelFile = NLP.class.getClassLoader().getResource(".").getPath() + NLP.class.getPackage().getName().replace('.', '/') + "/swedish.bin";
 	private static Tagger tagger;
@@ -46,13 +47,15 @@ public final class NLP {
 	{
 		
 	}
-	
+	/**
+	 * Prepares the stagger model for swedish. Is incredibly slow.
+	 * @throws Exception
+	 */
 	public static void init() throws Exception
 	{
 		if(!initialized)
 		{
-			ObjectInputStream modelReader = new ObjectInputStream(
-	        new FileInputStream(modelFile));
+			ObjectInputStream modelReader = new ObjectInputStream(new FileInputStream(modelFile));
 	        System.err.println( "Loading Stagger model ... from model " + modelFile);
 	        tagger = (Tagger)modelReader.readObject();
 	        System.err.println("Done");
@@ -63,112 +66,147 @@ public final class NLP {
 		}
 	}
             
-	
+	/**
+	 * Generates tags for the words in a document, which then can be
+	 * used to categorise the document.
+	 * @param doc
+	 * @return
+	 * @throws Exception
+	 */
 	private static String tag(ESDocument doc) throws Exception
 	{
-
+		//Different options used for stagger
         boolean plainOutput = true;
         boolean extendLexicon = true;
         boolean hasNE = true;
 
+        //Temporary file used for storing data is created
         File f = new File("temp.txt");
         f.createNewFile();
         Writer w = null;
         
-        try {
-
-        w = new FileWriter(f);
-        w.write(doc.getText());
+        try 
+        {
+	        w = new FileWriter(f);
+	        w.write(doc.getText());
         }
-        catch (IOException e) {
-
+        
+        catch (IOException e) 
+        {
 			System.err.println("Error writing the file : ");
 			e.printStackTrace();
-
-		} finally {
-
-			if (w != null) {
-				try {
+		} 
+        finally
+        {
+			if (w != null) 
+			{
+				try 
+				{
 					w.close();
-				} catch (IOException e) {
+				} 
+				catch (IOException e) 
+				{
 
 					System.err.println("Error closing the file : ");
 					e.printStackTrace();
 				}
 			}
 
-		}	
-                ArrayList<String> inputFiles = new ArrayList<String>();
-
-                inputFiles.add(f.getAbsolutePath());
+		}
         
-                tagger.setExtendLexicon(extendLexicon);
-                if(!hasNE) tagger.setHasNE(false);
+        //Uses array for on file for compatibility with stagger code
+        ArrayList<String> inputFiles = new ArrayList<String>();
 
-                for(String inputFile : inputFiles) {
-                  
-                        String fileID =
-                            (new File(inputFile)).getName().split(
-                                "\\.")[0];
-                        BufferedReader reader = StaggerMain.openUTF8File(inputFile);
-                        BufferedWriter writer = null;
-                            String outputFile = inputFile + 
-                                (plainOutput? ".plain" : ".conll");
-                            writer = new BufferedWriter(
-                                new OutputStreamWriter(
-                                    new FileOutputStream(
-                                        outputFile), "UTF-8"));
+        inputFiles.add(f.getAbsolutePath());
+        
+        tagger.setExtendLexicon(extendLexicon);
+        
+        if(!hasNE) 
+        	tagger.setHasNE(false);
+
+        for(String inputFile : inputFiles) 
+        {
+        	
+            //Generates a fileID for the file   
+        	String fileID = (new File(inputFile)).getName().split("\\.")[0];
+            BufferedReader reader = StaggerMain.openUTF8File(inputFile);
+            BufferedWriter writer = null;
+            
+            
+            String outputFile = inputFile + (plainOutput? ".plain" : ".conll");
+            writer = new BufferedWriter(
+            		new OutputStreamWriter(new FileOutputStream(outputFile), "UTF-8"));
                         
-                        Tokenizer tokenizer = StaggerMain.getTokenizer(reader, lang);
-                        ArrayList<Token> sentence;
-                        int sentIdx = 0;
-                        long base = 0;
-                        while((sentence=tokenizer.readSentence())!=null) {
-                            TaggedToken[] sent =
-                                new TaggedToken[sentence.size()];
-                            if(tokenizer.sentID != null) {
-                                if(!fileID.equals(tokenizer.sentID)) {
-                                    fileID = tokenizer.sentID;
-                                    sentIdx = 0;
-                                }
-                            }
-                            for(int j=0; j<sentence.size(); j++) {
-                                Token tok = sentence.get(j);
-                                String id;
-                                id = fileID + ":" + sentIdx + ":" +
-                                     tok.offset;
-                                sent[j] = new TaggedToken(tok, id);
-                            }
-                            TaggedToken[] taggedSent =
-                                tagger.tagSentence(sent, true, false);
-                            tagger.getTaggedData().writeConllSentence(
-                                (writer == null)? System.out : writer,
-                                taggedSent, plainOutput);
-                            sentIdx++;
-                        }
-                        tokenizer.yyclose();
-                        if(writer != null) writer.close();
-                    }
-                
-                
-                String resultFile = f.getAbsolutePath() + ".plain";
-                StringBuilder sb = new StringBuilder();
-                
-                try (BufferedReader br = new BufferedReader(new FileReader(resultFile))) {
-                    String line;
-                    while ((line = br.readLine()) != null) {
-                       sb.append(line);
-                       sb.append("\n");
+            Tokenizer tokenizer = StaggerMain.getTokenizer(reader, lang);
+            ArrayList<Token> sentence;
+            int sentIdx = 0;
+            
+            //Token Loop
+            while( (sentence=tokenizer.readSentence()) != null )
+            {
+            	TaggedToken[] sent = new TaggedToken[sentence.size()];
+                if(tokenizer.sentID != null) 
+                {
+                	if(!fileID.equals(tokenizer.sentID)) 
+                	{
+                    	fileID = tokenizer.sentID;
+                        sentIdx = 0;
                     }
                 }
+                for(int j=0; j<sentence.size(); j++) 
+                {
+                	Token tok = sentence.get(j);
+                    String id;
+                    id = fileID + ":" + sentIdx + ":" + tok.offset;
+                    sent[j] = new TaggedToken(tok, id);
+                }
+                TaggedToken[] taggedSent = tagger.tagSentence(sent, true, false);
+                tagger.getTaggedData().writeConllSentence(
+                                (writer == null)? System.out : writer,
+                                taggedSent, plainOutput);
+                sentIdx++;
+            }
+            
+            tokenizer.yyclose();
+            if(writer != null) 
+            	writer.close();
+        }
+    
+        String resultFile = f.getAbsolutePath() + ".plain";
+        StringBuilder sb = new StringBuilder();
                 
-                return(sb.toString());
+        try (BufferedReader br = new BufferedReader(new FileReader(resultFile))) 
+        {
+        	String line;
+        	while ((line = br.readLine()) != null)
+        	{
+	        	sb.append(line);
+	        	sb.append("\n");
+            }
+        }
+        
+        //Tries to delete temporary file.
+        if(!f.delete())
+        {
+            System.out.println("Couldn't delete temporary file used for stagger.");
+        }
+        
+        return(sb.toString());
 	}
+
 	
-	public static String[] categorize(ESDocument doc) throws Exception
+	public String[] categorise(ESDocument doc)
 	{
 		ArrayList<String> categoryList = new ArrayList<>();
-		String tagString = tag(doc);
+		String tagString = null;
+		try 
+		{
+			tagString = tag(doc);
+		} 
+		catch (Exception e) {
+			System.out.println("Error when tagging document: " + doc.toString());
+			e.printStackTrace();
+		}
 		
 		System.out.println(tagString);
 		
@@ -177,11 +215,18 @@ public final class NLP {
 		
 		ArrayList<NLPPair> pairList = new ArrayList<NLPPair>();
 		
-		for(int i = 0; i < tagArray.length; i++)
+		try 
 		{
-			pairList.add(new NLPPair(tagArray[i], tagger.getTaggedData().getPosTagSet().getTagID(tagArray[++i])));
+			for(int i = 0; i < tagArray.length; i++)
+			{
+				pairList.add(new NLPPair(tagArray[i], tagger.getTaggedData().getPosTagSet().getTagID(tagArray[++i])));
+			}
 		}
-		
+		catch (TagNameException e) 
+		{
+			System.out.println("Error when getting tagData with document: " + doc.toString());
+			e.printStackTrace();
+		}
 		NLPPair highestPair = new NLPPair("", -1);
 		for(NLPPair p : pairList)
 		{
@@ -197,9 +242,6 @@ public final class NLP {
 		
 		return array;
 	}
-	
-	
-
 }
 
 class NLPPair
