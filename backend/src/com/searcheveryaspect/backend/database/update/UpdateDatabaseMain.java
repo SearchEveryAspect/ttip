@@ -49,9 +49,9 @@ public class UpdateDatabaseMain {
         try {
           ESDocument doc = ESDocumentBuilder.createESDocument(new GovDocumentLite(govDocument));
           db.putDocument(doc);
-        } catch (IllegalArgumentException e) {
+        } catch (NullPointerException e) {
           // TODO: log.
-          System.out.println(e.getMessage());
+          System.err.println("Document ignored: " + e.getMessage());
         }
       }
     }

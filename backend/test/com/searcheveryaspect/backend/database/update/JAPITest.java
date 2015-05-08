@@ -30,6 +30,7 @@ public class JAPITest {
 	/* Tests that the query system returns
 	 * no results where it should.
 	 */
+	//@Ignore
 	@Test
 	public void testEmptyResult()
 	{
@@ -69,28 +70,31 @@ public class JAPITest {
 	// Tests that the system can handle only one result properly
 	//WILL RETURN AN ERROR CURRENTLY
 	// TODO: Test is currently failing, fix it!
-    @Ignore
+    //@Ignore
 	@Test
 	public void testOneResult()
 	{
 		ArrayList<GovDocumentList> t = null;
 		try {
-			t = APITest.QueryAPI("Svanskupering p√• hundar", "1990-01-01", "1990-12-31", new ArrayList<String>());
+			System.out.println("test!\n");
+			t = APITest.QueryAPI("Svanskupering pÂ hundar", "1990-01-01", "1990-12-31", new ArrayList<String>());
+			System.out.println("\n Tested! \n");
 		} catch (Exception e) {	}
 		assertTrue(t != null);
-		assertTrue(t.toString().equals( "GovDocumentList [Datum: 2015-04-10 12:37:27 Sida: 1 Sidor: 0 Traff Fr√•n: 1 Tr√§ffar: 0]"));
+		assertTrue(t.toString().equals( "GovDocumentList [Datum: 2015-04-10 12:37:27 Sida: 1 Sidor: 0 Traff FrÂn: 1 Tr‰ffar: 0]"));
 		
 		try {
 			t = APITest.QueryAPI("kaffe te matte", "1975-01-01", "1975-12-31", new ArrayList<String>());
 		} catch (Exception e) {	}
 		assertTrue(t != null);
 		
-		t.get(0).dokument[0].titel.equals("om slopande av merv√§rdeskatten p√• livsmedel, m. m.");
+		t.get(0).dokument[0].titel.equals("om slopande av merv‰rdeskatten pÂ livsmedel, m. m.");
 		t.get(0).dokument[0].datum.equals("1975-01-25");
 		
 	}
 	
 	/* Tests that different years return different sizes of results */
+	//@Ignore
 	@Test
 	public void testYears()
 	{
@@ -111,6 +115,7 @@ public class JAPITest {
 	}
 	
 	/* Checks that party searches are different from each other */
+	//@Ignore
 	@Test
 	public void testParties()
 	{
@@ -135,6 +140,7 @@ public class JAPITest {
 	}
 	
 	/* Tests rather large queries and their speed */
+	//@Ignore
 	@Test(timeout=600000)
 	public void testManyResults()
 	{
