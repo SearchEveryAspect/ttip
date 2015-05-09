@@ -4,7 +4,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.searcheveryaspect.backend.database.read.DatabaseReader;
 import com.searcheveryaspect.backend.database.read.SystemRequest;
-import com.searcheveryaspect.backend.webserver.SearchResponse;
+import com.searcheveryaspect.backend.webserver.SystemResponse;
 
 import org.restexpress.Request;
 import org.restexpress.Response;
@@ -31,7 +31,12 @@ public class SystemController extends ReadOnlyController {
    * @param response
    * @return
    */
-  public SearchResponse read(Request request, Response response) {
-    return null;
+  public SystemResponse read(Request request, Response response) {
+    try {
+      return reader.read(new SystemRequest());
+    } catch (Exception e) {
+      response.setException(e);
+      return null;
+    }
   }
 }
