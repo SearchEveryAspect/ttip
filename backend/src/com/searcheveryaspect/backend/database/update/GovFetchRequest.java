@@ -130,9 +130,9 @@ public class GovFetchRequest {
     sb.append("&doktyp=mot&rm=");
     sb.append(rm);
     sb.append("&from=");
-    sb.append(interval.getStart().toString(DateTimeFormat.forPattern("yyyy-MM-dd")));
+    sb.append(interval.getStart().toString(DateTimeFormat.forPattern("yyyy-mm-dd")));
     sb.append("&tom=");
-    sb.append(interval.getEnd().toString(DateTimeFormat.forPattern("yyyy-MM-dd")));
+    sb.append(interval.getEnd().toString(DateTimeFormat.forPattern("yyyy-mm-dd")));
     sb.append("&ts=");
     sb.append(ts);
     sb.append("&bet=");
