@@ -2,9 +2,11 @@ package com.searcheveryaspect.backend.webserver;
 
 import com.beust.jcommander.JCommander;
 import com.searcheveryaspect.backend.database.read.ESQuerier;
+import com.searcheveryaspect.backend.database.read.SystemQuerier;
 import com.searcheveryaspect.backend.database.read.TrendingQuerier;
 import com.searcheveryaspect.backend.webserver.controller.CategoryController;
 import com.searcheveryaspect.backend.webserver.controller.MotionsController;
+import com.searcheveryaspect.backend.webserver.controller.SystemController;
 import com.searcheveryaspect.backend.webserver.controller.TrendingController;
 
 import org.elasticsearch.client.Client;
@@ -55,6 +57,7 @@ public class WebserverMain {
         ESQuerier.newReader(client)));
     server.uri("/mot/top/{quantity}", new TrendingController(TrendingQuerier.newReader(client)));
     server.uri("/categories", new CategoryController());
+    server.uri("/system", new SystemController(SystemQuerier.newReader(client)));
   }
 
   private static void mapExceptions(RestExpress server) {
