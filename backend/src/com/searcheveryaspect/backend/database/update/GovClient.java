@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 public class GovClient {
 
-  public static final int TRAFFAR_LIMIT = 5000;
+  public static final int TRAFFAR_LIMIT = 15000;
   private static final String START_DATE = "1970-01-01";
 
   public static ArrayList<GovDocumentList> fetchDocs(GovFetchRequest request) throws Exception {
@@ -61,6 +61,7 @@ public class GovClient {
       int i = 1;
       // Checks if there are more pages found
       while (fetched.existsNextPage()) {
+    	 System.out.println("Getting page " +  i + "  of " + fetched.sidor);
         json = URLConnectionReader.getText(fetched.nextPage());
         fetched = gson.fromJson(json, GovSearchResult.class).dokumentlista;
         // Adds extra pages
@@ -68,9 +69,33 @@ public class GovClient {
         i++;
       }
     }
+    
+    //Download all documents' motion texts
+    for(GovDocumentList l : result)
+	{
+		for(int i = 0; i < l.dokument.length; i++)
+		{
+			l.dokument[i].text = URLConnectionReader.getText(l.dokument[i].dokument_url_text);
+		}
+	}
+    
 
     return result;
 
+  }
+  
+  public static ArrayList<GovDocumentLite> documentConverter(ArrayList<GovDocumentList> list)
+  {
+	  ArrayList<GovDocumentLite> result = new ArrayList<>();
+	  
+	  for(GovDocumentList l : list)
+	  {
+		  for(int i = 0; i < l.dokument.length; i++)
+		  {
+			  result.add(new GovDocumentLite(l.dokument[i]));
+		  }
+	  }
+	  return result;
   }
 
   /**

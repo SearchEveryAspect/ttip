@@ -33,12 +33,7 @@ public class GovDocument
 		this.organ = organ;
 		this.doktyp = doktyp;
 		this.filbilaga = filbilaga;
-		
-		try {
-			text = URLConnectionReader.getText(this.dokument_url_text);
-		} catch (Exception e) {
-			text = "";
-		}
+
 		
 	}
 	

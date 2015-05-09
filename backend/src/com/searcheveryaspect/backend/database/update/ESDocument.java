@@ -38,6 +38,16 @@ public class ESDocument {
     return docId;
   }
   
+  public String getTitle()
+  {
+	  return title;
+  }
+  
+  public String[] getCategory()
+  {
+	  return category;
+  }
+  
   public String getText()
   {
 	  return text;

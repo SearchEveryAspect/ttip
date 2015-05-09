@@ -38,3 +38,4 @@ backend/target/
 
 # Locally stored "Eclipse launch configurations"
 *.launch
+*.bin

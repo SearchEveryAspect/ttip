@@ -38,10 +38,10 @@ import com.searcheveryaspect.backend.database.update.*;
 public final class NLP implements Categoriser {
 	
 	final static String modelFile = NLP.class.getClassLoader().getResource(".").getPath() + NLP.class.getPackage().getName().replace('.', '/') + "/swedish.bin";
-	private static Tagger tagger;
-	static String lang = "";
+	private  Tagger tagger;
+	String lang = "";
 	
-	static boolean initialized = false;
+	boolean initialized = false;
 	
 	public void ESDocument()
 	{
@@ -51,7 +51,7 @@ public final class NLP implements Categoriser {
 	 * Prepares the stagger model for swedish. Is incredibly slow.
 	 * @throws Exception
 	 */
-	public static void init() throws Exception
+	public void init() throws Exception
 	{
 		if(!initialized)
 		{
@@ -73,7 +73,7 @@ public final class NLP implements Categoriser {
 	 * @return
 	 * @throws Exception
 	 */
-	private static String tag(ESDocument doc) throws Exception
+	private String tag(ESDocument doc) throws Exception
 	{
 		//Different options used for stagger
         boolean plainOutput = true;
