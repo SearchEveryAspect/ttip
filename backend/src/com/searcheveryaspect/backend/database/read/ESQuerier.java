@@ -35,13 +35,11 @@ public final class ESQuerier implements DatabaseReader<ESRequest, SearchResponse
 	};
 	
 	  /**
-	   * Use to get a new TrendingQuerier. TrendingQuerier should only be used through the
+	   * Use to get a new ESQuerier. ESQuerier should only be used through the
 	   * DatabaseReader interface.
 	   * 
-	   * TODO change SearchResponse to AggregatedSearchResponse
-	   * 
 	   * @param client
-	   * @return
+	   * @return new ESQuerier
 	   */
 	  public static DatabaseReader<ESRequest, SearchResponse> newReader(Client client) {
 	    return new ESQuerier(client);
@@ -49,8 +47,6 @@ public final class ESQuerier implements DatabaseReader<ESRequest, SearchResponse
 
 	/**
 	 * Queries the database as specified by the ESRequest and returns a SearchResponse.
-	 * 
-	 * TODO change SearchResponse to AggregatedSearchResponse
 	 */
 	public SearchResponse read(ESRequest req) {
 		List<Interval> intervals = new ArrayList<Interval>();
@@ -76,6 +72,11 @@ public final class ESQuerier implements DatabaseReader<ESRequest, SearchResponse
 		return response;
 	}
 	
+	/**
+	 * Create an interval over e period of months
+	 * @param interval The interval to parse
+	 * @return A list of the months in the interval
+	 */
 	private List<Interval> monthIntervals(Interval interval) {
 		List<Interval> intervals = new ArrayList<Interval>();
 		DateTime start = new DateTime(interval.getEnd().getYear(), interval.getEnd().getMonthOfYear(), 1, 0, 0);
@@ -97,6 +98,11 @@ public final class ESQuerier implements DatabaseReader<ESRequest, SearchResponse
 		return intervals;
 	}
 	
+	/**
+	 * Create an interval over a period of years
+	 * @param interval The interval to parse
+	 * @return A list of the years in the interval
+	 */
 	private List<Interval> yearIntervals(Interval interval) {
 		List<Interval> intervals = new ArrayList<Interval>();
 		DateTime start = new DateTime(interval.getEnd().getYear(), 1, 1, 0, 0);
