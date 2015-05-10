@@ -43,6 +43,16 @@ public class ESDocument {
 	  return title;
   }
   
+  public long getFetchedTimestamp() 
+  {
+	  return fetchedTimestamp;
+  }
+  
+  public long getPublishedTimestamp() 
+  {
+	  return publishedTimestamp;
+  }
+  
   public String[] getCategory()
   {
 	  return category;

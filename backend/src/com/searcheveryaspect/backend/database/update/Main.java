@@ -34,6 +34,8 @@ public class Main {
     GovFetchRequest request = GovFetchRequest.newGovFetchRequest().interval(interval).build();
     List<GovDocumentList> docs = null;
 
+    ESDocumentBuilder.initBuilder();
+    
     try {
       docs = GovClient.fetchDocs(request);
     } catch (Exception e) {

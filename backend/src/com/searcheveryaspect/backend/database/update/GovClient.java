@@ -71,13 +71,19 @@ public class GovClient {
     }
     
     //Download all documents' motion texts
-    for(GovDocumentList l : result)
-	{
-		for(int i = 0; i < l.dokument.length; i++)
+    if(result != null)
+    {
+	    for(GovDocumentList l : result)
 		{
-			l.dokument[i].text = URLConnectionReader.getText(l.dokument[i].dokument_url_text);
+	    	if(l.dokument != null)
+	    	{
+				for(int i = 0; i < l.dokument.length; i++)
+				{
+					l.dokument[i].text = URLConnectionReader.getText(l.dokument[i].dokument_url_text);
+				}
+	    	}
 		}
-	}
+    }
     
 
     return result;
