@@ -80,13 +80,15 @@ class QuerierUtil {
         client
             .prepareSearch("motions")
             .setTypes("motion")
-            .setQuery(QueryBuilders.matchQuery("party", party.toString()))
-            .setQuery(QueryBuilders.matchQuery("category", category.toString()))
+            .setQuery(
+                QueryBuilders.boolQuery()
+                    .must(QueryBuilders.matchQuery("category", category.toString()))
+                    .must(QueryBuilders.matchQuery("party", party.toString())))
             .setPostFilter(
                 FilterBuilders.rangeFilter("publishedTimestamp")
                     .from(interval.getStartMillis() / MILLIS_TO_SEC)
-                    .to(interval.getEndMillis() / MILLIS_TO_SEC)).setSize(HITS_SIZE)
-                    .execute().actionGet();
+                    .to(interval.getEndMillis() / MILLIS_TO_SEC)).setSize(HITS_SIZE).execute()
+            .actionGet();
 
     // Get the hits as a response
     Iterator<SearchHit> iterator = response.getHits().iterator();
