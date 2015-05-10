@@ -19,16 +19,18 @@ public class ESDocument {
   String title;
   String[] category;
   String[] party;
+  String text;
 
 
   public ESDocument(String docId, long publishedTimestamp, long fetchedTimestamp, String title,
-      String[] category, String[] party) {
+      String[] category, String[] party, String text) {
     this.docId = docId;
     this.publishedTimestamp = publishedTimestamp;
     this.fetchedTimestamp = fetchedTimestamp;
     this.title = title;
     this.category = category;
     this.party = party;
+    this.text = text;
   }
 
 
@@ -36,30 +38,29 @@ public class ESDocument {
     return docId;
   }
 
-  public long getPublishedTimestamp() {
-    return publishedTimestamp;
-  }
-
-
-  public long getFetchedTimestamp() {
-    return fetchedTimestamp;
-  }
-
-
   public String getTitle() {
     return title;
   }
-
 
   public String[] getCategory() {
     return category;
   }
 
+  public String getText() {
+    return text;
+  }
+
+  public long getFetchedTimestamp() {
+    return fetchedTimestamp;
+  }
+
+  public long getPublishedTimestamp() {
+    return publishedTimestamp;
+  }
 
   public String[] getParty() {
     return party;
   }
-
 
   @Override
   public boolean equals(Object o) {

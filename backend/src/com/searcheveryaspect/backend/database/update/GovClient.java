@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 public class GovClient {
 
-  public static final int TRAFFAR_LIMIT = 5000;
+  public static final int TRAFFAR_LIMIT = 15000;
   private static final String START_DATE = "1970-01-01";
 
   public static ArrayList<GovDocumentList> fetchDocs(GovFetchRequest request) throws Exception {
@@ -51,35 +51,55 @@ public class GovClient {
       // that's halfway through the interval.
       Interval i2 = request.getInterval().withStart(i1.getEnd());
 
-
       GovFetchRequest req1 = request.toBuilder().interval(i1).build();
       GovFetchRequest req2 = request.toBuilder().interval(i2).build();
 
       result.addAll(fetchDocs(req1));
       result.addAll(fetchDocs(req2));
     } else {
-      int i = 1;
       // Checks if there are more pages found
       while (fetched.existsNextPage()) {
         json = URLConnectionReader.getText(fetched.nextPage());
         fetched = gson.fromJson(json, GovSearchResult.class).dokumentlista;
         // Adds extra pages
         result.add(fetched);
-        i++;
       }
     }
 
+    // Download all documents' motion texts
+    if (result != null) {
+      for (GovDocumentList l : result) {
+        if (l.dokument != null) {
+          for (int i = 0; i < l.dokument.length; i++) {
+            l.dokument[i].text = URLConnectionReader.getText(l.dokument[i].dokument_url_text);
+          }
+        }
+      }
+    }
     return result;
+  }
 
+  public static ArrayList<GovDocumentLite> documentConverter(ArrayList<GovDocumentList> list) {
+    ArrayList<GovDocumentLite> result = new ArrayList<>();
+
+    for (GovDocumentList l : list) {
+      for (int i = 0; i < l.dokument.length; i++) {
+        result.add(new GovDocumentLite(l.dokument[i]));
+      }
+    }
+    return result;
   }
 
   /**
    * Fetches all docs since the start date up till this now.
+   * 
    * @return
    * @throws Exception
    */
   public static ArrayList<GovDocumentList> fetchAllDocs() throws Exception {
-    Interval interval = new Interval(DateTime.parse(START_DATE, DateTimeFormat.forPattern("yyyy-MM-dd")), DateTime.now());
+    Interval interval =
+        new Interval(DateTime.parse(START_DATE, DateTimeFormat.forPattern("yyyy-MM-dd")),
+            DateTime.now());
     return fetchDocs(GovFetchRequest.newGovFetchRequest().interval(interval).build());
   }
 }
