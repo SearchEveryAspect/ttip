@@ -128,8 +128,9 @@ public final class TrendingQuerier implements
     for (int i = 0; i < partyData.size(); i++) {
       if (i < INTERESTING_PARTIES) {
         labeledPartyData.add(partyData.get(i).toBuilder().isInteresting(true).build());
+      } else {
+        labeledPartyData.add(partyData.get(i).toBuilder().isInteresting(false).build());
       }
-      labeledPartyData.add(partyData.get(i).toBuilder().isInteresting(false).build());
     }
     return r.toBuilder().datasets(ImmutableList.copyOf(labeledPartyData)).build();
   }
