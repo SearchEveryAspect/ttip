@@ -50,12 +50,12 @@ public class ESDocument {
     return text;
   }
 
-  public long getPublishedTimestamp() {
-    return publishedTimestamp;
-  }
-
   public long getFetchedTimestamp() {
     return fetchedTimestamp;
+  }
+
+  public long getPublishedTimestamp() {
+    return publishedTimestamp;
   }
 
   public String[] getParty() {

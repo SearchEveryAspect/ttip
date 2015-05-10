@@ -1,4 +1,4 @@
-package com.searcheveryaspect.backend.database.update.NLP;
+package com.searcheveryaspect.backend.database.update.language;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

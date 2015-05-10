@@ -1,4 +1,4 @@
-package com.searcheveryaspect.backend.database.update.NLP;
+package com.searcheveryaspect.backend.database.update.language;
 
 
 import com.beust.jcommander.JCommander;
