@@ -5,7 +5,7 @@
 
 function SubjectField() {
   this.btn = false;
-   this.sub;
+  this.sub;
 }
 
 SubjectField.prototype = {

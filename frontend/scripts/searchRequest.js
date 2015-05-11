@@ -76,7 +76,7 @@ Builder.prototype = {
 }
 //Default
 function getURL() {
-  return new searchRequest(new Builder().portnr(PORTNR).type("mot").category("Skatt").label("month").from("2015-03-28").to("2015-05-01")).getReq();
+  return new searchRequest(new Builder().portnr(PORTNR).type("mot").category("Skatt").label("automatic").from("2015-03-28").to("2015-05-01")).getReq();
 }
 
 function getURLInteresting(amount) {
@@ -87,7 +87,7 @@ function getURLCategories() {
   return new searchRequest(new Builder().portnr(PORTNR).type("categories")).getReq();
 }
 function getURLSearch(from,to, category) {
-  return new searchRequest(new Builder().portnr(PORTNR).type("mot").category(category).label("month").from(from).to(to)).getReq();
+  return new searchRequest(new Builder().portnr(PORTNR).type("mot").category(category).label("automatic").from(from).to(to)).getReq();
 }
 
 

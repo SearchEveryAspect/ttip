@@ -60,7 +60,6 @@ InfoText.prototype = {
 
 	},
 	clearAll: function() {
-		console.log("plen: " +this.parties.length);
 		for (var i = 0; i < this.parties.length; i++) {
 			this.getElement(this.parties[i].party, "amount").text("");
 			this.getElement(this.parties[i].party).css({"display":"none"});

@@ -147,6 +147,35 @@ Graph.prototype = {
       this.updateGraph();
   },
 
+  getPeriod: function() {
+    if (this.jsob.labels.length < 2)  {
+      return "1 month";
+    }
+    var d = Date.parse(this.jsob.labels[this.jsob.labels.length-1]) - Date.parse(this.jsob.labels[1]);
+    d = d / 2628000000
+    if (d< 12) {
+      return "1 month";
+    }
+    if (d > 200) {
+      return "4 years"
+    }
+    if (d > 100) {
+      return "2 years"
+    }
+    if (d > 48) {
+      return "1 year";
+    }
+    if (d > 24) {
+      return "4 months";
+    }
+
+
+    if (d > 12) {
+      return "2 months";
+    }
+    return "1 month";
+  },
+
   updateGraph: function() {
 
     var theme = {
@@ -156,8 +185,9 @@ Graph.prototype = {
       series: this.getSeriesColors(),
       axes: {
         xaxis: {
+          renderer: $.jqplot.DateAxisRenderer,
           label: "Tid",
-          pad: 0,
+          tickInterval: this.getPeriod(),
         },
         yaxis: {
           label: "Antal motioner",
@@ -171,12 +201,22 @@ Graph.prototype = {
         sizeAdjust: 7.5
       }
     }
+    var arr = [];
+    var arrs = [];
+    var d = this.getData();
+    for (var i = 0; i < d.length; i++) {
+      for (var j = 0; j < d[i].length; j++) {
+        arr.push([this.jsob.labels[j], d[i][j]]);
+      }
+      arrs.push(arr);
+      arr = [];
+    }
     if (typeof this.graph === 'object') {
       this.graph.destroy();
-      this.graph = $.jqplot (this.name, this.getData(), theme);
+      this.graph = $.jqplot (this.name, arrs, theme);
       return;
     }
-    this.graph = $.jqplot (this.name, this.getData(), theme);
+    this.graph = $.jqplot (this.name, arrs, theme);
   }
 
 }
