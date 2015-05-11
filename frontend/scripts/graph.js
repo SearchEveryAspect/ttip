@@ -153,6 +153,7 @@ Graph.prototype = {
     }
     var d = Date.parse(this.jsob.labels[this.jsob.labels.length-1]) - Date.parse(this.jsob.labels[1]);
     d = d / 2628000000
+    console.log("D is :" + d);
     if (d< 12) {
       return "1 month";
     }
@@ -166,11 +167,13 @@ Graph.prototype = {
       return "1 year";
     }
     if (d > 24) {
+      return "5 months";
+    }
+    if (d > 16) {
       return "4 months";
     }
 
-
-    if (d > 12) {
+    if (d >= 12) {
       return "2 months";
     }
     return "1 month";
@@ -186,7 +189,7 @@ Graph.prototype = {
   },
 
   updateGraph: function() {
-
+    console.log(this.getPeriod());
     var theme = {
       grid: {
         background: "white"
