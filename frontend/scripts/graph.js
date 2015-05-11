@@ -153,7 +153,6 @@ Graph.prototype = {
     }
     var d = Date.parse(this.jsob.labels[this.jsob.labels.length-1]) - Date.parse(this.jsob.labels[1]);
     d = d / 2628000000
-    console.log("D is :" + d);
     if (d< 12) {
       return "1 month";
     }
@@ -189,7 +188,6 @@ Graph.prototype = {
   },
 
   updateGraph: function() {
-    console.log(this.getPeriod());
     var theme = {
       grid: {
         background: "white"
@@ -257,7 +255,7 @@ function handleEvent(index) {
   $("#" + charts[index].name).bind('jqplotDataClick',
     function (ev, seriesIndex, pointIndex, data) {
       //console.log("Data: " + data[1] + " seriesIndex: " + seriesIndex + " pointIndex: " + pointIndex + " Time: " + charts[index].jsob.labels[pointIndex]);
-      clearAll();
+      clearAll(index);
       for (var i = 0; i < charts[index].plotlines.length; i++) {
         addToInfo(charts[index].jsob.labels[pointIndex], index, charts[index].plotlines[i].party, charts[index].plotlines[i].linkset[pointIndex]);
       }

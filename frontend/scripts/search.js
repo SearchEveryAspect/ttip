@@ -49,7 +49,7 @@ function TimePeriod() {
   this.btn = false;
 
   //Should be gotten from json object.
-  this.maxxi = "2015-05-05" 
+  this.maxxi = "2015-05-10" 
   this.maxDate = Date.parse(this.maxxi);
 
   this.validDateRegex = /^(19[7-9]\d|200\d|201[0-5])[\-](0[1-9]|1[0-2])[\-](0[1-9]|[12]\d|3[01])$/i;
@@ -82,7 +82,7 @@ TimePeriod.prototype = {
         changeMonth: true,
         changeYear: true,
         numberOfMonths: 1,
-        maxDate: "-5d",
+        maxDate: "-1d",
         onClose: function( selectedDate ) {
           $( "#from" ).datepicker( "option", "maxDate", selectedDate );
           c.from = $("#from" ).val();

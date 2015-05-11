@@ -70,8 +70,10 @@ InfoText.prototype = {
 }
 
 function infoTextInit() {
-	charttexts.push(new InfoText("charttext0"));
-	charttexts[0].init();
+	for (var t = 0; t < getChartLen(); t++) {
+		charttexts.push(new InfoText("charttext"+t));
+		charttexts[t].init();
+	}
 	for (var i = 0; i < charttexts.length; i++) {
 		for (var j= 0; j < PARTIES.length; j++) {
 			mouseEventHandler(i, PARTIES[j]);
@@ -124,12 +126,12 @@ function shorten(s) {
 	return s;
 }
 
-function clearAll() {
-	charttexts[0].clearAll();
+function clearAll(i) {
+	charttexts[i].clearAll();
 }
 
 function addToInfo(time, index, party, linkarr) {
 	//console.log("Under tidsperiod: " + time + " För parti " + party + " är den andra titeln: " + linkarr[0].title);
-	charttexts[0].add(time, party, linkarr);
+	charttexts[index].add(time, party, linkarr);
 }
 
