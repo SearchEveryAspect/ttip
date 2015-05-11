@@ -59,7 +59,7 @@ Graph.prototype = {
   },
   //only for search.html
   updateSubject: function(from, to, category) {
-    console.log("Category is: " + category, " From: " + from + " To: " + to);
+    //console.log("Category is: " + category, " From: " + from + " To: " + to);
     makeCorsReq(getURLSearch(from,to,category), this.initObj, this);
   },
 

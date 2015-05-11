@@ -5,7 +5,7 @@
 
 function SubjectField() {
   this.btn = false;
-  this.sub;
+   this.sub;
 }
 
 SubjectField.prototype = {
@@ -14,11 +14,9 @@ SubjectField.prototype = {
     $( "#autocomplete" ).autocomplete({
       source: subjects,
       response: function( event, ui ) {
-        console.log("Event is: " + event);
         c.inputHandler(this);
       },
       close: function() {
-        console.log($(this).val());
         c.inputHandler(this);
       }
     });
@@ -31,7 +29,6 @@ SubjectField.prototype = {
     checkBtn();    
   },
   inArray: function(s) {
-    console.log("Trying for " + s);
     if (subjects.indexOf(s) > -1) {
       this.sub = s.replace(/å|ä/gi, 'a').replace(/ö/gi, 'o').toLowerCase();
       this.btn = true;
@@ -97,8 +94,8 @@ TimePeriod.prototype = {
   },
 
     inputHandler: function() {
-      console.log("Current from is: " + this.from);
-      console.log("Current to is: " + this.to);
+      //console.log("Current from is: " + this.from);
+      //console.log("Current to is: " + this.to);
 
       if ((this.notDefined(this.from)) || (this.notDefined(this.to))) {
         this.btn = false;
@@ -189,7 +186,7 @@ function searchInit() {
 }
 
 function checkBtn() {
-    console.log("TP: " + tp.getBtn() + " SF: " + sf.getBtn());
+    //console.log("TP: " + tp.getBtn() + " SF: " + sf.getBtn());
     if ((tp.getBtn() == true) && (sf.getBtn() == true)) {
       document.getElementById("btn").disabled = false;
     } else {
