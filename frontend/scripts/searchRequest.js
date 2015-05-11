@@ -1,10 +1,13 @@
 //@author: aguler
 
+var PORTNR = "8080";
+var IP = "localhost";
 
 function searchRequest(b) {
-  this.bajs = b.bajs;
   this.portnr = b.portnr;
   this.type = b.type;
+  this.top = b.top;
+  this.amount = b.amount;
   this.category = b.category;
   this.label = b.label;
   this.from = b.from;
@@ -25,9 +28,10 @@ searchRequest.prototype = {
 }
 
 function Builder() {
-  this.bajs;
   this.portnr;
   this.type;
+  this.top;
+  this.amount;
   this.category;
   this.label;
   this.from;
@@ -37,15 +41,19 @@ function Builder() {
 
 Builder.prototype = {
   portnr: function(nr) {
-    this.portnr = "http://localhost:" + nr;
-    return this;
-  },
-  bajs: function(b) {
-    this.bajs = b;
+    this.portnr = "http://"+IP+":" + nr;
     return this;
   },
   type: function(t) {
     this.type = t;
+    return this;
+  },
+  top: function(to) {
+    this.top = to;
+    return this;
+  },
+  amount: function(a) {
+    this.amount = a;
     return this;
   },
   category: function(c) {
@@ -68,12 +76,18 @@ Builder.prototype = {
 }
 //Default
 function getURL() {
-    return new searchRequest(new Builder().portnr("8080").type("mot").category("Skatt").label("month").from("2015-03-28").to("2014-04-01")).getReq();
+  return new searchRequest(new Builder().portnr(PORTNR).type("mot").category("Skatt").label("month").from("2015-03-28").to("2015-05-01")).getReq();
 }
 
-function getURLSearch(from, to, category) {
-    var s = new searchRequest(new Builder().portnr("8080").type("mot").category(category).label("month").from(from).to(to)).getReq();
-    return s;
+function getURLInteresting(amount) {
+  return new searchRequest(new Builder().portnr(PORTNR).type("mot").top("top").amount(amount)).getReq();
+}
+
+function getURLCategories() {
+  return new searchRequest(new Builder().portnr(PORTNR).type("categories")).getReq();
+}
+function getURLSearch(from,to, category) {
+  return new searchRequest(new Builder().portnr(PORTNR).type("mot").category(category).label("month").from(from).to(to)).getReq();
 }
 
 

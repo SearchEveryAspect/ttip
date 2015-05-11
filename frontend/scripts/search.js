@@ -13,7 +13,12 @@ SubjectField.prototype = {
     var c = this;
     $( "#autocomplete" ).autocomplete({
       source: subjects,
-      change: function() {
+      response: function( event, ui ) {
+        console.log("Event is: " + event);
+        c.inputHandler(this);
+      },
+      close: function() {
+        console.log($(this).val());
         c.inputHandler(this);
       }
     });
@@ -26,12 +31,11 @@ SubjectField.prototype = {
     checkBtn();    
   },
   inArray: function(s) {
+    console.log("Trying for " + s);
     if (subjects.indexOf(s) > -1) {
-      console.log("Is in array: " + s );
-      this.sub = s;
+      this.sub = s.replace(/å|ä/gi, 'a').replace(/ö/gi, 'o').toLowerCase();
       this.btn = true;
     } else {
-      console.log("not in array");
       this.btn = false;
 
     }
@@ -43,12 +47,12 @@ SubjectField.prototype = {
 
 function TimePeriod() {
   this.errorDiv = "#searchbox #error p";
-  this.errorStyle = {"border-bottom": "2px solid red"};
-  this.defaultStyle = {"border": "none"};
+  this.fromId = document.getElementById("from");
+  this.toId = document.getElementById("to");
   this.btn = false;
 
   //Should be gotten from json object.
-  this.maxxi = "2015-04-23" 
+  this.maxxi = "2015-05-05" 
   this.maxDate = Date.parse(this.maxxi);
 
   this.validDateRegex = /^(19[7-9]\d|200\d|201[0-5])[\-](0[1-9]|1[0-2])[\-](0[1-9]|[12]\d|3[01])$/i;
@@ -66,7 +70,7 @@ TimePeriod.prototype = {
         changeMonth: true,
         changeYear: true,
         numberOfMonths: 1,
-        maxDate: "-7d",
+        maxDate: "-5d",
         onClose: function( selectedDate ) {
           $( "#to" ).datepicker( "option", "minDate", selectedDate );
           c.to = $( "#to" ).val();
@@ -81,7 +85,7 @@ TimePeriod.prototype = {
         changeMonth: true,
         changeYear: true,
         numberOfMonths: 1,
-        maxDate: "-7d",
+        maxDate: "-5d",
         onClose: function( selectedDate ) {
           $( "#from" ).datepicker( "option", "maxDate", selectedDate );
           c.from = $("#from" ).val();
@@ -108,11 +112,16 @@ TimePeriod.prototype = {
       {    
         switch(this.getMax(this.from, this.to, this.maxxi)) {
           case this.from:
-            this.from = $("#from").val(this.maxxi);
-            this.to = $("#to").val(this.maxxi);
+            $("#from").val(this.maxxi);
+            $("#to").val(this.maxxi);
+            this.from = $("#from").val();
+            this.to = $("#to").val();
+
             break;
           case this.to:
-            this.to = $("#to").val(this.maxxi);
+            $("#to").val(this.maxxi);
+            this.to = $("#to").val();
+
             break;
           case this.maxxi:
             break;
@@ -120,7 +129,8 @@ TimePeriod.prototype = {
         this.btn = true;
         this.clearAll();
       } else {
-          $("#from, #to").css(this.errorStyle);
+          this.fromId.style.borderBottom="2px solid red";
+          this.toId.style.borderBottom="2px solid red";
           this.btn = false;
           $(this.errorDiv).text("Inkorrekt tidsformat.");
       }
@@ -161,14 +171,14 @@ TimePeriod.prototype = {
     },
     clearAll: function() {
       $(this.errorDiv).text("");
-      $("#from, #to").css(this.defaultStyle);
+      this.fromId.style.borderBottom = "1px solid rgba(60,60,60, 1)";
+      this.toId.style.borderBottom = "1px solid rgba(60,60,60, 1)";
+
     },
     getBtn: function() {
       return this.btn;
     }
 }
-
-
 
 function searchInit() {
   tp = new TimePeriod();
@@ -179,7 +189,7 @@ function searchInit() {
 }
 
 function checkBtn() {
-    console.log("TP: " + tp.getBtn() + "SF: " + sf.getBtn());
+    console.log("TP: " + tp.getBtn() + " SF: " + sf.getBtn());
     if ((tp.getBtn() == true) && (sf.getBtn() == true)) {
       document.getElementById("btn").disabled = false;
     } else {
@@ -188,6 +198,7 @@ function checkBtn() {
 }
 
 function search() {
+
   charts[0].updateSubject(tp.from, tp.to, sf.sub);
 }
 

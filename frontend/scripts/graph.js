@@ -2,6 +2,7 @@
 
 var charts = [];
 
+
 var COLORS = [];
 COLORS["V"] = "rgba(196,20,30,1)";
 COLORS["S"] = "rgba(239,27,39,0.6)"
@@ -12,17 +13,16 @@ COLORS["KD"] = "rgba(54,117,200,1)"
 COLORS["M"] = "rgba(0, 191, 255,1)";
 COLORS["SD"] = "rgba(236,200,0,1)"
 
-function Graph(contname, chartname, category) {
+function Graph(contname, chartname, category,obj) {
   this.graph;
   this.cat = category;
   this.contname = contname;
   this.max = 0;
   this.name = chartname;
   this.plotlines = [];
-  this.jsob = null;
-  getURL();
+  this.jsob = obj;
   //default call
-  makeCorsReq(this, getURL());
+  this.initGraph();
 
   //search calls makecorsreq with url which calls initObj which in turn calls
   //getparties which checks with parties were clicked in the last plotlines and
@@ -32,9 +32,22 @@ function Graph(contname, chartname, category) {
 
 Graph.prototype = {
 
-  initObj: function(resp) {
-    this.jsob = JSON.parse(JSON.stringify(resp));
-    this.initGraph();
+  initObj: function(resp, c) {
+    c.jsob = JSON.parse(JSON.stringify(resp));
+    c.cat = c.jsob.category.capitalize();
+    var par = c.getParties();
+    for (var i = 0; i < par.length; i++) {
+      c.destroyPlotLine(par[i]);
+      c.addPlotLine(par[i]);
+    }
+    c.initGraph(); 
+  },
+  getParties: function() {
+    var arr = [];
+    for (var i = 0; i < this.plotlines.length; i++) {
+      arr.push(this.plotlines[i].party);
+    }
+    return arr;
   },
   getSeriesColors: function() {
     var arr = [];
@@ -45,9 +58,9 @@ Graph.prototype = {
     return arr;
   },
   //only for search.html
-  updateSubject: function(to, from, category) {
-    console.log("Category is: " + category);
-    makeCorsReq(this, getURLSearch(to, from, category));
+  updateSubject: function(from, to, category) {
+    console.log("Category is: " + category, " From: " + from + " To: " + to);
+    makeCorsReq(getURLSearch(from,to,category), this.initObj, this);
   },
 
   getMax: function() {
@@ -62,7 +75,6 @@ Graph.prototype = {
     } 
     return max;
   },
-
   getPartyObj: function(party) {
     for (var i=0; i < this.jsob.datasets.length; i++) {
       if (party === this.jsob.datasets[i].party) {
@@ -75,12 +87,23 @@ Graph.prototype = {
 
   addPlotLine: function(party) {
     var dat = [];
+    var links = [];
+    var linkset = [];
     var obj = this.getPartyObj(party);
+    //console.log(obj.data.length);
     for (var i = 0; i < obj.data.length; i++) {
-      dat[i] = obj.data[i].data;
+      var links = [];
+      dat.push(obj.data[i].data);
+      //console.log("doc length" + obj.data[i].docs.length);
+      for (var j = 0; j < obj.data[i].docs.length; j++) {
+        links.push({title: obj.data[i].docs[j].title, link: obj.data[i].docs[j].link, date:obj.data[i].docs[j].date});
+        //console.log("This is link title: " + obj.data[i].docs[j].title + " and this is the link: " + dat[i].link);
+      }
+      linkset.push(links);
     }
-    this.plotlines.push({party: party, data: dat});
-
+    this.plotlines.push({party: party, data: dat, linkset: linkset});
+    //console.log("Current length of plotlines: " + this.plotlines.length);
+    //console.log(this.plotlines[0].linkset[0].length);
     this.updateGraph();
   },
 
@@ -95,31 +118,32 @@ Graph.prototype = {
     this.updateGraph();  
   },
 
+  getPartyData: function(d) {
+    var arr = [];
+    for (var i = 0; i < d.length; i++) {
+      arr.push([this.jsob.labels[i],d[i]]);
+    }
+    return arr;  
+  },
+
   getData: function() {
     var data = [];
     for (var i = 0; i < this.plotlines.length; i++) {
-        var l = this.jsob.labels[i];
-        console.log(l);
-        data.push(this.plotlines[i].data);
+      var l = this.jsob.labels[i];
+      data.push(this.plotlines[i].data);
     }
     if (data.length == 0) {
         data.push([null]);    
     }
     return data;   
   },
-
   initGraph: function() {
       this.max = this.getMax();
-      //Better if H2 is added as a child to this.contname with cat as attribute
       
-      //Ugly code only for version 1
-      if (this.cat === null) {
-        $("."+this.contname + " h2").text(this.jsob.category);
-      }else {
-        $("."+this.contname + " h2").text(this.cat);
 
-      }
-      //$("."+this.contname + " h2" ).append(this.getObj().category);
+      $("."+this.contname + " h2").text(this.cat);
+
+   
       this.updateGraph();
   },
 
@@ -136,10 +160,10 @@ Graph.prototype = {
           pad: 0,
         },
         yaxis: {
-          label: "",
-          tickInterval: 5,
+          label: "Antal motioner",
+          tickInterval: this.max/10,
           min: 0,
-          max: this.max,
+          max: this.max*1.2,
         }
       },
       highlighter: {
@@ -147,7 +171,6 @@ Graph.prototype = {
         sizeAdjust: 7.5
       }
     }
-
     if (typeof this.graph === 'object') {
       this.graph.destroy();
       this.graph = $.jqplot (this.name, this.getData(), theme);
@@ -161,6 +184,9 @@ Graph.prototype = {
 function add(chartid, party) {
   for (var i = 0; i < charts.length; i++) {
     if (charts[i].name == chartid) {
+      if (charts[i].jsob == null) {
+        return null;
+      }
       charts[i].addPlotLine(party);
     }
   }
@@ -174,21 +200,54 @@ function destroy(chartid, party) {
   }
 }
 
+function handleEvent(index) {
+  $("#" + charts[index].name).bind('jqplotDataClick',
+    function (ev, seriesIndex, pointIndex, data) {
+      //console.log("Data: " + data[1] + " seriesIndex: " + seriesIndex + " pointIndex: " + pointIndex + " Time: " + charts[index].jsob.labels[pointIndex]);
+      clearAll();
+      for (var i = 0; i < charts[index].plotlines.length; i++) {
+        addToInfo(charts[index].jsob.labels[pointIndex], index, charts[index].plotlines[i].party, charts[index].plotlines[i].linkset[pointIndex]);
+      }
+      //console.log(chart.plotlines[j].linkset[].title);
+  });
+}
 
+function graphHomeInit(objarr) {
 
-function graphHomeInit() {
-
-  //do searchreq before making graph objects and send each object as a parameter
-  //for index.html
   //for search.html make a trending request with 1 as amount and send it as default
   //object
+  /**
+  for (var i = 0; i < objarr.length; i++) {
+    charts.push(new Graph("chartcont" + i, "chart"+ i, "Skatt", objarr[i])); 
+    var chart = charts[i];
+    $("#" + chart.name).bind('jqplotDataClick',
+    function (ev, seriesIndex, pointIndex, data) {
+        // data contains the data point value, play with it
+        // NOTE it may contain an array and not a string
+        console.log("Data: " + data[1] + " seriesIndex: " + seriesIndex + " pointIndex: " + pointIndex + " Time: " + chart.jsob.labels[pointIndex]);
+        console.log(i);
+    });
 
-  charts.push(new Graph("chartcont0", "chart0", "Skatt"));  
-  charts.push(new Graph("chartcont1", "chart1", "Miljö"));     
-  charts.push(new Graph("chartcont2", "chart2", "Försvar"));  
+  }
+  */
+  for (var i= 0; i<getChartLen(); i++) {
+    charts.push(new Graph("chartcont" + i, "chart" + i, objarr[i].category.capitalize(), objarr[i]));
+    handleEvent(i);
+  }
+
+
 
 }
 
-function graphSearchInit() {
-    charts.push(new Graph("chartcont0", "chart0", null));  
+function graphSearchInit(obj) {
+    //console.log("this is category search: " + obj.topTrends[0].category.capitalize());
+    charts.push(new Graph("chartcont0", "chart0", obj.topTrends[0].category.capitalize(), obj.topTrends[0]));  
+    handleEvent(0);
 }
+
+String.prototype.capitalize = function() {
+    return this.charAt(0).toUpperCase() + this.slice(1);
+}
+
+
+
