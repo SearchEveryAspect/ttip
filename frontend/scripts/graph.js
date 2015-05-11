@@ -176,6 +176,15 @@ Graph.prototype = {
     return "1 month";
   },
 
+  getYInterval: function() {
+    var i = Math.round(this.max/10);
+    if (i < 1) {
+      return 1;
+    } else {
+      return i;
+    }
+  },
+
   updateGraph: function() {
 
     var theme = {
@@ -191,7 +200,7 @@ Graph.prototype = {
         },
         yaxis: {
           label: "Antal motioner",
-          tickInterval: this.max/10,
+          tickInterval: this.getYInterval(),
           min: 0,
           max: this.max*1.2,
         }
@@ -201,6 +210,7 @@ Graph.prototype = {
         sizeAdjust: 7.5
       }
     }
+
     var arr = [];
     var arrs = [];
     var d = this.getData();
