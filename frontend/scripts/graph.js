@@ -2,8 +2,7 @@
 
 var charts = [];
 
-
-var COLORS = [];
+var COLORS = new Array(8);
 COLORS["V"] = "rgba(196,20,30,1)";
 COLORS["S"] = "rgba(239,27,39,0.6)"
 COLORS["MP"] = "rgba(139, 180, 40, 1)"
@@ -24,10 +23,6 @@ function Graph(contname, chartname, category,obj) {
   //default call
   this.initGraph();
 
-  //search calls makecorsreq with url which calls initObj which in turn calls
-  //getparties which checks with parties were clicked in the last plotlines and
-  //returns these parties as an array. Initobj then addplotlines for all these
-  //parties before finally calling updateGraph.
 }
 
 Graph.prototype = {
@@ -139,47 +134,24 @@ Graph.prototype = {
   },
   initGraph: function() {
       this.max = this.getMax();
-      
-
       $("."+this.contname + " h2").text(this.cat);
-
-   
       this.updateGraph();
   },
-
   getPeriod: function() {
-    if (this.jsob.labels.length < 2)  {
-      return "1 month";
+    var monthMS = 2629743830; //month in ms
+    var scale = 6;
+    var interval = Date.parse(this.jsob.labels[this.jsob.labels.length-1]) - Date.parse(this.jsob.labels[0]);
+    var label = " months";
+    var d = interval / (monthMS * scale);
+    if (d <= 0.2) {
+      return "1 week";
     }
-    var d = Date.parse(this.jsob.labels[this.jsob.labels.length-1]) - Date.parse(this.jsob.labels[1]);
-    d = d / 2628000000
-    if (d< 12) {
-      return "1 month";
-    }
-    if (d > 200) {
-      return "4 years"
-    }
-    if (d > 100) {
-      return "2 years"
-    }
-    if (d > 48) {
-      return "1 year";
-    }
-    if (d > 24) {
-      return "5 months";
-    }
-    if (d > 16) {
-      return "4 months";
-    }
-
-    if (d >= 12) {
-      return "2 months";
-    }
-    return "1 month";
+    d = Math.ceil(d);
+    return d + label;
   },
 
   getYInterval: function() {
-    var i = Math.round(this.max/10);
+    var i = Math.ceil(this.max/10);
     if (i < 1) {
       return 1;
     } else {
@@ -188,6 +160,7 @@ Graph.prototype = {
   },
 
   updateGraph: function() {
+    console.log(this.getPeriod());
     var theme = {
       grid: {
         background: "white"
@@ -197,6 +170,8 @@ Graph.prototype = {
         xaxis: {
           renderer: $.jqplot.DateAxisRenderer,
           label: "Tid",
+          min: this.jsob.labels[0],
+          max: this.jsob.labels[this.jsob.labels.length-1],
           tickInterval: this.getPeriod(),
         },
         yaxis: {
@@ -278,7 +253,6 @@ function graphHomeInit(objarr) {
         console.log("Data: " + data[1] + " seriesIndex: " + seriesIndex + " pointIndex: " + pointIndex + " Time: " + chart.jsob.labels[pointIndex]);
         console.log(i);
     });
-
   }
   */
   for (var i= 0; i<getChartLen(); i++) {
@@ -289,7 +263,7 @@ function graphHomeInit(objarr) {
 
 
 }
-
+//Lägg ihop med graphhomeinit??
 function graphSearchInit(obj) {
     //console.log("this is category search: " + obj.topTrends[0].category.capitalize());
     charts.push(new Graph("chartcont0", "chart0", obj.topTrends[0].category.capitalize(), obj.topTrends[0]));  
