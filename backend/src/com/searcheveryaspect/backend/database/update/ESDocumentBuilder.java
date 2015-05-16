@@ -47,7 +47,11 @@ public class ESDocumentBuilder {
       throw new NullPointerException("Motion " + doc.getId()
           + ": undertitle is null, can't specify party");
     } else {
+      try {
       party = createParty(doc.getUndertitel());
+      } catch (IllegalArgumentException e) {
+        throw new IllegalArgumentException("Motion " + doc.getId() + e.getMessage());
+      }
     }
 
     String text = doc.getText();
@@ -65,7 +69,7 @@ public class ESDocumentBuilder {
     String[] splittedUnderTitle = underTitle.split(" \\(");
 
     if (splittedUnderTitle.length != 2) {
-      throw new IllegalArgumentException("Motions undertitle contains more than one paranthese.");
+      throw new IllegalArgumentException("undertitle contains more than one paranthese, can't specify party");
     }
 
     String partiesUnformatted =
