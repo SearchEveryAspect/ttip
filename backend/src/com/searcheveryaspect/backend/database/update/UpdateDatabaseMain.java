@@ -45,6 +45,9 @@ public class UpdateDatabaseMain {
 
     for (GovDocumentList govDocumentList : docs) {
       GovDocument[] govDocuments = govDocumentList.dokument;
+      if (govDocuments == null) {
+        continue;
+      }
       for (GovDocument govDocument : govDocuments) {
         try {
           ESDocument doc = ESDocumentBuilder.createESDocument(new GovDocumentLite(govDocument));

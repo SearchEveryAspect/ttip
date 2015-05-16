@@ -50,7 +50,7 @@ public class ESDocumentBuilder {
       try {
       party = createParty(doc.getUndertitel());
       } catch (IllegalArgumentException e) {
-        throw new IllegalArgumentException("Motion " + doc.getId() + e.getMessage());
+        throw new IllegalArgumentException("Motion " + doc.getId() + ": " + e.getMessage());
       }
     }
 
