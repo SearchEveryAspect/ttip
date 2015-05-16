@@ -58,8 +58,22 @@ public class UpdateDatabaseMain {
         }
       }
     }
+    setUpdateTimestamp(client, DateTime.now());
 
     client.close();
     node.close();
+  }
+
+  /**
+   * Updates the provided client with the provided timestamp. The timestamp is stored in
+   * index motion, type updated, id 1. If a previous timestamp exists it will replace that
+   * one.
+   * 
+   * @param client
+   * @param ts
+   */
+  private static void setUpdateTimestamp(Client client, DateTime ts) {
+    client.prepareIndex("motions", "updated", "1").setSource("{\"ts:" + ts.toString() + "}")
+        .execute().actionGet();
   }
 }

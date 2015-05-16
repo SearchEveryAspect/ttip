@@ -4,11 +4,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.searcheveryaspect.backend.webserver.SystemResponse;
 
-import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.client.Client;
-import org.elasticsearch.search.aggregations.AggregationBuilders;
-import org.elasticsearch.search.aggregations.metrics.MetricsAggregationBuilder;
-import org.elasticsearch.search.aggregations.metrics.max.Max;
 import org.joda.time.DateTime;
 
 /**
@@ -31,16 +28,8 @@ public class SystemQuerier implements DatabaseReader<SystemRequest, SystemRespon
   }
 
   private DateTime getLastUpdated() {
-    final String lastUpdated = "update";
-    MetricsAggregationBuilder aggregation =
-        AggregationBuilders.max(lastUpdated).field("fetchedTimestamp");
-    SearchResponse response =
-        client.prepareSearch("motions").setTypes("motion").addAggregation(aggregation).execute()
-            .actionGet();
-    Max agg = response.getAggregations().get(lastUpdated);
-    // TODO: Max aggregations for long fields can currently only return doubles and there
-    // seems to be no intent on fixing this right now.
-    DateTime ts = new DateTime((long) agg.getValue());
+    GetResponse response = client.prepareGet("motions", "updated", "1").execute().actionGet();
+    DateTime ts = new DateTime(response.getField("ts").getValue());
     return ts;
   }
 }
