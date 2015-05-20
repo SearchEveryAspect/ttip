@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Document created by: TTIP, TTIP with XmlGrid Online XML Editor, http://xmlgrid.net -->
+<categories>
+
+  <category name="skatt">
+    <word points='5'>
+      skatt
+    </word>
+    <word points='1'>
+      pengar
+    </word>
+
+  </category>
+
+  <category name="utbildning">
+    <word points='5'>
+      utbildning
+    </word>
+    <word points='3'>
+      skola
+    </word>
+
+  </category>
+
+</categories>

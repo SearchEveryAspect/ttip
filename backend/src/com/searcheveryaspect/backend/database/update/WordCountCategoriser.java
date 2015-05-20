@@ -3,7 +3,19 @@
  */
 package com.searcheveryaspect.backend.database.update;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
 import org.elasticsearch.common.lang3.ArrayUtils;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 import com.searcheveryaspect.backend.shared.*;
 
@@ -21,29 +33,85 @@ public class WordCountCategoriser implements Categoriser {
 	public String[] categorise(ESDocument doc) 
 	{
 		
-		Category[] categories = com.searcheveryaspect.backend.shared.Category.values();
+		File fXmlFile = new File("categories.xml");
+		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder dBuilder = null;
+		try 
+		{
+			dBuilder = dbFactory.newDocumentBuilder();
+		} 
 		
-		int[] wordcounts;
-		String[] splitText;
+		catch (ParserConfigurationException e) 
+		{
+			System.out.println("Couldn't init document builder in " + this.getClass().toString());
+			e.printStackTrace();
+		}
 		
+		Document xmlDoc = null;
+		try 
+		{
+			xmlDoc = dBuilder.parse(fXmlFile);
+		} 
+		catch (SAXException | IOException e) 
+		{
+			System.out.println("Couldn't parse categories in " + this.getClass().toString());
+			e.printStackTrace();
+		}
 		
-		wordcounts = new int[categories.length];
+	 
+		xmlDoc.getDocumentElement().normalize();
 		
-		//If there's no text we try to work with the title
+		System.out.println("Root element :" + xmlDoc.getDocumentElement().getNodeName());
+	 
+		NodeList nList = xmlDoc.getElementsByTagName("category");
+		
+		int[] categoryPoints = new int[nList.getLength()];
+		
+		ArrayList<ArrayList<WordPair>> categoriesAndWords = new ArrayList<ArrayList<WordPair>>();
+		
+		for(int i = 0; i < nList.getLength(); i++)
+		{
+			ArrayList<WordPair> l = new ArrayList<>();
+			categoriesAndWords.add(l);
+		}
+		
+		for(int i = 0; i < nList.getLength(); i++)
+		{
+			NodeList subNList = nList.item(i).getChildNodes();
+			for(int j = 0; j < subNList.getLength(); j++)
+			{
+				Node n = subNList.item(j);
+				if(!n.getTextContent().equals("") && n.getAttributes() != null)
+				{
+					WordPair wp = new WordPair(n.getTextContent(), 
+							Integer.parseInt(n.getAttributes().item(0).getNodeValue()));
+					categoriesAndWords.get(i).add(wp);
+				}
+			}
+			
+		}
+		
+		String[] splitText = null;
+
+		
 		if(doc.text == null)
 			splitText = ArrayUtils.addAll(doc.getTitle().split(" ")); 
 		else
 			splitText = doc.text.split(" ");
 		
+		wordLoop:
 		for(String s : splitText)
 		{
-			for(int i = 0; i < categories.length; i++)
+			for(int i = 0; i < categoriesAndWords.size(); i++)
 			{
-				String[] keywords = categories[i].getKeywords();
-				for(int j = 0; j < keywords.length; j++)
+				for(int j = 0; j < categoriesAndWords.get(i).size(); j++)
 				{
-					if(s.equals(keywords[j].toLowerCase()))
-						wordcounts[i]++;
+					WordPair p = categoriesAndWords.get(i).get(j);
+					if(s.contains(p.getWord()))
+					{
+						categoryPoints[i] += p.getPoints();
+						continue wordLoop;
+					}
 				}
 			}
 		}
@@ -53,23 +121,25 @@ public class WordCountCategoriser implements Categoriser {
 		
 		int secondMax = 0;
 		int secondMaxIndex = 0;
-		for(int i = 0; i < wordcounts.length; i++)
+		for(int i = 0; i < categoryPoints.length; i++)
 		{
 			
-			if(wordcounts[i] > firstMax)
+			if(categoryPoints[i] > firstMax)
 			{
 				secondMax = firstMax;
 				secondMaxIndex = firstMaxIndex;
-				firstMax = wordcounts[i];
+				firstMax = categoryPoints[i];
 				firstMaxIndex = i;
 				continue;
 			}
-			if(wordcounts[i] > secondMax)
+			if(categoryPoints[i] > secondMax)
 			{
-				secondMax = wordcounts[i];
+				secondMax = categoryPoints[i];
 				secondMaxIndex = i;
 			}
 		}
+		
+		System.out.println(nList.item(firstMaxIndex).getAttributes().item(0).getTextContent());
 		
 		//If no word is found we have not been able to
 		//define a category
@@ -77,11 +147,10 @@ public class WordCountCategoriser implements Categoriser {
 			return new String[]{Category.UNKNOWN.toString()};
 		
 		if((float)secondMax * SECOND_CATEGORY_PERCENTAGE >= (float)firstMax)
-			return new String[]{categories[firstMaxIndex].toString(), categories[secondMaxIndex].toString()};
+			return new String[]{nList.item(firstMaxIndex).getNodeValue(), nList.item(secondMaxIndex).getNodeValue()};
 		
-		return new String[]{categories[firstMaxIndex].toString()};
+		return new String[]{nList.item(firstMaxIndex).getNodeValue()};
 		
 		
 	}
-
 }
