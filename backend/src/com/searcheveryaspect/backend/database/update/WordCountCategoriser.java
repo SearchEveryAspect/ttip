@@ -83,7 +83,7 @@ public class WordCountCategoriser implements Categoriser {
 				Node n = subNList.item(j);
 				if(!n.getTextContent().equals("") && n.getAttributes() != null)
 				{
-					WordPair wp = new WordPair(n.getTextContent(), 
+					WordPair wp = new WordPair(n.getTextContent().replaceAll("\\s", ""), 
 							Integer.parseInt(n.getAttributes().item(0).getNodeValue()));
 					categoriesAndWords.get(i).add(wp);
 				}
@@ -107,7 +107,7 @@ public class WordCountCategoriser implements Categoriser {
 				for(int j = 0; j < categoriesAndWords.get(i).size(); j++)
 				{
 					WordPair p = categoriesAndWords.get(i).get(j);
-					if(s.contains(p.getWord()))
+					if(s.toLowerCase().matches(".*" + p.getWord() + ".*"))
 					{
 						categoryPoints[i] += p.getPoints();
 						continue wordLoop;
@@ -147,9 +147,9 @@ public class WordCountCategoriser implements Categoriser {
 			return new String[]{Category.UNKNOWN.toString()};
 		
 		if((float)secondMax * SECOND_CATEGORY_PERCENTAGE >= (float)firstMax)
-			return new String[]{nList.item(firstMaxIndex).getNodeValue(), nList.item(secondMaxIndex).getNodeValue()};
+			return new String[]{nList.item(firstMaxIndex).getAttributes().item(0).getTextContent(), nList.item(secondMaxIndex).getAttributes().item(0).getTextContent()};
 		
-		return new String[]{nList.item(firstMaxIndex).getNodeValue()};
+		return new String[]{nList.item(firstMaxIndex).getAttributes().item(0).getTextContent()};
 		
 		
 	}

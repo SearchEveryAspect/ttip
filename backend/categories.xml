@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--Document created by: TTIP, TTIP with XmlGrid Online XML Editor, http://xmlgrid.net -->
 <categories>
 
   <category name="skatt">
@@ -9,9 +8,21 @@
     <word points='1'>
       pengar
     </word>
+    <word points="3">pengar</word>
 
   </category>
 
+  
+  
+  <category name="försvar">
+  </category>
+  
+  <category name="miljö">
+  </category>
+  
+  <category name="vård">
+  </category>
+  
   <category name="utbildning">
     <word points='5'>
       utbildning
@@ -19,7 +30,50 @@
     <word points='3'>
       skola
     </word>
-
   </category>
+  
+  <category name="ekonomi">
+  </category>
+  
+  <category name="migration">
+  </category>
+  
+  <category name="utrikespolitik">
+  </category>
+  
+  <category name="trafik">
+  </category>
+  
+  <category name="arbetsmarknad">
+  </category>
+  
+  <category name="kultur">
+  </category>
+  
+  <category name="jordbruk">
+  </category>
+  
+  <category name="näringspolitik">
+  </category>
+  
+  <category name="energipolitik">
+  </category>
+  
+  <category name="lag och rätt">
+  </category>
+  
+  <category name="bostad">
+  </category>
+  
+  <category name="socialförsäkring">
+  </category>
+  
+  <category name="alkohol och droger">
+  </category>
+  
+  <category name="forskning">
+  </category>
+  
+  
 
 </categories>
