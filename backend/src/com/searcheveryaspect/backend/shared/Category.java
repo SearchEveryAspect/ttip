@@ -23,7 +23,8 @@ public enum Category {
   BOSTAD("bostad"),
   SOCIALFORSAKRING("socialförsäkring"),
   ALKOHOLOCHDROG("alkohol och droger"),
-  FORSKNING("forskning");
+  FORSKNING("forskning"),
+  UNKNOWN("unknown");
   
   
   private String prettyName;
