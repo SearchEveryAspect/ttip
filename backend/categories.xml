@@ -1,79 +1,1087 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <categories>
-
-  <category name="skatt">
-    <word points='5'>
-      skatt
-    </word>
-    <word points='1'>
-      pengar
-    </word>
-    <word points="3">pengar</word>
-
-  </category>
-
-  
-  
-  <category name="försvar">
-  </category>
-  
-  <category name="miljö">
-  </category>
-  
-  <category name="vård">
-  </category>
-  
-  <category name="utbildning">
-    <word points='5'>
-      utbildning
-    </word>
-    <word points='3'>
-      skola
-    </word>
-  </category>
-  
-  <category name="ekonomi">
-  </category>
-  
-  <category name="migration">
-  </category>
-  
-  <category name="utrikespolitik">
-  </category>
-  
-  <category name="trafik">
-  </category>
-  
-  <category name="arbetsmarknad">
-  </category>
-  
-  <category name="kultur">
-  </category>
-  
-  <category name="jordbruk">
-  </category>
-  
-  <category name="näringspolitik">
-  </category>
-  
-  <category name="energipolitik">
-  </category>
-  
-  <category name="lag och rätt">
-  </category>
-  
-  <category name="bostad">
-  </category>
-  
-  <category name="socialförsäkring">
-  </category>
-  
-  <category name="alkohol och droger">
-  </category>
-  
-  <category name="forskning">
-  </category>
-  
-  
-
+<category name="﻿skatt">
+<word points='3'>
+skatt
+</word>
+<word points='3'>
+skatter
+</word>
+<word points='3'>
+skattebörda
+</word>
+<word points='3'>
+skattebördan
+</word>
+<word points='3'>
+skattelättnader
+</word>
+<word points='3'>
+straffskatt
+</word>
+<word points='1'>
+pengar
+</word>
+<word points='1'>
+inkomst
+</word>
+<word points='2'>
+inkomstskatt
+</word>
+<word points='1'>
+skattepengar
+</word>
+<word points='1'>
+skattebetalare
+</word>
+<word points='3'>
+skattelättnad
+</word>
+<word points='3'>
+värnskatt
+</word>
+<word points='3'>
+marginalskatt
+</word>
+<word points='3'>
+fastighetsskatt
+</word>
+</category>
+<category name="försvar">
+<word points='3'>
+försvar
+</word>
+<word points='3'>
+försvaret
+</word>
+<word points='3'>
+militär
+</word>
+<word points='3'>
+värnplikt
+</word>
+<word points='1'>
+vapen
+</word>
+<word points='3'>
+nato
+</word>
+<word points='2'>
+terrorism
+</word>
+<word points='3'>
+fösvarsmakten
+</word>
+<word points='3'>
+gmu
+</word>
+<word points='3'>
+militärutbildning
+</word>
+<word points='2'>
+soldat
+</word>
+<word points='2'>
+soldater
+</word>
+<word points='2'>
+officer
+</word>
+<word points='2'>
+officerare
+</word>
+<word points='2'>
+gruppbefäl
+</word>
+<word points='2'>
+sjömän
+</word>
+<word points='3'>
+försvarspolitik
+</word>
+<word points='3'>
+säkerhetspolitik
+</word>
+<word points='2'>
+vapenmakt
+</word>
+<word points='1'>
+ryssland
+</word>
+<word points='1'>
+ryska
+</word>
+<word points='2'>
+stridsduglighet
+</word>
+<word points='3'>
+enveckasförsvar
+</word>
+<word points='2'>
+ubåt
+</word>
+<word points='3'>
+natomedlemskap
+</word>
+<word points='2'>
+överbefälhavare
+</word>
+<word points='2'>
+stridsplan
+</word>
+<word points='2'>
+stridsflygplan
+</word>
+<word points='2'>
+gripenplan
+</word>
+<word points='2'>
+förband
+</word>
+<word points='2'>
+krisberedskap
+</word>
+<word points='3'>
+försvarsindustri
+</word>
+<word points='3'>
+mönstring
+</word>
+<word points='3'>
+mönstringsplikt
+</word>
+<word points='3'>
+veteranpolitik
+</word>
+<word points='2'>
+veteransoldat
+</word>
+</category>
+<category name="miljö">
+<word points='3'>
+miljö
+</word>
+<word points='2'>
+klimat
+</word>
+<word points='2'>
+klimatet
+</word>
+<word points='1'>
+träd
+</word>
+<word points='1'>
+temperatur
+</word>
+<word points='3'>
+växthuseffekt
+</word>
+<word points='3'>
+växthuseffekten
+</word>
+<word points='3'>
+förorening
+</word>
+<word points='3'>
+utsläpp
+</word>
+<word points='3'>
+koldioxidutsläpp
+</word>
+<word points='1'>
+grön
+</word>
+<word points='1'>
+uppvärmning
+</word>
+<word points='2'>
+kemikalier
+</word>
+<word points='3'>
+miljömål
+</word>
+<word points='3'>
+klimatpåverkan
+</word>
+<word points='3'>
+giftfri
+</word>
+<word points='3'>
+övergödning
+</word>
+<word points='3'>
+strålmiljö
+</word>
+<word points='3'>
+strålning
+</word>
+</category>
+<category name="vård">
+<word points='3'>
+vård
+</word>
+<word points='3'>
+välfärd
+</word>
+<word points='2'>
+hälsa
+</word>
+<word points='2'>
+folkhälsa
+</word>
+<word points='1'>
+liv
+</word>
+<word points='1'>
+död
+</word>
+<word points='2'>
+sjukhus
+</word>
+<word points='3'>
+sjukvård
+</word>
+<word points='3'>
+sjukvården
+</word>
+<word points='3'>
+vården
+</word>
+<word points='3'>
+socialstyrelsen
+</word>
+<word points='2'>
+hälso-
+</word>
+<word points='1'>
+äldre
+</word>
+<word points='3'>
+äldrevård
+</word>
+<word points='3'>
+äldreboende
+</word>
+<word points='3'>
+äldreomsorg
+</word>
+<word points='2'>
+läkemedel
+</word>
+<word points='1'>
+droger
+</word>
+<word points='1'>
+rökning
+</word>
+</category>
+<category name="utbildning">
+<word points='3'>
+skola
+</word>
+<word points='3'>
+skolor
+</word>
+<word points='3'>
+utbildning
+</word>
+<word points='3'>
+betyg
+</word>
+<word points='3'>
+betygsgräns
+</word>
+<word points='3'>
+skolämnen
+</word>
+<word points='3'>
+elev
+</word>
+<word points='3'>
+elever
+</word>
+<word points='3'>
+student
+</word>
+<word points='3'>
+studenter
+</word>
+<word points='3'>
+pisa
+</word>
+<word points='3'>
+högskola
+</word>
+<word points='3'>
+universitet
+</word>
+<word points='3'>
+grundskola
+</word>
+<word points='3'>
+skolval
+</word>
+<word points='3'>
+niu
+</word>
+<word points='3'>
+idrottsutbildning
+</word>
+<word points='3'>
+sfi
+</word>
+</category>
+<category name="ekonomi">
+<word points='3'>
+ekonomi
+</word>
+<word points='1'>
+företag
+</word>
+<word points='1'>
+företagare
+</word>
+<word points='2'>
+kapital
+</word>
+<word points='2'>
+resurs
+</word>
+<word points='2'>
+resurser
+</word>
+<word points='1'>
+företagaren
+</word>
+<word points='2'>
+investeringar
+</word>
+<word points='2'>
+investering
+</word>
+<word points='3'>
+tillväxt
+</word>
+<word points='3'>
+tillväxten
+</word>
+<word points='3'>
+ekonomisk
+</word>
+<word points='2'>
+export
+</word>
+<word points='2'>
+import
+</word>
+<word points='1'>
+industri
+</word>
+<word points='2'>
+exportindustri
+</word>
+<word points='2'>
+aktier
+</word>
+<word points='2'>
+obligationer
+</word>
+<word points='2'>
+aktie
+</word>
+<word points='2'>
+börs
+</word>
+<word points='1'>
+konkurrenskraftig
+</word>
+<word points='3'>
+statsskuld
+</word>
+<word points='3'>
+valutamarknad
+</word>
+<word points='3'>
+penningpolitik
+</word>
+<word points='3'>
+riksbank
+</word>
+<word points='2'>
+vårbudget
+</word>
+<word points='2'>
+höstbudget
+</word>
+<word points='3'>
+reporänta
+</word>
+</category>
+<category name="migration">
+<word points='2'>
+invandring
+</word>
+<word points='2'>
+invandrare
+</word>
+<word points='2'>
+arbetskraftinvandring
+</word>
+<word points='2'>
+sfi
+</word>
+<word points='3'>
+asyl
+</word>
+<word points='3'>
+flykting
+</word>
+<word points='3'>
+kvotflykting
+</word>
+<word points='3'>
+uppehållstillstånd
+</word>
+<word points='3'>
+anhöriginvandring
+</word>
+</category>
+<category name="utrikespolitik">
+<word points='1'>
+utrikes
+</word>
+<word points='3'>
+utrikespolitik
+</word>
+<word points='2'>
+kust
+</word>
+<word points='2'>
+kuster
+</word>
+<word points='1'>
+gräns
+</word>
+<word points='2'>
+terrorism
+</word>
+<word points='1'>
+stat
+</word>
+<word points='2'>
+kuststat
+</word>
+<word points='2'>
+gränsöverskridande
+</word>
+<word points='3'>
+utrikesdepartementet
+</word>
+<word points='2'>
+diplomati
+</word>
+</category>
+<category name="trafik">
+<word points='3'>
+trafik
+</word>
+<word points='1'>
+försening
+</word>
+<word points='1'>
+förseningar
+</word>
+<word points='3'>
+trafiken
+</word>
+<word points='2'>
+väg
+</word>
+<word points='2'>
+vägar
+</word>
+<word points='2'>
+transport
+</word>
+<word points='3'>
+trafikverket
+</word>
+<word points='2'>
+resande
+</word>
+<word points='3'>
+järnväg
+</word>
+<word points='3'>
+järnvägen
+</word>
+<word points='3'>
+sj
+</word>
+<word points='2'>
+bil
+</word>
+<word points='2'>
+bilen
+</word>
+<word points='1'>
+resan
+</word>
+<word points='2'>
+reseavdrag
+</word>
+<word points='3'>
+sl
+</word>
+<word points='2'>
+buss
+</word>
+<word points='2'>
+tåg
+</word>
+<word points='2'>
+spårvagn
+</word>
+<word points='2'>
+cykel
+</word>
+<word points='2'>
+flyg
+</word>
+<word points='2'>
+båt
+</word>
+<word points='3'>
+flygplats
+</word>
+<word points='2'>
+bromma
+</word>
+<word points='3'>
+arlanda
+</word>
+<word points='3'>
+sjöfart
+</word>
+<word points='3'>
+sjöfarsverket
+</word>
+<word points='2'>
+rederi
+</word>
+<word points='3'>
+motorväg
+</word>
+<word points='2'>
+förbifarten
+</word>
+<word points='2'>
+förbifart
+</word>
+<word points='3'>
+ringled
+</word>
+<word points='3'>
+bro
+</word>
+<word points='3'>
+tunnel
+</word>
+<word points='3'>
+tunnelbana
+</word>
+<word points='3'>
+pendeltåg
+</word>
+<word points='3'>
+pendeltågsstation
+</word>
+<word points='3'>
+tågstation
+</word>
+<word points='3'>
+tunnelbanestation
+</word>
+<word points='2'>
+lastbil
+</word>
+<word points='3'>
+godstransport
+</word>
+<word points='2'>
+förbindelse
+</word>
+<word points='2'>
+trafikförbindelse
+</word>
+<word points='3'>
+bredband
+</word>
+<word points='3'>
+bredbandsutbyggnad
+</word>
+<word points='3'>
+telenät
+</word>
+<word points='2'>
+roaming
+</word>
+<word points='2'>
+roamingavgifter
+</word>
+<word points='3'>
+mobiltäckning
+</word>
+<word points='3'>
+täckning
+</word>
+<word points='1'>
+telefoni
+</word>
+<word points='2'>
+post
+</word>
+<word points='2'>
+it
+</word>
+</category>
+<category name="arbetsmarknad">
+<word points='3'>
+arbetsgivaravgift
+</word>
+<word points='3'>
+anställningsskydd
+</word>
+<word points='3'>
+a-kassa
+</word>
+<word points='3'>
+arbetsförmedlingen
+</word>
+<word points='3'>
+arbetsmiljö
+</word>
+<word points='3'>
+jobb
+</word>
+<word points='3'>
+arbete
+</word>
+<word points='3'>
+arbetsgivare
+</word>
+<word points='3'>
+arbetstagare
+</word>
+<word points='3'>
+sysselsättning
+</word>
+<word points='3'>
+sysselsättningsmål
+</word>
+<word points='3'>
+anställning
+</word>
+<word points='3'>
+anställningsform
+</word>
+<word points='3'>
+egenanställning
+</word>
+<word points='2'>
+deltid
+</word>
+<word points='2'>
+heltid
+</word>
+<word points='2'>
+las
+</word>
+</category>
+<category name="kultur">
+<word points='3'>
+kultur
+</word>
+<word points='3'>
+idrott
+</word>
+<word points='3'>
+folkbildning
+</word>
+<word points='3'>
+ungdomspolitik
+</word>
+<word points='3'>
+friluftsliv
+</word>
+<word points='3'>
+trossamfund
+</word>
+<word points='1'>
+litteratur
+</word>
+<word points='1'>
+läsande
+</word>
+<word points='3'>
+museum
+</word>
+<word points='1'>
+sport
+</word>
+<word points='2'>
+kulturarv
+</word>
+<word points='2'>
+spelmonopol
+</word>
+<word points='2'>
+religion
+</word>
+<word points='2'>
+religionen
+</word>
+<word points='2'>
+religionsutbildning
+</word>
+<word points='2'>
+religiös
+</word>
+<word points='2'>
+religiösa
+</word>
+<word points='2'>
+religionsfrihet
+</word>
+<word points='2'>
+religionsfriheten
+</word>
+<word points='1'>
+sekulariserat
+</word>
+<word points='1'>
+religioner
+</word>
+<word points='1'>
+religioners
+</word>
+<word points='2'>
+kyrka
+</word>
+<word points='2'>
+moské
+</word>
+</category>
+<category name="jordbruk">
+<word points='3'>
+jordbruk
+</word>
+<word points='3'>
+djurskötsel
+</word>
+<word points='3'>
+blandjordbruk
+</word>
+<word points='3'>
+plantagejordbruk
+</word>
+<word points='3'>
+spannmålsodling
+</word>
+<word points='3'>
+lantbruk
+</word>
+<word points='3'>
+mjölkko
+</word>
+<word points='1'>
+ren
+</word>
+<word points='3'>
+mjölkbonde
+</word>
+<word points='3'>
+mjölkbönder
+</word>
+<word points='3'>
+bonde
+</word>
+<word points='3'>
+bönder
+</word>
+<word points='3'>
+skogsbruk
+</word>
+<word points='1'>
+skog
+</word>
+<word points='1'>
+mark
+</word>
+<word points='3'>
+jordbrukspolitik
+</word>
+<word points='3'>
+rennäring
+</word>
+<word points='3'>
+djurskydd
+</word>
+<word points='3'>
+naturskydd
+</word>
+</category>
+<category name="näringspolitik">
+<word points='3'>
+näringspolitik
+</word>
+<word points='2'>
+industri
+</word>
+<word points='1'>
+handel
+</word>
+<word points='2'>
+frihandel
+</word>
+</category>
+<category name="energipolitik">
+<word points='1'>
+energi
+</word>
+<word points='1'>
+energipolitik
+</word>
+<word points='1'>
+kärnkraft
+</word>
+<word points='1'>
+kolkraft
+</word>
+<word points='1'>
+vindkraft
+</word>
+<word points='1'>
+solenergi
+</word>
+<word points='1'>
+solceller
+</word>
+</category>
+<category name="lag och rätt">
+<word points='3'>
+polis
+</word>
+<word points='3'>
+domstol
+</word>
+<word points='2'>
+brottslighet
+</word>
+<word points='1'>
+organiserad
+</word>
+<word points='2'>
+fängelse
+</word>
+<word points='1'>
+anstalt
+</word>
+<word points='3'>
+samtyckeslagstiftning
+</word>
+<word points='2'>
+tiggeri
+</word>
+<word points='3'>
+rättsväsende
+</word>
+<word points='3'>
+grundlag
+</word>
+<word points='1'>
+radio
+</word>
+<word points='1'>
+tv
+</word>
+<word points='3'>
+partibidrag
+</word>
+<word points='3'>
+rösträtt
+</word>
+<word points='3'>
+rösträttsålder
+</word>
+<word points='3'>
+personval
+</word>
+<word points='3'>
+yttrandefrihet
+</word>
+<word points='3'>
+tryckfrihet
+</word>
+<word points='3'>
+tryckfrihetsbrott
+</word>
+<word points='1'>
+folkomröstning
+</word>
+<word points='1'>
+val
+</word>
+</category>
+<category name="bostad">
+<word points='3'>
+hyresrätt
+</word>
+<word points='3'>
+bostadsrätt
+</word>
+<word points='3'>
+bostad
+</word>
+<word points='3'>
+bostäder
+</word>
+<word points='3'>
+studentbostäder
+</word>
+<word points='1'>
+studentbostad
+</word>
+<word points='3'>
+byggregler
+</word>
+<word points='3'>
+bullerregler
+</word>
+<word points='2'>
+buller
+</word>
+<word points='3'>
+bostadsmarknad
+</word>
+<word points='3'>
+bostadsbubbla
+</word>
+<word points='2'>
+bostadsföretag
+</word>
+<word points='2'>
+nyproduktion
+</word>
+<word points='3'>
+bostadslån
+</word>
+<word points='2'>
+bolån
+</word>
+<word points='2'>
+kontantinsats
+</word>
+<word points='2'>
+amortering
+</word>
+<word points='3'>
+bostadsbrist
+</word>
+<word points='3'>
+bostadskö
+</word>
+<word points='1'>
+andrahand
+</word>
+<word points='3'>
+andrahandsuthyrning
+</word>
+<word points='3'>
+hyressättning
+</word>
+<word points='3'>
+marknadshyra
+</word>
+<word points='3'>
+marknadshyror
+</word>
+<word points='3'>
+hyra
+</word>
+<word points='3'>
+hyresavtal
+</word>
+</category>
+<category name="socialförsäkring">
+<word points='3'>
+pension
+</word>
+<word points='3'>
+socialavgifter
+</word>
+<word points='3'>
+barnbidrag
+</word>
+<word points='3'>
+flerbarnstillägg
+</word>
+<word points='3'>
+föräldraförsäkring
+</word>
+<word points='3'>
+försäkringskassan
+</word>
+</category>
+<category name="alkohol och droger">
+<word points='3'>
+alkohol
+</word>
+<word points='3'>
+alkohollag
+</word>
+<word points='3'>
+systembolaget
+</word>
+<word points='3'>
+narkotika
+</word>
+<word points='3'>
+droger
+</word>
+<word points='3'>
+alkoholkonsumtion
+</word>
+<word points='1'>
+drogfri
+</word>
+<word points='3'>
+socialstyrelsen
+</word>
+<word points='1'>
+missbruk
+</word>
+<word points='2'>
+tobak
+</word>
+<word points='2'>
+snus
+</word>
+<word points='2'>
+cigaretter
+</word>
+<word points='2'>
+rökning
+</word>
+</category>
+<category name="forskning">
+<word points='3'>
+forskning
+</word>
+<word points='3'>
+innovation
+</word>
+<word points='3'>
+forskningsanslag
+</word>
+</category>
 </categories>

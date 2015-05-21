@@ -60,8 +60,6 @@ public class WordCountCategoriser implements Categoriser {
 		
 	 
 		xmlDoc.getDocumentElement().normalize();
-		
-		System.out.println("Root element :" + xmlDoc.getDocumentElement().getNodeName());
 	 
 		NodeList nList = xmlDoc.getElementsByTagName("category");
 		
