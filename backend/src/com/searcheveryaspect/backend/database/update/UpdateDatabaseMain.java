@@ -1,6 +1,9 @@
 package com.searcheveryaspect.backend.database.update;
 
+import com.google.gson.Gson;
+
 import com.beust.jcommander.JCommander;
+import com.searcheveryaspect.backend.shared.ESUpdateInfo;
 
 import org.elasticsearch.client.Client;
 import org.elasticsearch.node.Node;
@@ -43,6 +46,7 @@ public class UpdateDatabaseMain {
       System.exit(0);
     }
 
+    ESDocumentBuilder.initBuilder();
     for (GovDocumentList govDocumentList : docs) {
       GovDocument[] govDocuments = govDocumentList.dokument;
       if (govDocuments == null) {
@@ -73,7 +77,8 @@ public class UpdateDatabaseMain {
    * @param ts
    */
   private static void setUpdateTimestamp(Client client, DateTime ts) {
-    client.prepareIndex("motions", "updated", "1").setSource("{\"ts:" + ts.toString() + "}")
-        .execute().actionGet();
+    Gson gson = new Gson();
+    String json = gson.toJson(new ESUpdateInfo(ts));
+    client.prepareIndex("system", "updated", "1").setSource(json).execute().actionGet();
   }
 }

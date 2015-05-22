@@ -28,7 +28,7 @@ public class SystemQuerier implements DatabaseReader<SystemRequest, SystemRespon
   }
 
   private DateTime getLastUpdated() {
-    GetResponse response = client.prepareGet("motions", "updated", "1").execute().actionGet();
+    GetResponse response = client.prepareGet("system", "updated", "1").execute().actionGet();
     DateTime ts = new DateTime(response.getField("ts").getValue());
     return ts;
   }
