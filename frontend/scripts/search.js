@@ -11,20 +11,19 @@ function SubjectField() {
 SubjectField.prototype = {
   init: function() {
     var c = this;
-    $( "#autocomplete" ).autocomplete({
+    $( "#subjectfield .autocomplete" ).autocomplete({
       source: subjects,
       response: function( event, ui ) {
+        document.getElementById("btn").disabled = false;
         c.inputHandler(this);
       },
       close: function() {
         c.inputHandler(this);
       }
     });
-
-
   },
   inputHandler: function(c) {
-    //TODO:make case-insenstive
+    //TODO:make case-insensitive
     this.inArray($(c).val());
     checkBtn();    
   },
@@ -57,7 +56,7 @@ function TimePeriod() {
   this.from;
   this.to;
 }
-
+//fixa så att search byte rår etc på select inte att man måste stänga kalender-rutan
 TimePeriod.prototype = {
   init: function() {
     var c = this;
@@ -182,7 +181,6 @@ function searchInit() {
   sf = new SubjectField();
   tp.init();
   sf.init();
-
 }
 
 function checkBtn() {
@@ -195,7 +193,6 @@ function checkBtn() {
 }
 
 function search() {
-
   charts[0].updateSubject(tp.from, tp.to, sf.sub);
 }
 
