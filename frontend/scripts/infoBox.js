@@ -1,5 +1,5 @@
 //lägg in info i html o gör toggla istället
-var INFO = "Klicka på en datapunk i grafen för att få mer information om tidpunkten och länkar till motioner."
+var INFO = "Klicka på en datapunk i grafen för att få mer information om tidsperioden och länkar till motioner."
 var ICONS_URL = "url(../img/buttons_clicked35.png)";
 var PLUS_URL = "url(../img/plus_icon.png)"
 var MINUS_URL = "url(../img/minus_icon.png)"
@@ -20,6 +20,7 @@ InfoText.prototype = {
 		for (var i = 0; i < PARTIES.length; i++) {
 			this.getElement(PARTIES[i], "party").css({"background": ICONS_URL + "0px " + y + "px", "display": "none"});
 			this.getElement(PARTIES[i], "max-min").css({"background": "url(../img/plus_icon.png)", "display": "none"});
+
 			y = y - 35;
 		}
 	},
@@ -71,7 +72,7 @@ InfoText.prototype = {
 
 function infoTextInit() {
 	for (var t = 0; t < getChartLen(); t++) {
-		charttexts.push(new InfoText("charttext"+t));
+		charttexts[t] = new InfoText("charttext"+t);
 		charttexts[t].init();
 	}
 	for (var i = 0; i < charttexts.length; i++) {
@@ -89,18 +90,16 @@ function mouseEventHandler(i, party) {
 		if (clicked) {
 			elem.css({"background": PLUS_URL});
 			charttexts[i].getElement(party+"motions").remove();
-			//kill all children, use remove method maybe
-
 		} else {
 			elem.css({"background": MINUS_URL});
-			//add tr children with motions
 			var links = charttexts[i].getLinks(party);
 			for (var j = 0; j < links.length; j++) {
-				//gör så att den struntar i allt innan stor bokstav (tar bort med anledning av....)
-            	charttexts[i].getElement(party).after("<tr class="+party+"motions><td><a href="+links[j].link+" target=_blank>"+links[j].date+"</a></td></tr>");
-			}																//target="_blank"
+            	charttexts[i].getElement(party).after("<tr class="+party+"motions><td class=date><p>"+
+            		links[links.length-1-j].date+"</p></td><td colspan=2><a href="+
+            			links[links.length-1-j].link+" target=_blank><p>"+links[links.length-1-j].title.shorten()+
+            				"</p></a></td></tr>");
+			}																
 
-            //<tr class="motions"><td><a href="http://www.twitter.com">Hello</a></td></tr>
 
 		}
 		elem.toggle();
@@ -113,18 +112,33 @@ function mouseEventHandler(i, party) {
 		if (clicked!=true) elem.css({"opacity": "0.5"});
 
 	});
-	
+
+	$("#btn").on("click", function() {
+		if(clicked) {
+			clicked = false;
+			elem.css({"background": PLUS_URL});
+			charttexts[i].getElement(party+"motions").remove();
+		}
+		charttexts[i].clearAll();
+	});
+
+}
+String.prototype.shorten = function() {
+  var splitStr = this.split(" ");
+  for (var i = 0; i < splitStr.length; i++) {
+    if (new RegExp(/^[A-ZÅÄÖ]/).test(splitStr[i])) {
+      splitStr.splice(0,i);
+      break;
+    }
+  }
+  var str = splitStr.join(" ");
+  if (str.length <= 100) {
+  	return str;
+  }
+  return str.slice(0,100) + "...";
 }
 
-function shorten(s) {
-	for (var i = 0; i < s.length; i++) {
-		var char = s.charAt(i);
-		if (char != ' ' && char == char.toUpperCase()) {
-			return s.slice(i);
-		}
-	}
-	return s;
-}
+
 
 function clearAll(i) {
 	charttexts[i].clearAll();

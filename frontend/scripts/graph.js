@@ -1,7 +1,6 @@
 //@author: aguler
 
 var charts = [];
-
 var COLORS = new Array(8);
 COLORS["V"] = "rgba(196,20,30,1)";
 COLORS["S"] = "rgba(239,27,39,0.6)"
@@ -12,8 +11,9 @@ COLORS["KD"] = "rgba(54,117,200,1)"
 COLORS["M"] = "rgba(0, 191, 255,1)";
 COLORS["SD"] = "rgba(236,200,0,1)"
 
-function Graph(contname, chartname, category,obj) {
+function Graph(index, contname, chartname, category,obj) {
   this.graph;
+  this.index = index;
   this.cat = category;
   this.contname = contname;
   this.max = 0;
@@ -44,11 +44,11 @@ Graph.prototype = {
     }
     return arr;
   },
-  getSeriesColors: function() {
+  getSeries: function() {
     var arr = [];
     for (var i = 0; i < this.plotlines.length; i++) {
       var p = this.plotlines[i].party;
-      arr.push({color: COLORS[p]});
+      arr.push({label: p, showLabel: true, shadow: true, lineWidth: 5, color: COLORS[p]});
     }
     return arr;
   },
@@ -143,8 +143,8 @@ Graph.prototype = {
     var interval = Date.parse(this.jsob.labels[this.jsob.labels.length-1]) - Date.parse(this.jsob.labels[0]);
     var label = " months";
     var d = interval / (monthMS * scale);
-    if (d <= 0.2) {
-      return "1 week";
+    if (d < 1) {
+      return "1 month";
     }
     d = Math.ceil(d);
     return d + label;
@@ -159,13 +159,22 @@ Graph.prototype = {
     }
   },
 
+  checkOverlap: function() {
+
+  },
+
   updateGraph: function() {
-    console.log(this.getPeriod());
+    $.jqplot.config.enablePlugins = true;
+
+    var d = Date.parse(this.jsob.labels[0]) + (Date.parse(this.getPeriod()) * (this.jsob.length -2));
     var theme = {
+        animate: true,
+        // Will animate plot on calls to plot1.replot({resetAxes:true})
+        animateReplot: false,
       grid: {
-        background: "white"
+        background: "white",
       },
-      series: this.getSeriesColors(),
+      series: this.getSeries(),
       axes: {
         xaxis: {
           renderer: $.jqplot.DateAxisRenderer,
@@ -176,15 +185,23 @@ Graph.prototype = {
         },
         yaxis: {
           label: "Antal motioner",
+          labelRenderer: $.jqplot.CanvasAxisLabelRenderer,
+          labelOptions: {
+            fontSize: '14pt'
+          },
           tickInterval: this.getYInterval(),
           min: 0,
           max: this.max*1.2,
         }
       },
+      //TODO: position NW
       highlighter: {
         show: true,
-        sizeAdjust: 7.5
-      }
+        sizeAdjust: 15
+      },
+      legend: {
+        show:false
+      },
     }
 
     var arr = [];
@@ -239,34 +256,16 @@ function handleEvent(index) {
 }
 
 function graphHomeInit(objarr) {
-
-  //for search.html make a trending request with 1 as amount and send it as default
-  //object
-  /**
-  for (var i = 0; i < objarr.length; i++) {
-    charts.push(new Graph("chartcont" + i, "chart"+ i, "Skatt", objarr[i])); 
-    var chart = charts[i];
-    $("#" + chart.name).bind('jqplotDataClick',
-    function (ev, seriesIndex, pointIndex, data) {
-        // data contains the data point value, play with it
-        // NOTE it may contain an array and not a string
-        console.log("Data: " + data[1] + " seriesIndex: " + seriesIndex + " pointIndex: " + pointIndex + " Time: " + chart.jsob.labels[pointIndex]);
-        console.log(i);
-    });
-  }
-  */
   for (var i= 0; i<getChartLen(); i++) {
-    charts.push(new Graph("chartcont" + i, "chart" + i, objarr[i].category.capitalize(), objarr[i]));
+    charts.push(new Graph(i, "chartcont" + i, "chart" + i, objarr[i].category.capitalize(), objarr[i]));
     handleEvent(i);
   }
-
-
 
 }
 //Lägg ihop med graphhomeinit??
 function graphSearchInit(obj) {
     //console.log("this is category search: " + obj.topTrends[0].category.capitalize());
-    charts.push(new Graph("chartcont0", "chart0", obj.topTrends[0].category.capitalize(), obj.topTrends[0]));  
+    charts.push(new Graph(0, "chartcont0", "chart0", obj.topTrends[0].category.capitalize(), obj.topTrends[0]));  
     handleEvent(0);
 }
 

@@ -51,6 +51,7 @@ body {
 	text-align: center;
 }
 
+
 nav {
 	background: rgba(40,40,40,1);
 	opacity: 0.9;
@@ -270,12 +271,12 @@ nav li.Selected p {
 }
 
 .box-inner a {
-	color: #3D3D3D;
+	color: #808080;
+	text-decoration: none;
 }
 
 .box-inner a:hover {
 	color: black;
-	text-transform: bold;
 	text-decoration: underline;
 }
 
@@ -286,7 +287,7 @@ nav li.Selected p {
 }
 
 .box-wrap {
-    width: 220px; 
+    width: 91%; 
 	background: #eee;
 	margin-left: 20px;
 	margin-top: 10px;
@@ -294,39 +295,71 @@ nav li.Selected p {
 }
 
 .box-inner {
-	width: 100%;
 	height: 100%;
+	max-width: 240px;
 	background: #eee;
 	padding: 10px;
 	color: #999;
 	text-shadow: 0 1px 0 #fff;
 }
 
+table {
+	width:100%;
+}
+
+tr {
+	max-width: 100%;
+}
+
+#V > td, #S > td, #MP > td, #C > td, #FP > td, #KD > td, #M > td, #SD > td {
+	padding-bottom: 4px;
+}
+
+.box-inner td {
+	width: 55%;
+}
+
+.mm {
+	width: 20%!important;
+}
+
+.p, .date {
+	width: 25%!important;
+}
+
+
+.box td {
+	color: black;
+}
+
+.box-inner td p {
+	font-size: 8pt;
+}
+
 .party {
 	border: none;
 	height: 35px;
 	width: 35px;
-
-}
-
-.amount {
-	color: black;
 }
 
 .max-min {
-	width: 35px;
 	height: 35px;
+	width: 35px;
 	opacity: 0.5;
 }
 
-tr {
-	width: 20%;
+.amount {
 }
 
-.motions a{
-	width: 10px;
-
+.link {
 }
+
+
+
+table, td , tr {
+	border-collapse: collapse;
+}
+
 
 /*Search.html*/
 
@@ -403,15 +436,12 @@ tr {
 	margin-top: 10px;
 }
 
-
 .pure-button {
 	height: 100px;
 	width: 100px;
 }
 
-#autocomplete {
-	width: 60%!important;
-}
+
 #searchbox #btn {
 	margin-top: 10px;
 	width: 80px;
@@ -511,8 +541,5 @@ tr {
     	height: 500px!important;
 	}
 }
-
-
-
 
 
