@@ -91,7 +91,6 @@ Button.prototype = {
 
 
 function buttonsInit(arr) {
-	clicked =arr;
 	var bs = [];
 	var chartlen = getChartLen();
 	for (var i = 0; i < chartlen; i++) {

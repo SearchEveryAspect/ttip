@@ -42,7 +42,7 @@ function createHome(resp) {
   buttonsInit(getInteresting(jsobarr));
   navInit();
   infoTextInit();
-  
+
 }
 
 function createSearch(resp) {
@@ -80,5 +80,7 @@ function sortParties(a) {
   }
   return arr;
 }
+
+
 
 $(document).ready(main);
