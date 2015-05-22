@@ -137,8 +137,6 @@ public class WordCountCategoriser implements Categoriser {
 			}
 		}
 		
-		System.out.println(nList.item(firstMaxIndex).getAttributes().item(0).getTextContent());
-		
 		//If no word is found we have not been able to
 		//define a category
 		if(firstMax == 0)

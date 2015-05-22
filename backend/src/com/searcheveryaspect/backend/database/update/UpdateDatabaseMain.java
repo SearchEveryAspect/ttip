@@ -30,6 +30,8 @@ public class UpdateDatabaseMain {
     Node node = NodeBuilder.nodeBuilder().client(true).node().start();
     Client client = node.client();
     ElasticSearchPut db = new ElasticSearchPut(client);
+    
+    ESDocumentBuilder.initBuilder();
 
     GovFetchRequest request = GovFetchRequest.newGovFetchRequest().interval(interval).build();
     List<GovDocumentList> docs = null;
