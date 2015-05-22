@@ -22,4 +22,37 @@ public class ESDocumentBuilderTest {
     final String[] expected = new String[] {"V", "S"};
     assertArrayEquals(expected, ESDocumentBuilder.createParty(input));
   }
+  
+  /**
+   * Test createESDocument. initialise govdocumentlite and expected esdocument and
+   * call assertequals
+   */
+  @Test
+  public void correctGovDocLiteTest() {
+	  // TODO
+  }
+  
+  /**
+   * Initialise wrong govdocumentlite and expected esdocument (meybeh null?), assertequals
+   */
+  @Test
+  public void wrongGovDocLiteIdTest() {
+	  // TODO
+  }
+  
+  @Test
+  public void wrongGovDocLiteDatumTest() {
+	  // TODO
+  }
+  
+  @Test
+  public void wrongGovDocLiteTitelTest() {
+	  // TODO
+  }
+  
+  @Test
+  public void wrongGovDocLiteUndertitelTest() {
+	  // TODO
+  }
+  
 }
