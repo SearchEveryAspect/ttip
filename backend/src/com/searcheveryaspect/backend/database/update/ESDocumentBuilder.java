@@ -1,8 +1,8 @@
 package com.searcheveryaspect.backend.database.update;
 
 
+import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -10,13 +10,16 @@ import java.util.regex.Pattern;
 
 /**
  * 
- * Create an ESDocument
+ * Create a document that shall be inserted into Eleasticsearch
  * 
- * @author Jacqueline Eriksson
- * 
+ *  
  */
 
 public class ESDocumentBuilder {
+	
+	static final Logger logger = Logger.getLogger("updateDatabaseLogger.ESDocumentBuilder");
+	
+
   // Pattern to match multiple parenthesis undertitles.
   static Pattern partyPattern = Pattern.compile("\\(.\\)");
   static WordCountCategoriser wcc;
@@ -35,7 +38,7 @@ public class ESDocumentBuilder {
   public static ESDocument createESDocument(GovDocumentLite doc) {
 
     if (!isInitialised()) {
-      System.out.println("Error: ESDocumentbuilder is not initialised, cant build documents.");
+     logger.error("ESDocumentbuilder is not initialised, can't build documents.");
       return null;
     }
 
@@ -50,12 +53,15 @@ public class ESDocumentBuilder {
     // Party
     String[] party;
     if (doc.getUndertitel() == null) {
-      throw new NullPointerException("Motion " + doc.getId()
+    	logger.error("Can't specify party, undertitle is null for motion: " + doc.getId());
+    	throw new NullPointerException("Motion " + doc.getId()
           + ": undertitle is null, can't specify party");
+      
     } else {
       try {
         party = createParty(doc.getUndertitel());
       } catch (IllegalArgumentException e) {
+    	  logger.error("Motion" + doc.getId(), e);
         throw new IllegalArgumentException("Motion " + doc.getId() + ": " + e.getMessage());
       }
     }
@@ -78,7 +84,7 @@ public class ESDocumentBuilder {
       String partiesUnformatted =
           splittedUnderTitle[1].substring(0, (splittedUnderTitle[1].length() - 1));
       String[] parties = partiesUnformatted.split(", ");
-      return parties;
+             return parties;
     }
 
     // Handles cases where the undertitle if of the format

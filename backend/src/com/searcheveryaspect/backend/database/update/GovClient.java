@@ -1,7 +1,7 @@
 package com.searcheveryaspect.backend.database.update;
 
 import com.google.gson.Gson;
-
+import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
 import org.joda.time.format.DateTimeFormat;
@@ -11,6 +11,8 @@ import java.util.ArrayList;
 
 
 public class GovClient {
+	
+	static final Logger logger = Logger.getLogger("updateDatabaseLogger.GovClient");
 
   public static final int TRAFFAR_LIMIT = 15000;
   private static final String START_DATE = "1970-01-01";
@@ -21,14 +23,15 @@ public class GovClient {
     Gson gson = new Gson();
     ArrayList<GovDocumentList> result;
 
-    // Gets the initial request
-    try {
-      json = URLConnectionReader.getText(request.toString());
-    } catch (IOException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-      return null;
-    }
+	   // Gets the initial request
+	    try {
+	      json = URLConnectionReader.getText(request.toString());
+	    } catch (IOException e) {
+	      // TODO Auto-generated catch block
+	    	
+	      logger.error("Initialed request failed", e);
+	      return null;
+	    }
 
     gson = new Gson();
     result = new ArrayList<GovDocumentList>();
@@ -40,7 +43,7 @@ public class GovClient {
     // Oppna data API occasionally fails for searches that yields to many hits. If the
     // limit is reached the request is split into two new ones.
     if (fetched.warning != null && fetched.traffar > TRAFFAR_LIMIT) {
-      System.out.println(fetched.warning);
+      logger.warn("To many hits, request splitted into smaller intervals, " + fetched.warning);
 
       // Create an interval with the same start as the original request but with an end
       // that's halfway through the interval.

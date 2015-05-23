@@ -2,6 +2,7 @@ package com.searcheveryaspect.backend.database.update;
 
 import com.beust.jcommander.JCommander;
 
+import org.apache.log4j.Logger;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.node.Node;
 import org.elasticsearch.node.NodeBuilder;
@@ -16,6 +17,8 @@ import java.util.List;
  * supplied in flag -from and -to. Currently this specifies only year.
  */
 public class UpdateDatabaseMain {
+	
+	static final Logger logger = Logger.getLogger("updateDatabaseLogger.UpdateDatabaseMain");
 
   public static void main(String[] args) {
     CommandLineArgs cla = new CommandLineArgs();
@@ -30,6 +33,8 @@ public class UpdateDatabaseMain {
     Node node = NodeBuilder.nodeBuilder().client(true).node().start();
     Client client = node.client();
     ElasticSearchPut db = new ElasticSearchPut(client);
+    
+    ESDocumentBuilder.initBuilder();
 
     GovFetchRequest request = GovFetchRequest.newGovFetchRequest().interval(interval).build();
     List<GovDocumentList> docs = null;
@@ -37,7 +42,7 @@ public class UpdateDatabaseMain {
     try {
       docs = GovClient.fetchDocs(request);
     } catch (Exception e) {
-      e.printStackTrace();
+      logger.error("Failed to fetchdocs", e);
       client.close();
       node.close();
       System.exit(0);
@@ -53,8 +58,8 @@ public class UpdateDatabaseMain {
           ESDocument doc = ESDocumentBuilder.createESDocument(new GovDocumentLite(govDocument));
           db.putDocument(doc);
         } catch (NullPointerException | IllegalArgumentException e) {
-          // TODO: log.
-          System.err.println("Document ignored: " + e.getMessage());
+        	logger.error("Document ignored, " , e);
+      
         }
       }
     }

@@ -83,42 +83,166 @@ public class MotionsControllerTest {
 
   @Test
   public void testNoFromDateQuery() {
-    // TODO
+		// Create a request with no from date
+	    when(reqMock.getHeader("from_date")).thenReturn("");
+
+	    // Controller to test behaviour on.
+	    MotionsController t = new MotionsController(readerMock);
+
+	    // Perform read attempt with invalid request, null should be returned.
+	    assertEquals(null, t.read(reqMock, resMock));
+
+	    ArgumentCaptor<IllegalArgumentException> captor =
+	        ArgumentCaptor.forClass(IllegalArgumentException.class);
+	    // Check that an IllegalArgumentException was set in the response.
+	    verify(resMock).setException(captor.capture());
+
+	    // Should never be reached because of invalid parameters.
+	    verifyNoMoreInteractions(readerMock);
+	  
   }
 
   @Test
-  public void testNoNoDateQuery() {
-    // TODO
+  public void testNoToDateQuery() {
+	// Create a request with no to date
+	    when(reqMock.getHeader("to_date")).thenReturn("");
+
+	    // Controller to test behaviour on.
+	    MotionsController t = new MotionsController(readerMock);
+
+	    // Perform read attempt with invalid request, null should be returned.
+	    assertEquals(null, t.read(reqMock, resMock));
+
+	    ArgumentCaptor<IllegalArgumentException> captor =
+	        ArgumentCaptor.forClass(IllegalArgumentException.class);
+	    // Check that an IllegalArgumentException was set in the response.
+	    verify(resMock).setException(captor.capture());
+
+	    // Should never be reached because of invalid parameters.
+	    verifyNoMoreInteractions(readerMock);
   }
 
   @Test
-  public void testNoCategoryDateQuery() {
-    // TODO
+  public void testNoCategoryQuery() {
+	// Create a request with no category
+	    when(reqMock.getHeader("category")).thenReturn("");
+
+	    // Controller to test behaviour on.
+	    MotionsController t = new MotionsController(readerMock);
+
+	    // Perform read attempt with invalid request, null should be returned.
+	    assertEquals(null, t.read(reqMock, resMock));
+
+	    ArgumentCaptor<IllegalArgumentException> captor =
+	        ArgumentCaptor.forClass(IllegalArgumentException.class);
+	    // Check that an IllegalArgumentException was set in the response.
+	    verify(resMock).setException(captor.capture());
+
+	    // Should never be reached because of invalid parameters.
+	    verifyNoMoreInteractions(readerMock);
   }
 
+  /**
+   * 
+   */
   @Test
-  public void testNoIntervalDateQuery() {
-    // TODO
+  public void testNoIntervalQuery() {
+	// Create a request with no interval
+	    when(reqMock.getHeader("interval")).thenReturn("");
+
+	    // Controller to test behaviour on.
+	    MotionsController t = new MotionsController(readerMock);
+
+	    // Perform read attempt with invalid request, null should be returned.
+	    assertEquals(null, t.read(reqMock, resMock));
+
+	    ArgumentCaptor<IllegalArgumentException> captor =
+	        ArgumentCaptor.forClass(IllegalArgumentException.class);
+	    // Check that an IllegalArgumentException was set in the response.
+	    verify(resMock).setException(captor.capture());
+
+	    // Should never be reached because of invalid parameters.
+	    verifyNoMoreInteractions(readerMock);
   }
 
   @Test
   public void testWrongFromDateQuery() {
-    // TODO
+	// Create a request with wrong from date
+	    when(reqMock.getHeader("from_date")).thenReturn("2014-13-01");
+
+	    // Controller to test behaviour on.
+	    MotionsController t = new MotionsController(readerMock);
+
+	    // Perform read attempt with invalid request, null should be returned.
+	    assertEquals(null, t.read(reqMock, resMock));
+
+	    ArgumentCaptor<IllegalArgumentException> captor =
+	        ArgumentCaptor.forClass(IllegalArgumentException.class);
+	    // Check that an IllegalArgumentException was set in the response.
+	    verify(resMock).setException(captor.capture());
+
+	    // Should never be reached because of invalid parameters.
+	    verifyNoMoreInteractions(readerMock);
   }
 
   @Test
   public void testWrongToDateQuery() {
-    // TODO
+	// Create a request with wrong to date
+	    when(reqMock.getHeader("to_date")).thenReturn("2014-04-50");
+
+	    // Controller to test behaviour on.
+	    MotionsController t = new MotionsController(readerMock);
+
+	    // Perform read attempt with invalid request, null should be returned.
+	    assertEquals(null, t.read(reqMock, resMock));
+
+	    ArgumentCaptor<IllegalArgumentException> captor =
+	        ArgumentCaptor.forClass(IllegalArgumentException.class);
+	    // Check that an IllegalArgumentException was set in the response.
+	    verify(resMock).setException(captor.capture());
+
+	    // Should never be reached because of invalid parameters.
+	    verifyNoMoreInteractions(readerMock);
   }
 
   @Test
-  public void testWrongCategoryDateQuery() {
-    // TODO
+  public void testWrongCategoryQuery() {
+	// Create a request with wrong category
+	    when(reqMock.getHeader("category")).thenReturn("cola");
+
+	    // Controller to test behaviour on.
+	    MotionsController t = new MotionsController(readerMock);
+
+	    // Perform read attempt with invalid request, null should be returned.
+	    assertEquals(null, t.read(reqMock, resMock));
+
+	    ArgumentCaptor<IllegalArgumentException> captor =
+	        ArgumentCaptor.forClass(IllegalArgumentException.class);
+	    // Check that an IllegalArgumentException was set in the response.
+	    verify(resMock).setException(captor.capture());
+
+	    // Should never be reached because of invalid parameters.
+	    verifyNoMoreInteractions(readerMock);
   }
 
   @Test
-  public void testWrongIntervalDateQuery() {
-    // TODO
+  public void testWrongIntervalQuery() {
+	// Create a request with wrong interval
+	    when(reqMock.getHeader("interval")).thenReturn("week");
+
+	    // Controller to test behaviour on.
+	    MotionsController t = new MotionsController(readerMock);
+
+	    // Perform read attempt with invalid request, null should be returned.
+	    assertEquals(null, t.read(reqMock, resMock));
+
+	    ArgumentCaptor<IllegalArgumentException> captor =
+	        ArgumentCaptor.forClass(IllegalArgumentException.class);
+	    // Check that an IllegalArgumentException was set in the response.
+	    verify(resMock).setException(captor.capture());
+
+	    // Should never be reached because of invalid parameters.
+	    verifyNoMoreInteractions(readerMock);
   }
 
   @Test
