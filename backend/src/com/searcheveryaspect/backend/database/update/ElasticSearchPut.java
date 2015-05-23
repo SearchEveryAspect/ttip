@@ -4,11 +4,10 @@ import com.google.gson.Gson;
 
 import org.elasticsearch.client.Client;
 
-
 /**
  * 
- * @author Jacqueline Eriksson
- * @version 2015-04-18
+ * Insert a document into Elasticsearch 
+ *
  */
 public class ElasticSearchPut {
 
@@ -24,7 +23,6 @@ public class ElasticSearchPut {
   }
 
 
-  // TODO: For alla dokument{
   public void putDocument(ESDocument doc) {
 
     Gson gson = new Gson();
