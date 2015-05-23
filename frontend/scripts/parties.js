@@ -1,0 +1,1 @@
+var PARTIES = ["V","S", "MP", "C", "FP","KD","M", "SD"];
