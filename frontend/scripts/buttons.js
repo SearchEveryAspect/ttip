@@ -1,10 +1,7 @@
-//@author: aguler
 
-
-var BUTTONS_URL = "url(../img/buttons_new_2_45.png)";
+var BUTTONS_URL = "url(../img/spritesheet_nonbeweled.png)";
 var BUTTON_WIDTH = 45;
 var BUTTON_HEIGHT = 45;
-var PARTIES = ["V","S", "MP", "C", "FP","KD","M", "SD"];
 
 
 
