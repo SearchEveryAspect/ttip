@@ -8,8 +8,7 @@ import java.util.Objects;
  * 
  * Specifies the ESDocument object
  * 
- * @author Jacqueline Eriksson
- * 
+ *  
  */
 
 public class ESDocument {
