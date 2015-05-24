@@ -43,12 +43,18 @@ public class ESDocumentBuilder {
     }
 
     String docId = doc.getId();
+    if(docId == null) {
+    	throw new NullPointerException();
+    }
 
     DateTime dt = new DateTime(doc.getDatum());
     long publishedTimestamp = dt.getMillis() / 1000;
     long fetchedTimestamp = new DateTime().getMillis() / 1000;
 
     String title = doc.getTitel();
+    if(title == null) {
+    	throw new NullPointerException();
+    }
 
     // Party
     String[] party;
