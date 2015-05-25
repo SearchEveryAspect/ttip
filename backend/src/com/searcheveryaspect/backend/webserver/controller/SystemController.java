@@ -6,6 +6,7 @@ import com.searcheveryaspect.backend.database.read.DatabaseReader;
 import com.searcheveryaspect.backend.database.read.SystemRequest;
 import com.searcheveryaspect.backend.webserver.SystemResponse;
 
+import org.apache.log4j.Logger;
 import org.restexpress.Request;
 import org.restexpress.Response;
 
@@ -14,6 +15,7 @@ import org.restexpress.Response;
  * time the database was updated.
  */
 public class SystemController extends ReadOnlyController {
+  static final Logger logger = Logger.getLogger("webServerLogger.SystemController");
   private final DatabaseReader<SystemRequest, SystemResponse> reader;
 
   /**
@@ -32,9 +34,13 @@ public class SystemController extends ReadOnlyController {
    * @return
    */
   public SystemResponse read(Request request, Response response) {
+    if (logger.isInfoEnabled()) {
+      logger.info("Received " + formatRequest(request));
+    }
     try {
       return reader.read(new SystemRequest());
     } catch (Exception e) {
+      logger.warn(formatRequest(request) + " incurred error reponse: " + e);
       response.setException(e);
       return null;
     }

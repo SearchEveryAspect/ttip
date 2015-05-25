@@ -9,6 +9,7 @@ import com.searcheveryaspect.backend.webserver.controller.MotionsController;
 import com.searcheveryaspect.backend.webserver.controller.SystemController;
 import com.searcheveryaspect.backend.webserver.controller.TrendingController;
 
+import org.apache.log4j.Logger;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.node.Node;
 import org.elasticsearch.node.NodeBuilder;
@@ -20,9 +21,11 @@ import org.restexpress.serialization.AbstractSerializationProvider;
 import org.restexpress.serialization.json.JacksonJsonProcessor;
 
 /**
- * Start a ttip webserver with a elasticSearch node. Flag -port sets port for traffic, default is 8080.
+ * Start a ttip webserver with a elasticSearch node. Flag -port sets port for traffic,
+ * default is 8080.
  */
 public class WebserverMain {
+  static final Logger logger = Logger.getLogger("webServerLogger.WebserverMain");
 
   public static void main(String[] args) {
     CommandLineArgs cla = new CommandLineArgs();
@@ -48,7 +51,13 @@ public class WebserverMain {
 
     mapExceptions(server);
     server.bind();
+    if (logger.isInfoEnabled()) {
+      logger.info("Webserver started and listening at port " + cla.port.intValue());
+    }
     server.awaitShutdown();
+    if (logger.isInfoEnabled()) {
+      logger.info("Webserver shutdown");
+    }
   }
 
   // The allowed routes the server responds to.

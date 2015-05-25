@@ -7,6 +7,7 @@ import com.searcheveryaspect.backend.database.read.TrendingRequest;
 import com.searcheveryaspect.backend.shared.Category;
 import com.searcheveryaspect.backend.webserver.TrendingSearchResponse;
 
+import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.restexpress.Request;
 import org.restexpress.Response;
@@ -16,6 +17,7 @@ import org.restexpress.Response;
  * It only offers reads.
  */
 public class TrendingController extends ReadOnlyController {
+  static final Logger logger = Logger.getLogger("webServerLogger.TredndingController");
   private final DatabaseReader<TrendingRequest, TrendingSearchResponse> reader;
 
   public TrendingController(DatabaseReader<TrendingRequest, TrendingSearchResponse> reader) {
@@ -30,10 +32,13 @@ public class TrendingController extends ReadOnlyController {
    * @return
    */
   public TrendingSearchResponse read(Request request, Response response) {
+    if (logger.isInfoEnabled()) {
+      logger.info("Received " + formatRequest(request));
+    }
     try {
       return reader.read(parseRequest(request));
     } catch (Exception e) {
-      e.printStackTrace();
+      logger.warn(formatRequest(request) + " incurred error reponse: " + e);
       response.setException(e);
       return null;
     }

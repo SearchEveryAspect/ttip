@@ -1,5 +1,7 @@
 package com.searcheveryaspect.backend.webserver.controller;
 
+import com.google.common.base.MoreObjects;
+
 import org.restexpress.Request;
 import org.restexpress.Response;
 
@@ -17,5 +19,9 @@ abstract class ReadOnlyController {
 
   public void delete(Request request, Response response) {
 
+  }
+
+  protected String formatRequest(Request request) {
+    return MoreObjects.toStringHelper(Request.class).add("path", request.getPath()).toString();
   }
 }

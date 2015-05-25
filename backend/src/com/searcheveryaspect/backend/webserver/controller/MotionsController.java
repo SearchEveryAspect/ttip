@@ -3,13 +3,12 @@ package com.searcheveryaspect.backend.webserver.controller;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.base.MoreObjects;
-
 import com.searcheveryaspect.backend.database.read.DatabaseReader;
 import com.searcheveryaspect.backend.database.read.ESRequest;
 import com.searcheveryaspect.backend.shared.Category;
 import com.searcheveryaspect.backend.webserver.SearchResponse;
 
+import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
 import org.joda.time.format.DateTimeFormat;
@@ -21,6 +20,7 @@ import org.restexpress.Response;
  * and category. It only offers reads.
  */
 public class MotionsController extends ReadOnlyController {
+  static final Logger logger = Logger.getLogger("webServerLogger.MotionsController");
   private final DatabaseReader<ESRequest, SearchResponse> reader;
 
   /**
@@ -39,10 +39,14 @@ public class MotionsController extends ReadOnlyController {
    * @return
    */
   public SearchResponse read(Request request, Response response) {
+    if (logger.isInfoEnabled()) {
+      logger.info("Received " + formatRequest(request));
+    }
     recordForDebug(request, response);
     try {
       return reader.read(parseRequest(request));
     } catch (Exception e) {
+      logger.warn(formatRequest(request) + " incurred error reponse: " + e);
       response.setException(e);
       return null;
     }
@@ -97,9 +101,7 @@ public class MotionsController extends ReadOnlyController {
 
         if (debug) {
 
-          System.out.println(MoreObjects.toStringHelper(Request.class)
-              .add("path", request.getPath()).toString()
-              + " " + response);
+          System.out.println(formatRequest(request) + " " + response);
         }
       } catch (Exception e) {
         e.printStackTrace();
