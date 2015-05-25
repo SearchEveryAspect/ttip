@@ -14,31 +14,13 @@ function getChartLen() {
   return len;
 }
 
-function main() {
-  if (isIndex()) {
-    /*For interesting, disabled for now
-    makeCorsReq(getURLInteresting(),createHome);
-    */
-    makeCorsReq(getURLInteresting("3"), createHome);
-  }else {
-    //TODO call makecors with URL for category and function for setting categories in automcomplete.js
-    makeCorsReq(getURLCategories(),setSubjects);
-    makeCorsReq(getURLInteresting("1"),createSearch);
-  }
-}
-
 function createHome(resp) {
   var jsob = JSON.parse(JSON.stringify(resp));
   var jsobarr = [];
   for (var i = 0; i < jsob.topTrends.length; i++) {
     jsobarr[i] = jsob.topTrends[i];
   }
-  //console.log(jsobarr.length);
   graphHomeInit(jsobarr);
-
-/*  var jsob = JSON.parse(JSON.stringify(resp));
-  graphHomeInit(jsob);
-  */
   buttonsInit(getInteresting(jsobarr));
   navInit();
   infoTextInit();
@@ -81,6 +63,13 @@ function sortParties(a) {
   return arr;
 }
 
-
-
+function main() {
+  if (isIndex()) {
+    makeHTTPReq(getURLInteresting("3"), createHome);
+  //search
+  }else {
+    makeHTTPReq(getURL("categories"),setSubjects);
+    makeHTTPReq(getURLInteresting("1"),createSearch);
+  }
+}
 $(document).ready(main);

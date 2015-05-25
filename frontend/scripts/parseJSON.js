@@ -2,7 +2,7 @@
 
 
 //create xmlhttpreq object
-function makeCorsReq(u, func, c) {
+function makeHTTPReq(u, func, c) {
   $.ajax({
     type: 'GET',
     dataType: 'json',

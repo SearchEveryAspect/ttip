@@ -1,4 +1,3 @@
-
 function SubjectField() {
   this.btn = false;
   this.sub;
@@ -113,13 +112,10 @@ TimePeriod.prototype = {
           $("#to").val(this.max);
           this.from = $("#from").val();
           this.to = $("#to").val();
-
           break;
         case this.to:
           $("#to").val(this.max);
           this.to = $("#to").val();
-
-          break;
         case this.max:
           break;
       }

@@ -1,5 +1,3 @@
-//@author: aguler
-
 var PORTNR = "8080";
 var IP = "localhost";
 
@@ -74,21 +72,18 @@ Builder.prototype = {
     return this;
   }
 }
-//Default
-function getURL() {
-  return new searchRequest(new Builder().portnr(PORTNR).type("mot").category("Skatt").label("automatic").from("2015-03-28").to("2015-05-01")).getReq();
-}
-
 function getURLInteresting(amount) {
   return new searchRequest(new Builder().portnr(PORTNR).type("mot").top("top").amount(amount)).getReq();
-}
-
-function getURLCategories() {
-  return new searchRequest(new Builder().portnr(PORTNR).type("categories")).getReq();
 }
 function getURLSearch(from,to, category) {
   return new searchRequest(new Builder().portnr(PORTNR).type("mot").category(category).label("automatic").from(from).to(to)).getReq();
 }
+function getURL(t) {
+  return new searchRequest(new Builder().portnr(PORTNR).type(t)).getReq();
+}
+
+
+
 
 
 
