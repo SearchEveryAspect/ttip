@@ -1,15 +1,13 @@
-//@author: aguler
-
 var charts = [];
 var COLORS = new Array(8);
 COLORS["V"] = "rgba(196,20,30,1)";
-COLORS["S"] = "rgba(239,27,39,0.6)"
-COLORS["MP"] = "rgba(139, 180, 40, 1)"
-COLORS["C"] = "rgba(66, 184, 123, 1)"
-COLORS["FP"] = "rgba(100,201,247,1)"
-COLORS["KD"] = "rgba(54,117,200,1)"
+COLORS["S"] = "rgba(239,27,39,0.6)";
+COLORS["MP"] = "rgba(139, 180, 40, 1)";
+COLORS["C"] = "rgba(66, 184, 123, 1)";
+COLORS["FP"] = "rgba(100,201,247,1)";
+COLORS["KD"] = "rgba(54,117,200,1)";
 COLORS["M"] = "rgba(0, 191, 255,1)";
-COLORS["SD"] = "rgba(236,200,0,1)"
+COLORS["SD"] = "rgba(236,200,0,1)";
 
 function Graph(index, contname, chartname, category,obj) {
   this.graph;
@@ -52,10 +50,8 @@ Graph.prototype = {
     }
     return arr;
   },
-  //only for search.html
   updateSubject: function(from, to, category) {
-    //console.log("Category is: " + category, " From: " + from + " To: " + to);
-    makeCorsReq(getURLSearch(from,to,category), this.initObj, this);
+    makeHTTPReq(getURLSearch(from,to,category), this.initObj, this);
   },
 
   getMax: function() {
@@ -89,16 +85,12 @@ Graph.prototype = {
     for (var i = 0; i < obj.data.length; i++) {
       var links = [];
       dat.push(obj.data[i].data);
-      //console.log("doc length" + obj.data[i].docs.length);
       for (var j = 0; j < obj.data[i].docs.length; j++) {
         links.push({title: obj.data[i].docs[j].title, link: obj.data[i].docs[j].link, date:obj.data[i].docs[j].date});
-        //console.log("This is link title: " + obj.data[i].docs[j].title + " and this is the link: " + dat[i].link);
       }
       linkset.push(links);
     }
     this.plotlines.push({party: party, data: dat, linkset: linkset});
-    //console.log("Current length of plotlines: " + this.plotlines.length);
-    //console.log(this.plotlines[0].linkset[0].length);
     this.updateGraph();
   },
 
@@ -168,8 +160,7 @@ Graph.prototype = {
 
     var d = Date.parse(this.jsob.labels[0]) + (Date.parse(this.getPeriod()) * (this.jsob.length -2));
     var theme = {
-        animate: true,
-        // Will animate plot on calls to plot1.replot({resetAxes:true})
+        animate: false,
         animateReplot: false,
       grid: {
         background: "white",
@@ -191,10 +182,9 @@ Graph.prototype = {
           },
           tickInterval: this.getYInterval(),
           min: 0,
-          max: this.max*1.2,
+          max: this.max,
         }
       },
-      //TODO: position NW
       highlighter: {
         show: true,
         sizeAdjust: 15
@@ -202,6 +192,11 @@ Graph.prototype = {
       legend: {
         show:false
       },
+      cursor: {
+        show: true,
+        zoom: true,
+        showTooltip: false
+      }
     }
 
     var arr = [];
@@ -246,12 +241,10 @@ function destroy(chartid, party) {
 function handleEvent(index) {
   $("#" + charts[index].name).bind('jqplotDataClick',
     function (ev, seriesIndex, pointIndex, data) {
-      //console.log("Data: " + data[1] + " seriesIndex: " + seriesIndex + " pointIndex: " + pointIndex + " Time: " + charts[index].jsob.labels[pointIndex]);
       clearAll(index);
       for (var i = 0; i < charts[index].plotlines.length; i++) {
         addToInfo(charts[index].jsob.labels[pointIndex], index, charts[index].plotlines[i].party, charts[index].plotlines[i].linkset[pointIndex]);
       }
-      //console.log(chart.plotlines[j].linkset[].title);
   });
 }
 
