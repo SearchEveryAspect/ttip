@@ -11,6 +11,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.apache.log4j.Logger;
 import org.elasticsearch.common.lang3.ArrayUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -24,6 +25,8 @@ import com.searcheveryaspect.backend.shared.*;
  * Identifies categories with word matching.
  */
 public class WordCountCategoriser implements Categoriser {
+	
+	static final Logger logger = Logger.getLogger("updateDatabaseLogger.WorldCountCategoriser");
 
 	//If this number times the secondMax value is larger or equal
 	//to the second category, it is accepted.
@@ -41,10 +44,8 @@ public class WordCountCategoriser implements Categoriser {
 			dBuilder = dbFactory.newDocumentBuilder();
 		} 
 		
-		catch (ParserConfigurationException e) 
-		{
-			System.out.println("Couldn't init document builder in " + this.getClass().toString());
-			e.printStackTrace();
+		catch (ParserConfigurationException e) {
+			logger.error("Couldn't init document builder in " + this.getClass().toString(), e);
 		}
 		
 		Document xmlDoc = null;
@@ -54,11 +55,9 @@ public class WordCountCategoriser implements Categoriser {
 		} 
 		catch (SAXException | IOException e) 
 		{
-			System.out.println("Couldn't parse categories in " + this.getClass().toString());
-			e.printStackTrace();
+			logger.error("Couldn't parse categories in " + this.getClass().toString(), e);
 		}
-		
-	 
+			 
 		xmlDoc.getDocumentElement().normalize();
 	 
 		NodeList nList = xmlDoc.getElementsByTagName("category");
@@ -137,8 +136,7 @@ public class WordCountCategoriser implements Categoriser {
 			}
 		}
 		
-		System.out.println(nList.item(firstMaxIndex).getAttributes().item(0).getTextContent());
-		
+
 		//If no word is found we have not been able to
 		//define a category
 		if(firstMax == 0)
