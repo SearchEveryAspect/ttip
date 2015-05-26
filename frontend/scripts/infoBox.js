@@ -1,27 +1,29 @@
-//lägg in info i html o gör toggla istället
 var INFO = "Klicka på en datapunk i grafen för att få mer information om tidsperioden och länkar till motioner."
 var ICONS_URL = "url(../img/buttons_clicked35.png)";
 var PLUS_URL = "url(../img/plus_icon.png)"
 var MINUS_URL = "url(../img/minus_icon.png)"
 
+
 var charttexts= [];
 
-function InfoText(infoname) {
-	this.divName = "." + infoname;
-	this.info = $("."+infoname);
+function InfoText(infoname, index) {
+	this.index = index;
+	this.divName = "."+infoname+index;
+	this.info = $(this.divName);
 	this.parties = [];
+	this.mouseEvents = [];
 }
 
 InfoText.prototype = {
 	init: function() {
 		$(this.divName + " #help").text(INFO);
-		//create all css properties
 		var y = 0;	
 		for (var i = 0; i < PARTIES.length; i++) {
 			this.getElement(PARTIES[i], "party").css({"background": ICONS_URL + "0px " + y + "px", "display": "none"});
-			this.getElement(PARTIES[i], "max-min").css({"background": "url(../img/plus_icon.png)", "display": "none"});
-
+			this.getElement(PARTIES[i], "max-min").css({"background": PLUS_URL, "display": "none"});
 			y = y - 35;
+			this.mouseEvents[i] = new mouseEventHandler(this.index, PARTIES[i]);
+			this.mouseEvents[i].status();
 		}
 	},
 	getElement: function() {
@@ -32,11 +34,10 @@ InfoText.prototype = {
 			}else {
 				if (document.getElementsByClassName(arguments[i]).length > 0) {
 					arguments[i] = "."+arguments[i];
-				} else {
-					console.error(arguments[i] + " is not an element");
-				}
+				} 
 			}
 			elem = elem.find(arguments[i]);
+
 		}
  		return elem;
 	},
@@ -50,6 +51,9 @@ InfoText.prototype = {
 		return null;
 	},
 	add: function (time, party, linkarr) {
+		if (linkarr.length < 1) {
+			return;
+		}
 		this.parties.push({party: party, links: linkarr});
 		this.getElement("time-period").text("Tidpunkt: " + time);
 		this.getElement(party).css({"display":""});
@@ -62,8 +66,14 @@ InfoText.prototype = {
 	},
 	clearAll: function() {
 		for (var i = 0; i < this.parties.length; i++) {
-			this.getElement(this.parties[i].party, "amount").text("");
 			this.getElement(this.parties[i].party).css({"display":"none"});
+			this.getElement(this.parties[i].party, "amount").text("");
+			this.getElement(this.parties[i].party+"motions").remove();
+			this.getElement(this.parties[i].party, "max-min").css({"background":PLUS_URL});
+		}
+		for (var j = 0; j < PARTIES.length; j++ ) {
+			this.mouseEvents[j].setClick(false);
+			this.getElement(PARTIES[j], "max-min").trigger("mouseleave");
 		}
 		this.parties=[];
 	}
@@ -72,56 +82,61 @@ InfoText.prototype = {
 
 function infoTextInit() {
 	for (var t = 0; t < getChartLen(); t++) {
-		charttexts[t] = new InfoText("charttext"+t);
+		charttexts[t] = new InfoText("charttext", t);
 		charttexts[t].init();
-	}
-	for (var i = 0; i < charttexts.length; i++) {
-		for (var j= 0; j < PARTIES.length; j++) {
-			mouseEventHandler(i, PARTIES[j]);
-		}
 	}
 }
 
-function mouseEventHandler(i, party) {
-	var clicked = false;
-	var elem = charttexts[i].getElement(party, "max-min");
-	elem.on("click", function() {
-		elem.toggle();
-		if (clicked) {
-			elem.css({"background": PLUS_URL});
-			charttexts[i].getElement(party+"motions").remove();
-		} else {
-			elem.css({"background": MINUS_URL});
-			var links = charttexts[i].getLinks(party);
-			for (var j = 0; j < links.length; j++) {
-            	charttexts[i].getElement(party).after("<tr class="+party+"motions><td class=date><p>"+
-            		links[links.length-1-j].date+"</p></td><td colspan=2><a href="+
-            			links[links.length-1-j].link+" target=_blank><p>"+links[links.length-1-j].title.shorten()+
-            				"</p></a></td></tr>");
-			}																
+function mouseEventHandler(index, party) {
+	this.index = index;
+	this.party = party;
+	this.clicked = false;
+}
 
+mouseEventHandler.prototype = {
+	status: function() {
+		var c = this;
+		var elem = charttexts[this.index].getElement(this.party, "max-min");
+		elem.bind("click", function() {
+			elem.toggle();
+			if (c.clicked) {
+				elem.css({"background": PLUS_URL});
+				charttexts[c.index].getElement(c.party+"motions").remove();
+			} else {
+				elem.css({"background": MINUS_URL});
+				var links = charttexts[c.index].getLinks(c.party);
+				for (var j = 0; j < links.length; j++) {
+	            	charttexts[c.index].getElement(c.party).after("<tr class="+c.party+"motions><td class=date><p>"+
+	            		links[links.length-1-j].date+"</p></td><td colspan=2><a href="+
+	            			links[links.length-1-j].link+" target=_blank><p>"+links[links.length-1-j].title.shorten()+
+	            				"</p></a></td></tr>");
+				}																
+			}
+			elem.toggle();
+			c.clicked ^=true;
 
-		}
-		elem.toggle();
-		clicked ^=true;
-	});
-	elem.on("mouseenter", function() {
-		elem.css({"opacity": "1"});
-	});
-	elem.on("mouseleave", function() {
-		if (clicked!=true) elem.css({"opacity": "0.5"});
+		});
+		elem.on("mouseenter", function() {
+			elem.css({"opacity": "1"});
+		});
+		elem.on("mouseleave", function() {
+			if (c.clicked!=true) elem.css({"opacity": "0.5"});
 
-	});
+		});
 
-	$("#btn").on("click", function() {
-		if(clicked) {
-			clicked = false;
-			elem.css({"background": PLUS_URL});
-			charttexts[i].getElement(party+"motions").remove();
-		}
-		charttexts[i].clearAll();
-	});
-
+		$("#btn").on("click", function() {
+			console.log("Came here!");
+			if(c.clicked) {
+				c.clicked = false;
+				elem.css({"background": PLUS_URL});
+				charttexts[this.index].getElement(party+"motions").remove();
+			}
+			charttexts[c.index].clearAll();
+		});
+	},
+	setClick: function(bool) {
+		this.clicked = bool;
+	}
 }
 String.prototype.shorten = function() {
   var splitStr = this.split(" ");
@@ -139,13 +154,10 @@ String.prototype.shorten = function() {
 }
 
 
-
 function clearAll(i) {
 	charttexts[i].clearAll();
 }
 
 function addToInfo(time, index, party, linkarr) {
-	//console.log("Under tidsperiod: " + time + " För parti " + party + " är den andra titeln: " + linkarr[0].title);
 	charttexts[index].add(time, party, linkarr);
 }
-
