@@ -1,5 +1,5 @@
 var PORTNR = "8080";
-var IP = "localhost";
+var IP = "37.59.114.127";
 
 function searchRequest(b) {
   this.portnr = b.portnr;

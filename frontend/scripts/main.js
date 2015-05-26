@@ -1,9 +1,9 @@
 function isIndex(){
     var pagePath = window.location.pathname;
-    if (pagePath.substring(pagePath.lastIndexOf("/") + 1) == "index.html") {
-    	return true;
+    if (pagePath.substring(pagePath.lastIndexOf("/") + 1) == "search") {
+    	return false;
     }
-    return false;
+    return true;
 }
 
 function getChartLen() {
