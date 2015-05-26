@@ -1,9 +1,8 @@
-//@author: aguler
-
-/*Document scroll on nav-dropdown click*/
-
-function navInit() {
+function navInit(jsobarr) {
 	var ani = 800;
+	for (var i = 0; i < getChartLen(); i++) {
+		$("#"+i).text(jsobarr[i].category.capitalize());
+	}
 
 	$("#0").click(function() {
 	    $('html, body').animate({
