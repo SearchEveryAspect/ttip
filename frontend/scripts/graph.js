@@ -1,13 +1,13 @@
 var charts = [];
 var COLORS = new Array(8);
-COLORS["V"] = "rgba(196,20,30,1)";
-COLORS["S"] = "rgba(239,27,39,0.6)";
-COLORS["MP"] = "rgba(139, 180, 40, 1)";
-COLORS["C"] = "rgba(66, 184, 123, 1)";
-COLORS["FP"] = "rgba(100,201,247,1)";
-COLORS["KD"] = "rgba(54,117,200,1)";
-COLORS["M"] = "rgba(0, 191, 255,1)";
-COLORS["SD"] = "rgba(236,200,0,1)";
+COLORS["V"] = "rgba(196,20,30,0.6)";
+COLORS["S"] = "rgba(239,27,39,0.5)";
+COLORS["MP"] = "rgba(139, 180, 40, 0.6)";
+COLORS["C"] = "rgba(66, 184, 123, 0.6)";
+COLORS["FP"] = "rgba(100,201,247,0.6)";
+COLORS["KD"] = "rgba(54,117,200,0.6)";
+COLORS["M"] = "rgba(0, 191, 255,0.6)";
+COLORS["SD"] = "rgba(236,200,0,0.6)";
 
 function Graph(index, contname, chartname, category,obj) {
   this.graph;
@@ -129,6 +129,7 @@ Graph.prototype = {
       $("."+this.contname + " h2").text(this.cat);
       this.updateGraph();
   },
+
   getPeriod: function() {
     var monthMS = 2629743830; //month in ms
     var scale = 6;
@@ -151,17 +152,17 @@ Graph.prototype = {
     }
   },
 
-  checkOverlap: function() {
-
-  },
-
   updateGraph: function() {
-    $.jqplot.config.enablePlugins = true;
 
     var d = Date.parse(this.jsob.labels[0]) + (Date.parse(this.getPeriod()) * (this.jsob.length -2));
     var theme = {
-        animate: false,
-        animateReplot: false,
+      cursor: {
+        show: true,
+        zoom: true,
+        showTooltip: true
+      },
+      animate: false,
+      animateReplot: false,
       grid: {
         background: "white",
       },
@@ -191,11 +192,6 @@ Graph.prototype = {
       },
       legend: {
         show:false
-      },
-      cursor: {
-        show: true,
-        zoom: true,
-        showTooltip: false
       }
     }
 
@@ -210,6 +206,8 @@ Graph.prototype = {
       arr = [];
     }
     if (typeof this.graph === 'object') {
+      theme.animate = false;
+      theme.animateReplot = true;
       this.graph.destroy();
       this.graph = $.jqplot (this.name, arrs, theme);
       return;
@@ -248,23 +246,13 @@ function handleEvent(index) {
   });
 }
 
-function graphHomeInit(objarr) {
+function graphInit(objarr) {
   for (var i= 0; i<getChartLen(); i++) {
     charts.push(new Graph(i, "chartcont" + i, "chart" + i, objarr[i].category.capitalize(), objarr[i]));
     handleEvent(i);
   }
-
-}
-//Lägg ihop med graphhomeinit??
-function graphSearchInit(obj) {
-    //console.log("this is category search: " + obj.topTrends[0].category.capitalize());
-    charts.push(new Graph(0, "chartcont0", "chart0", obj.topTrends[0].category.capitalize(), obj.topTrends[0]));  
-    handleEvent(0);
 }
 
-String.prototype.capitalize = function() {
-    return this.charAt(0).toUpperCase() + this.slice(1);
-}
 
 
 
