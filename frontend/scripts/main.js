@@ -20,16 +20,16 @@ function createHome(resp) {
   for (var i = 0; i < jsob.topTrends.length; i++) {
     jsobarr[i] = jsob.topTrends[i];
   }
-  graphHomeInit(jsobarr);
+  graphInit(jsobarr);
   buttonsInit(getInteresting(jsobarr));
-  navInit();
+  navInit(jsobarr);
   infoTextInit();
 
 }
 
 function createSearch(resp) {
   var jsob = JSON.parse(JSON.stringify(resp));
-  graphSearchInit(jsob);
+  graphInit(jsob.topTrends);
   searchInit();
   buttonsInit(getInteresting(jsob.topTrends));
   infoTextInit();
@@ -61,6 +61,10 @@ function sortParties(a) {
     }
   }
   return arr;
+}
+
+String.prototype.capitalize = function() {
+    return this.charAt(0).toUpperCase() + this.slice(1);
 }
 
 function main() {
