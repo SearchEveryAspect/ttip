@@ -24,7 +24,7 @@ SubjectField.prototype = {
   },
   inArray: function(s) {
     if (subjects.indexOf(s) > -1) {
-      this.sub = s.replace(/å|ä/gi, 'a').replace(/ö/gi, 'o').toLowerCase();
+      this.sub = s.replace(/å|ä/gi, 'a').replace(/ö/gi, 'o').replace(/\s/gi, '').toLowerCase();
       this.btn = true;
     } else {
       this.btn = false;
