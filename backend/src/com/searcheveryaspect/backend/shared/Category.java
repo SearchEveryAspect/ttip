@@ -19,10 +19,10 @@ public enum Category {
   JORDBRUK("jordbruk"),
   NARINGSPOLITIK("näringspolitik"),
   ENERGIPOLITIK("energipolitik"),
-  LAGRATT("lag och rätt"),
+  LAGOCHRATT("lag och rätt"),
   BOSTAD("bostad"),
   SOCIALFORSAKRING("socialförsäkring"),
-  ALKOHOLOCHDROG("alkohol och droger"),
+  ALKOHOLOCHDROGER("alkohol och droger"),
   FORSKNING("forskning"),
   UNKNOWN("unknown");
   
