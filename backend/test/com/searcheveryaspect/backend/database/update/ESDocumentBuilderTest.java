@@ -8,8 +8,6 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import com.searcheveryaspect.backend.shared.Category;
-
 /**
  * 
  */
@@ -56,7 +54,7 @@ public class ESDocumentBuilderTest {
 	}
 
 	@Test
-	public void correctGovDocLiteNotPartyCategoryTest() {
+	public void correctGovDocLiteNotArraysTest() {
 		// Create govdoclite
 		GovDocumentLite liteDoc = correctGovDocLite();
 		DateTime dt = new DateTime(liteDoc.getDatum());
@@ -101,28 +99,6 @@ public class ESDocumentBuilderTest {
 				category, party, liteDoc.getText());
 
 		assertArrayEquals(expected.getParty(), res.getParty());
-	}
-
-	@Test
-	public void correctGovDocLiteCategoryTest() {
-		// Create govdoclite
-		GovDocumentLite liteDoc = correctGovDocLite();
-
-		// Create esdocument with the builder
-		ESDocumentBuilder.initBuilder();
-		ESDocument res = ESDocumentBuilder.createESDocument(liteDoc);
-
-		// Create expected esdocument
-		String[] category = {"skatt"};
-		String[] party = {"M", "C", "FP", "KD"};
-		DateTime dt = new DateTime(liteDoc.getDatum());
-		long published = dt.getMillis() / 1000;
-		long fetched = (new DateTime()).getMillis() / 1000;
-
-		ESDocument expected = new ESDocument(liteDoc.getId(), published, fetched, liteDoc.getTitel(), 
-				category, party, liteDoc.getText());
-
-		assertArrayEquals(expected.getCategory(), res.getCategory());
 	}
 
 	/*

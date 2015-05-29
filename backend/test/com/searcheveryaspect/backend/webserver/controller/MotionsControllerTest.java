@@ -24,9 +24,6 @@ import org.mockito.junit.MockitoRule;
 import org.restexpress.Request;
 import org.restexpress.Response;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Tests for MotionsController.
  */
